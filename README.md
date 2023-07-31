@@ -50,6 +50,17 @@ _e32-ttl-1w v1.3_
     + ![image](https://github.com/atfox272/JustNotation/assets/99324602/9fb880a4-3c10-45d9-9ab4-69bea14ca11b)
     + 
 ## Workflow:
+### 0. Mode switching:
+- Decide the operating mode by combination of 2 pin M0 and M1
+- After modifying M0 and M1, **it will start new mode 1ms-2ms later, if module is free**.
+  
+    (Source: _After modifying M1 or M0, it will start to work in new mode 1ms later if the module is free. For example, in mode 0 or mode 1, if the user inputs massive data consecutively and switches operating mode at the same time, the 
+mode-switch operation is invalid. New mode checking can only be started after all the user’s data process completed. It is 
+recommended to check AUX pin out status and wait 2ms after AUX outputs high level before switching the mode_)
+- MCU will detect AUX pin (when AUX is HIGH) to switch mode
+   
+- Mode-switching is valid when AUX is HIGH (module is free), otherwise it will wait for finishing
+- When the transmitter works in mode 0, after the **external MCU transmits data “12345”**, it can switch to sleep mode immediately without waiting the rising edge of the AUX pin. (Example: The MCU is transmit all packet data to Module and last packet is "12345", the module will transmit all wireless data through wireless transmission & go sleep mode 1ms later)  
 ### 1. MODE 0 (normal mode):
 * Transmitter:
   - Real behavior:
@@ -77,6 +88,10 @@ _e32-ttl-1w v1.3_
 ### 4. Mode 4 (Sleep mode): 
 - In "Implement" title
 ### 2. Implement:
+#### a. Block diagram:
+  ![image](https://github.com/atfox272/RF_Transceiver-/assets/99324602/a9bde74b-02c4-40b0-93ba-12b830ec82eb)
+
+
 #### a. Implement MODE 3 (configuration mode): 
 - Transaction format: 9600 - 8N1 (8bits - no parity - 1bit stop)
 - Format:
