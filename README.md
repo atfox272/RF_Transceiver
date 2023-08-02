@@ -145,6 +145,9 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
   + First: Buffer512 of E32 is empty and AUX is HIGH, then user can start serial transmission (Not more than 512 bytes continous). At this time, when module receive first packet (1 byte), AUX will be LOW.
   + Second: + When data in buffer512 is up to 58bytes, the wireless transmission (RFIC) is start, during which the user can input data continously for transmission. + When data in buffer512 is less than 58bytes and no more transaction for 3-frame time, the wireless transmission (RFIC) is start
 
+## To-do:
+- Implement: "_Controller_" read data from FIFO "_buffer_wireless_receiver_" into _UART_mcu_ when TX_module_mcu is in IDLE_STATE
+- I have just implement _waiting_send_wireless_data_ to wait for <END_WAITING_SEND_WLESS_DATA - START_COUNTER_SEND_WLESS_DATA> to start sending wireless data to _UART_mcu_
 ## Check-List:
 - Mode3               ✔️
 - Mode0_trans         ✔️
@@ -152,4 +155,5 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
 - Combine mode        ✖️
 - On FPGA             ✖️ 
 ## Experiences distilled:
-- When you build state-machine to replace for programmed-MCU, you should seperate "_controller_" in "Block Diagram" into sub-modules _as more as possible_   
+- When you build state-machine to replace for programmed-MCU, you should seperate "_controller_" in "Block Diagram" into sub-modules _as more as possible_
+- When you have drawn block diagram with highest-level of abstraction completely. After that you implement and a block seem to still be hard (can't specify it) to implement, you should seperate this block into some blocks, which in next level of abstraction (just == highest-level - 1)
