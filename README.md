@@ -1,4 +1,4 @@
-# Fake Transceiver
+# Clone of E32
 _e32-ttl-1w v1.3_
 ## Requirement
 - Same interface of real transceiver
