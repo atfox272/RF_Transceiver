@@ -33,14 +33,17 @@ module controller_RF_transceiver
         parameter VERSION_PACKET_3 = 8'h27,     // My config
         parameter VERSION_PACKET_4 = 8'h02,     // My config
         // Mode encode
-        parameter MODE_3 = 3,
+        localparam MODE_0 = 0,
+        localparam MODE_3 = 3,
         // 512bytes FIFO buffer
         parameter FIFO512_DEPTH = 512,
         localparam COUNTER_FIFO512_WIDTH = $clog2(FIFO512_DEPTH + 1),
         parameter START_WIRELESS_TRANS_VALUE = 58,
         // Waiting module for 3 times empty transaction
-        parameter END_COUNTER = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
-        parameter START_COUNTER = 0
+        parameter END_COUNTER_RX_PACKET = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
+        parameter START_COUNTER_RX_PACKET = 0,
+        parameter END_WAITING_SEND_WLESS_DATA = 200000,
+        parameter START_COUNTER_SEND_WLESS_DATA = 0
     )
     (
     input   wire internal_clk,
@@ -49,9 +52,10 @@ module controller_RF_transceiver
     output  wire AUX,
     // UART to MCU
     output                                      TX_use_mcu,
+    input   wire                                TX_flag_mcu,
     input                                       RX_flag_mcu,    // RX module is in IDLE state
     input   wire    [DATA_WIDTH - 1:0]          data_from_uart_mcu,
-    output  reg     [DATA_WIDTH - 1:0]          data_to_uart_mcu,  
+    output  wire    [DATA_WIDTH - 1:0]          data_to_uart_mcu,  
     output  wire    [UART_CONFIG_WIDTH - 1:0]   uart_mcu_config_reg,
     // UART to NODE 
     output  wire                                TX_use_node,     
@@ -86,7 +90,7 @@ module controller_RF_transceiver
     // AUX controller
     reg AUX_controller_1;
     wire AUX_controller_2;
-    reg AUX_controller_3;
+    wire AUX_controller_3;
     assign AUX = AUX_controller_1 & AUX_controller_2 & AUX_controller_3;
     
     reg [3:0] state_counter_mode3;
@@ -197,7 +201,7 @@ module controller_RF_transceiver
     // Synchronous enable flag of return_config instruction
     reg return_start_syn;
     reg return_stop_syn;
-    wire return_en_syn = return_start_syn ^ return_stop_syn;
+    wire TX_use_mode3_en_syn = return_start_syn ^ return_stop_syn;
     // Synchromous start & stop Enable flag
     always @(posedge internal_clk, negedge rst_n) begin
         if(!rst_n) begin
@@ -226,13 +230,14 @@ module controller_RF_transceiver
     localparam RET_VERSION_STATE_2 = 8;   
     localparam RET_VERSION_STATE_3 = 9;   
     localparam RET_VERSION_STATE_4 = 10;   
-    wire return_clk = (return_en_syn) ? internal_clk : 1'b0;
-    always @(posedge return_clk, negedge rst_n) begin
+    wire TX_use_mcu_mode3 = (TX_use_mode3_en_syn ) ? internal_clk : 1'b0;
+    reg data_to_uart_mcu_mode3;
+    always @(posedge TX_use_mcu_mode3, negedge rst_n) begin
         if(!rst_n) begin
             state_counter_mode3_return <= IDLE_STATE;
             return_stop_asyn <= 0;
             // Data 
-            data_to_uart_mcu <= {8{1'b0}};
+            data_to_uart_mcu_mode3 <= {8{1'b0}};
         end
         else begin
             case(state_counter_mode3_return) 
@@ -240,48 +245,48 @@ module controller_RF_transceiver
                     case(return_case) 
                         RETURN_CONFIG_CASE: begin
                             state_counter_mode3_return <= RET_HEAD_STATE; 
-                            data_to_uart_mcu <= HEAD;
+                            data_to_uart_mcu_mode3 <= HEAD;
                         end
                         RETURN_VERSION_CASE: begin
                             state_counter_mode3_return <= RET_VERSION_STATE_1;
-                            data_to_uart_mcu <= VERSION_PACKET_1;
+                            data_to_uart_mcu_mode3 <= VERSION_PACKET_1;
                         end
                         default: state_counter_mode3_return <= IDLE_STATE;
                     endcase
                 end
                 RET_HEAD_STATE: begin
                     state_counter_mode3_return <= RET_ADDH_STATE;
-                    data_to_uart_mcu <= ADDH;
+                    data_to_uart_mcu_mode3 <= ADDH;
                 end
                 RET_ADDH_STATE: begin
                     state_counter_mode3_return <= RET_ADDL_STATE;
-                    data_to_uart_mcu <= ADDL;
+                    data_to_uart_mcu_mode3 <= ADDL;
                 end
                 RET_ADDL_STATE: begin
                     state_counter_mode3_return <= RET_SPED_STATE;
-                    data_to_uart_mcu <= SPED;
+                    data_to_uart_mcu_mode3 <= SPED;
                 end
                 RET_SPED_STATE: begin
                     state_counter_mode3_return <= RET_CHAN_STATE;
-                    data_to_uart_mcu <= CHAN;
+                    data_to_uart_mcu_mode3 <= CHAN;
                 end
                 RET_CHAN_STATE: begin
                     state_counter_mode3_return <= IDLE_STATE;
-                    data_to_uart_mcu <= OPTION;
+                    data_to_uart_mcu_mode3 <= OPTION;
                     // Stop return_clk
                     return_stop_asyn <= return_start_asyn;
                 end
                 RET_VERSION_STATE_1: begin
                     state_counter_mode3_return <= RET_VERSION_STATE_2;
-                    data_to_uart_mcu <= VERSION_PACKET_2;
+                    data_to_uart_mcu_mode3 <= VERSION_PACKET_2;
                 end
                 RET_VERSION_STATE_2: begin
                     state_counter_mode3_return <= RET_VERSION_STATE_3;
-                    data_to_uart_mcu <= VERSION_PACKET_3;
+                    data_to_uart_mcu_mode3 <= VERSION_PACKET_3;
                 end
                 RET_VERSION_STATE_3: begin
                     state_counter_mode3_return <= IDLE_STATE;
-                    data_to_uart_mcu <= VERSION_PACKET_4;
+                    data_to_uart_mcu_mode3 <= VERSION_PACKET_4;
                     // Stop return clock
                     return_stop_asyn <= return_start_asyn;
                 end
@@ -327,8 +332,8 @@ module controller_RF_transceiver
     assign waiting_pulse = RX_flag_mcu & (state_counter_mode0_trans == START_READ_STATE);
     
     waiting_module #(
-                    .END_COUNTER(END_COUNTER),
-                    .START_COUNTER(START_COUNTER),
+                    .END_COUNTER(END_COUNTER_RX_PACKET),
+                    .START_COUNTER(START_COUNTER_RX_PACKET),
                     .WAITING_TYPE(0),
                     .LEVEL_PULSE(1)
                     )waiting_RX_packet(
@@ -365,6 +370,7 @@ module controller_RF_transceiver
                     end
                     else state_counter_mode0_trans <= WIRELESS_TRANS_STATE;
                 end
+                default: state_counter_mode0_trans <= IDLE_STATE;
             endcase             
         end
     end
@@ -376,8 +382,85 @@ module controller_RF_transceiver
     //                (Up to 58bytes in FIFO)             (Read last byte in FIFO)
     assign TX_use_node = (state_counter_mode0_trans == WIRELESS_TRANS_STATE) & TX_flag_node;
     
+    // Wireless-Receiver in Mode0
+    wire start_send_wireless_data_cond;
+    wire start_waiting_send_wireless_data;
+    wire [DATA_WIDTH - 1:0] data_to_uart_mcu_mode0;
+    wire buffer_wireless_receiver_empty;
+    reg [1:0] state_counter_mode0_receive;       
+    localparam START_RECEIVE_STATE = 1;        
+    localparam SEND_WIRELESS_DATA_STATE = 2; 
+    localparam SEND_ALL_STATE = 3; 
+    wire TX_use_mcu_mode0 = (state_counter_mode0_receive == SEND_WIRELESS_DATA_STATE) & TX_flag_mcu;
+    fifo_module     #(
+                    .DEPTH(FIFO512_DEPTH),
+                    .WIDTH(DATA_WIDTH)
+                    )buffer_wireless_receiver(
+                    .data_bus_in(data_from_uart_node),
+                    .data_bus_out(data_to_uart_mcu_mode0),
+                    .write_ins(RX_flag_node),
+                    .read_ins(TX_use_mcu_mode0),
+                    .empty(buffer_wireless_receiver_empty),
+                    .rst_n(rst_n)
+                    );
+                    
+    // TX to UART node
+    //Internal clock            /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\     \/\/\/\/\
+    // AUX                      _____________________________________________________/----------
+    // SEND_WIRELESS_DATA_STATE ____/-----------------------       -------\___________________
+    // TX_flag_mcu (idle_state) ------\_______/------\______/     \_____/-----\______/----------
+    //                          ____/-\_______/------\______/     \_____/-\_________
+    //                               ^                                  ^
+    //               (Wait 5ms when receive frist packet)      (Read last byte in FIFO) 
+    // Buffer_empty_n           ----------------------------------------\___________               
+    waiting_module #(
+                    .END_COUNTER(END_WAITING_SEND_WLESS_DATA),
+                    .START_COUNTER(START_COUNTER_SEND_WLESS_DATA),
+                    .WAITING_TYPE(0),
+                    .LEVEL_PULSE(1)
+                    )waiting_send_wireless_data(
+                    .clk(internal_clk),
+                    .start_counting(start_waiting_send_wireless_data),
+                    .reach_limit(start_send_wireless_data_cond),
+                    .rst_n(rst_n)
+                    );
+    
+    assign AUX_controller_3 = (state_counter_mode0_receive == IDLE_STATE);
+    assign start_waiting_send_wireless_data = (state_counter_mode0_receive == START_RECEIVE_STATE);
+    always @(posedge mode0_clk, negedge rst_n) begin
+        if(!rst_n) begin
+            state_counter_mode0_receive <= IDLE_STATE;
+        end
+        else begin
+            case(state_counter_mode0_receive) 
+                IDLE_STATE: begin
+                    if(!buffer_wireless_receiver_empty) begin
+                        state_counter_mode0_receive <= START_RECEIVE_STATE;
+                    end
+                    else state_counter_mode0_receive <= IDLE_STATE;
+                end
+                START_RECEIVE_STATE: begin
+                    if(start_send_wireless_data_cond) begin
+                        state_counter_mode0_receive <= SEND_WIRELESS_DATA_STATE;
+                    end
+                    else state_counter_mode0_receive <= START_RECEIVE_STATE;
+                end 
+                SEND_WIRELESS_DATA_STATE: begin
+                    if(buffer_wireless_receiver_empty & (!TX_flag_mcu)) begin
+                        state_counter_mode0_receive <= SEND_ALL_STATE;
+                    end
+                    else state_counter_mode0_receive <= SEND_WIRELESS_DATA_STATE;
+                end
+                SEND_ALL_STATE: begin
+                    if(TX_flag_mcu) begin
+                        state_counter_mode0_receive <= IDLE_STATE;
+                    end
+                    else state_counter_mode0_receive <= SEND_ALL_STATE;
+                end
+            endcase 
+        end
+    end
 //     Test mode3 ////////////////////////
-    assign TX_use_mcu = !return_clk;
-//////////////////////////////////////////
-//    assign TX_use_mcu = (mode_controller == MODE_3) !return_clk : ;
+    assign TX_use_mcu = (mode_controller == MODE_0) ? TX_use_mcu_mode0 : !TX_use_mcu_mode3;
+    assign data_to_uart_mcu = (mode_controller == MODE_0) ? data_to_uart_mcu_mode0 : data_to_uart_mcu_mode3;
 endmodule
