@@ -146,14 +146,12 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
   + Second: + When data in buffer512 is up to 58bytes, the wireless transmission (RFIC) is start, during which the user can input data continously for transmission. + When data in buffer512 is less than 58bytes and no more transaction for 3-frame time, the wireless transmission (RFIC) is start
 
 ## To-do:
-- Implement✖️: "_Controller_" read data from FIFO "_buffer_wireless_receiver_" into _UART_mcu_ when TX_module_mcu is in IDLE_STATE
-  + I have just implement _waiting_send_wireless_data_ to wait for <END_WAITING_SEND_WLESS_DATA - START_COUNTER_SEND_WLESS_DATA> to start sending wireless data to _UART_mcu_
-- Implement✖️: fake reset behavior when UART_mcu receive "C4 C4 C4" packet, then AUX will LOW for <time>
-  + Use waiting_module to implement this behavior 
+- Implement✖️: Combination of all mode
+- Implement✖️: Wake-up mode  
 ## Check-List:
 - Mode3               ✔️
 - Mode0_trans         ✔️
-- Mode0_recei         ✖️
+- Mode0_recei         ✔️
 - Combine mode        ✖️
 - On FPGA             ✖️ 
 ## Experiences distilled:
