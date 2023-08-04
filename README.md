@@ -152,7 +152,8 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
 - Mode3               ✔️
 - Mode0_trans         ✔️
 - Mode0_recei         ✔️
-- Combine mode        ✖️
+- Self_checking       ✔️ 
+- Combine mode        ✔️
 - On FPGA             ✖️
 ## Config requirement:
 - Config waiting time of sending wireless-packet to MCU (Default: 5ms) must be more than 2-transaction time
