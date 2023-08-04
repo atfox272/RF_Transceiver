@@ -79,7 +79,7 @@ module controller_RF_transceiver
     reg [TRANSACTION_WIDTH - 1:0] CHAN;
     reg [TRANSACTION_WIDTH - 1:0] OPTION;
     wire mode3_en = (M0_sync == 1) & (M1_sync == 1);
-    wire mode3_clk = (mode3_en) ? RX_flag_mcu : 1'b0;
+    wire rdata_mode3_clk = (mode3_en) ? RX_flag_mcu : 1'b0;
     assign uart_mcu_config_reg = SPED;
     // Reply 
     // Config parameter 
@@ -117,7 +117,7 @@ module controller_RF_transceiver
     localparam RETURN_VERSION_CASE = 1;       // Return version
     localparam RETURN_NOTHING_CASE = 2;       // Reset command case
     
-    always @(posedge mode3_clk, negedge rst_n) begin
+    always @(posedge rdata_mode3_clk, negedge rst_n) begin
         if(!rst_n) begin
             state_counter_mode3 <= IDLE_STATE;
 //            TX_mcu_use <= TX_USE_IDLE_STATE;
@@ -130,6 +130,7 @@ module controller_RF_transceiver
             // Return signal
             return_start_asyn <= 0;
             return_version_start <= 0;
+            return_case <= RETURN_NOTHING_CASE;
         end
         else begin
             case(state_counter_mode3) 
@@ -235,78 +236,135 @@ module controller_RF_transceiver
             return_stop_syn <= return_stop_asyn;
         end
     end
-    reg [3:0] state_counter_mode3_return;
+    reg [4:0] state_counter_mode3_return;
     localparam RET_HEAD_STATE = 1;
+    localparam SEND_RET_HEAD_STATE = 11;
     localparam RET_ADDH_STATE = 2;
+    localparam SEND_RET_ADDH_STATE = 12;
     localparam RET_ADDL_STATE = 3;
+    localparam SEND_RET_ADDL_STATE = 13;
     localparam RET_SPED_STATE = 4;
+    localparam SEND_RET_SPED_STATE = 14;
     localparam RET_CHAN_STATE = 5;
+    localparam SEND_RET_CHAN_STATE = 15;
     localparam RET_OPTION_STATE = 6;
+    localparam SEND_RET_OPTION_STATE = 16;
     localparam RET_VERSION_STATE_1 = 7;   
+    localparam SEND_RET_VERSION_STATE_1 = 17;   
     localparam RET_VERSION_STATE_2 = 8;   
+    localparam SEND_RET_VERSION_STATE_2 = 18;   
     localparam RET_VERSION_STATE_3 = 9;   
-    localparam RET_VERSION_STATE_4 = 10;   
-    wire TX_use_mcu_mode3 = (TX_use_mode3_en_syn ) ? internal_clk : 1'b0;
-    reg data_to_uart_mcu_mode3;
-    always @(posedge TX_use_mcu_mode3, negedge rst_n) begin
+    localparam SEND_RET_VERSION_STATE_3 = 19;   
+    localparam RET_VERSION_STATE_4 = 10;  
+    localparam SEND_RET_VERSION_STATE_4 = 20;
+    wire mode3_clk = (TX_use_mode3_en_syn) ? internal_clk : 1'b0;
+    reg TX_use_mcu_mode3;
+    reg [DATA_WIDTH - 1:0] data_to_uart_mcu_mode3;
+    always @(posedge mode3_clk, negedge rst_n) begin
         if(!rst_n) begin
             state_counter_mode3_return <= IDLE_STATE;
             return_stop_asyn <= 0;
             // Data 
             data_to_uart_mcu_mode3 <= {8{1'b0}};
+            // TX use (to MCU)
+            TX_use_mcu_mode3 <= 0;
         end
         else begin
             case(state_counter_mode3_return) 
                 IDLE_STATE: begin
+                    TX_use_mcu_mode3 <= 0;
                     case(return_case) 
                         RETURN_CONFIG_CASE: begin
-                            state_counter_mode3_return <= RET_HEAD_STATE; 
+                            state_counter_mode3_return <= SEND_RET_HEAD_STATE; 
                             data_to_uart_mcu_mode3 <= HEAD;
                         end
                         RETURN_VERSION_CASE: begin
-                            state_counter_mode3_return <= RET_VERSION_STATE_1;
+                            state_counter_mode3_return <= SEND_RET_VERSION_STATE_1;
                             data_to_uart_mcu_mode3 <= VERSION_PACKET_1;
                         end
                         default: state_counter_mode3_return <= IDLE_STATE;
                     endcase
                 end
                 RET_HEAD_STATE: begin
-                    state_counter_mode3_return <= RET_ADDH_STATE;
+                    state_counter_mode3_return <= SEND_RET_ADDH_STATE;
                     data_to_uart_mcu_mode3 <= ADDH;
+                    TX_use_mcu_mode3 <= 0;
                 end
                 RET_ADDH_STATE: begin
-                    state_counter_mode3_return <= RET_ADDL_STATE;
+                    state_counter_mode3_return <= SEND_RET_ADDL_STATE;
                     data_to_uart_mcu_mode3 <= ADDL;
+                    TX_use_mcu_mode3 <= 0;
                 end
                 RET_ADDL_STATE: begin
-                    state_counter_mode3_return <= RET_SPED_STATE;
+                    state_counter_mode3_return <= SEND_RET_SPED_STATE;
                     data_to_uart_mcu_mode3 <= SPED;
+                    TX_use_mcu_mode3 <= 0;
                 end
                 RET_SPED_STATE: begin
-                    state_counter_mode3_return <= RET_CHAN_STATE;
+                    state_counter_mode3_return <= SEND_RET_CHAN_STATE;
                     data_to_uart_mcu_mode3 <= CHAN;
+                    TX_use_mcu_mode3 <= 0;
                 end
                 RET_CHAN_STATE: begin
                     state_counter_mode3_return <= IDLE_STATE;
                     data_to_uart_mcu_mode3 <= OPTION;
+                    TX_use_mcu_mode3 <= 0;
                     // Stop return_clk
                     return_stop_asyn <= return_start_asyn;
                 end
                 RET_VERSION_STATE_1: begin
-                    state_counter_mode3_return <= RET_VERSION_STATE_2;
+                    state_counter_mode3_return <= SEND_RET_VERSION_STATE_2;
                     data_to_uart_mcu_mode3 <= VERSION_PACKET_2;
+                    TX_use_mcu_mode3 <= 0;
                 end
                 RET_VERSION_STATE_2: begin
-                    state_counter_mode3_return <= RET_VERSION_STATE_3;
+                    state_counter_mode3_return <= SEND_RET_VERSION_STATE_3;
                     data_to_uart_mcu_mode3 <= VERSION_PACKET_3;
+                    TX_use_mcu_mode3 <= 0;
                 end
                 RET_VERSION_STATE_3: begin
-                    state_counter_mode3_return <= IDLE_STATE;
+                    state_counter_mode3_return <= SEND_RET_VERSION_STATE_4;
                     data_to_uart_mcu_mode3 <= VERSION_PACKET_4;
+                    TX_use_mcu_mode3 <= 0;
+                end
+                SEND_RET_HEAD_STATE: begin
+                    state_counter_mode3_return <= RET_HEAD_STATE;
+                    TX_use_mcu_mode3 <= 1;
+                end
+                SEND_RET_ADDH_STATE: begin
+                    state_counter_mode3_return <= RET_ADDH_STATE;
+                    TX_use_mcu_mode3 <= 1;
+                end
+                SEND_RET_ADDL_STATE: begin
+                    state_counter_mode3_return <= RET_ADDL_STATE;
+                    TX_use_mcu_mode3 <= 1;
+                end
+                SEND_RET_SPED_STATE: begin
+                    state_counter_mode3_return <= RET_SPED_STATE;
+                    TX_use_mcu_mode3 <= 1;
+                end
+                SEND_RET_CHAN_STATE: begin
+                    state_counter_mode3_return <= RET_CHAN_STATE;
+                    TX_use_mcu_mode3 <= 1;
+                end
+                SEND_RET_VERSION_STATE_1: begin
+                    state_counter_mode3_return <= RET_VERSION_STATE_1;
+                    TX_use_mcu_mode3 <= 1;
+                end
+                SEND_RET_VERSION_STATE_2: begin
+                    state_counter_mode3_return <= RET_VERSION_STATE_2;
+                    TX_use_mcu_mode3 <= 1;
+                end
+                SEND_RET_VERSION_STATE_3: begin
+                    state_counter_mode3_return <= RET_VERSION_STATE_3;
+                    TX_use_mcu_mode3 <= 1;
+                end        
+                SEND_RET_VERSION_STATE_4: begin
+                    state_counter_mode3_return <= IDLE_STATE;
+                    TX_use_mcu_mode3 <= 1;
                     // Stop return clock
                     return_stop_asyn <= return_start_asyn;
                 end
-                
                 default: state_counter_mode3_return <= IDLE_STATE;
             endcase 
         end
@@ -359,19 +417,19 @@ module controller_RF_transceiver
                     .reach_limit(start_wireless_trans_cond_2),
                     .rst_n(rst_n)
                     );
-    wire stop_rx_mode;                 
-    waiting_module #(
-                    // Time to detect is 1/2 frame transaction
-                    .END_COUNTER(END_COUNTER_RX_PACKET / 6),
-                    .START_COUNTER(START_COUNTER_RX_PACKET),
-                    .WAITING_TYPE(0),
-                    .LEVEL_PULSE(1)
-                    )detect_stop_rx(
-                    .clk(internal_clk),
-                    .start_counting(RX_flag_mcu),
-                    .reach_limit(stop_rx_mode),
-                    .rst_n(rst_n)
-                    );
+//    wire stop_rx_mode0_state;                 
+//    waiting_module #(
+//                    // Time to detect is 1/2 frame transaction
+//                    .END_COUNTER(END_COUNTER_RX_PACKET / 6),
+//                    .START_COUNTER(START_COUNTER_RX_PACKET),
+//                    .WAITING_TYPE(0),
+//                    .LEVEL_PULSE(1)
+//                    )detect_stop_rx(
+//                    .clk(internal_clk),
+//                    .start_counting(RX_flag_mcu),
+//                    .reach_limit(stop_rx_mode0_state),
+//                    .rst_n(rst_n)
+//                    );
     // Load data into RFIC 
     
     always @(posedge mode0_clk, negedge rst_n) begin
@@ -400,14 +458,14 @@ module controller_RF_transceiver
                     end
                     else state_counter_mode0_trans <= WIRELESS_TRANS_STATE;
                 end
-                STOP_RX_STATE : begin
-                    if(buffer_512bytes_empty) begin
-                        state_counter_mode0_trans <= IDLE_STATE; 
-                    end
-                    else begin
-                        state_counter_mode0_trans <= STOP_RX_STATE;
-                    end
-                end
+//                STOP_RX_STATE : begin
+//                    if(buffer_512bytes_empty) begin
+//                        state_counter_mode0_trans <= IDLE_STATE; 
+//                    end
+//                    else begin
+//                        state_counter_mode0_trans <= STOP_RX_STATE;
+//                    end
+//                end
                 default: state_counter_mode0_trans <= IDLE_STATE;
             endcase             
         end
@@ -499,7 +557,7 @@ module controller_RF_transceiver
         end
     end
 //     Test mode3 ////////////////////////
-    assign TX_use_mcu = (mode_controller == MODE_0) ? TX_use_mcu_mode0 : !TX_use_mcu_mode3;
+    assign TX_use_mcu = (mode_controller == MODE_0) ? TX_use_mcu_mode0 : TX_use_mcu_mode3;
     assign data_to_uart_mcu = (mode_controller == MODE_0) ? data_to_uart_mcu_mode0 : data_to_uart_mcu_mode3;
     assign state_counter_mode0_receive_wire = state_counter_mode0_receive;
 endmodule
