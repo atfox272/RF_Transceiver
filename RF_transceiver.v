@@ -11,7 +11,8 @@ module RF_transceiver
         parameter DATA_BIT_CONFIG_MSB = 1, // Index of this bit in reg
         parameter DATA_BIT_CONFIG_LSB = 0, // Index of this bit in reg
         // UART_node & UART_mcu (mode3) config register
-        parameter UART_NODE_CONFIG = 8'b00100011,       // baud38400 - 1stop - 0parity - 8bitData
+        parameter TX_UART_NODE_CONFIG = 8'b00100011,       // baud38400 - 1stop - 0parity - 8bitData
+        parameter RX_UART_NODE_CONFIG = 8'b01100011,       // baud38400 - 1stop - 0parity - 8bitData
         parameter UART_MCU_MODE3_CONFIG = 8'b00100011,  // baud9600  - 1stop - 0parity - 8bitData
         // Controller
         // Transaction
@@ -33,7 +34,15 @@ module RF_transceiver
         // Delay unit
         parameter DELAY_UNIT_CLK = 100,
         // Data
-        parameter DATA_WIDTH = 8
+        parameter DATA_WIDTH = 8,
+        // Waiting module for 3 times empty transaction
+        parameter END_COUNTER_RX_PACKET = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
+        parameter START_COUNTER_RX_PACKET = 0,
+        parameter END_WAITING_SEND_WLESS_DATA = 200000,
+        parameter START_COUNTER_SEND_WLESS_DATA = 0,
+        parameter END_SELF_CHECKING = 5000,
+        // Mode controller
+        parameter DEFAULT_MODE = 3
     )
     (
     input internal_clk,
@@ -52,19 +61,36 @@ module RF_transceiver
     
     // Debug 
     // Add pin out for Testbench
-    ,output [DATA_WIDTH - 1:0] data_bus_in_node
-    ,output TX_use_node_wire
-    ,output RX_flag_mcu_wire 
+    ,output [DATA_WIDTH - 1:0] data_bus_out_node
+    ,output [DATA_WIDTH - 1:0] data_in_uart_mcu_wire
+    ,output RX_flag_node_wire
+    ,output TX_use_mcu_wire
+    ,output [1:0] state_counter_mode0_receive_wire
+//    ,output RX_flag_mcu_wire 
     );
     // Mode controller 
     // Description: Mode-controller will detect AUX pin is HIGH or LOW. 
-    // If AUX is HIGH, mode-controller will change "M0_to_ctrl" & "M1_to_ctrl" follow M0 & M1 (external pin)
+    // If AUX is HIGH, mode-controller will change "M0_sync" & "M1_sync" follow M0 & M1 (external pin)
     // If AUX is LOW, mode-controller won't do anything and wait for AUX rising
     // In Mode controller, i will synch for M0 and M1 with internal_clk
-    wire M1_to_ctrl = M1;
-    wire M0_to_ctrl = M0;
+    // Prevent from error state of controller
+    wire M1_sync;
+    wire M0_sync;
+    mode_controller_RF_transceiver 
+                #(
+                .DEFAULT_MODE(DEFAULT_MODE)
+                )mode_controller(
+                .internal_clk(internal_clk),
+                .AUX(AUX),
+                .M0(M0),
+                .M1(M1),
+                .M1_sync(M1_sync),
+                .M0_sync(M0_sync),
+                .rst_n(rst_n)
+                );
     // Controller to UART_mcu interface
     wire TX_use_mcu;
+    wire TX_flag_mcu;
     wire RX_use_mcu;
     wire RX_flag_mcu;
     wire [DATA_WIDTH - 1: 0] data_out_uart_mcu;
@@ -84,7 +110,7 @@ module RF_transceiver
     // Data bit 
     assign uart_mcu_my_config_reg[1:0] = 2'b11; // = 8 bits
     //////////////////////////////////////////////////////////////////////////////
-    assign uart_mcu_config_reg = (M1_to_ctrl == 1 & M0_to_ctrl == 1) ? UART_MCU_MODE3_CONFIG : uart_mcu_my_config_reg;
+    assign uart_mcu_config_reg = (M1_sync == 1 & M0_sync == 1) ? UART_MCU_MODE3_CONFIG : uart_mcu_my_config_reg;
     // UART to MCU
     com_uart #(
               .UART_CONFIG_WIDTH(UART_CONFIG_WIDTH),
@@ -100,6 +126,7 @@ module RF_transceiver
               .TX(TX_mcu),
               .RX(RX_mcu),
               .TX_use(TX_use_mcu),
+              .TX_flag(TX_flag_mcu),
               .RX_use(RX_use_mcu),
               .RX_flag(RX_flag_mcu),
               .TX_config_register(uart_mcu_config_reg),
@@ -139,8 +166,8 @@ module RF_transceiver
               .RX_use(RX_use_node),
               .RX_flag(RX_flag_node),
               .TX_flag(TX_flag_node),
-              .TX_config_register(UART_NODE_CONFIG),
-              .RX_config_register(UART_NODE_CONFIG),
+              .TX_config_register(TX_UART_NODE_CONFIG),
+              .RX_config_register(RX_UART_NODE_CONFIG),
               .data_bus_in(data_in_uart_node),
               .data_bus_out(data_out_uart_node),
               .rst_n(rst_n)
@@ -171,7 +198,10 @@ module RF_transceiver
                                 .VERSION_PACKET_3(VERSION_PACKET_3),
                                 .VERSION_PACKET_4(VERSION_PACKET_4),
                                 .FIFO512_DEPTH(FIFO512_DEPTH),
-                                .START_WIRELESS_TRANS_VALUE(START_WIRELESS_TRANS_VALUE)
+                                .START_WIRELESS_TRANS_VALUE(START_WIRELESS_TRANS_VALUE),
+                                .END_COUNTER_RX_PACKET(END_COUNTER_RX_PACKET),
+                                .END_WAITING_SEND_WLESS_DATA(END_WAITING_SEND_WLESS_DATA),
+                                .END_SELF_CHECKING(END_SELF_CHECKING)
                                 )controller(
                                 .internal_clk(internal_clk),
                                 .AUX(AUX),
@@ -179,6 +209,7 @@ module RF_transceiver
                                 .data_from_uart_mcu(data_out_uart_mcu),
                                 .data_to_uart_mcu(data_in_uart_mcu),
                                 .TX_use_mcu(TX_use_mcu),
+                                .TX_flag_mcu(TX_flag_mcu),
                                 .RX_flag_mcu(RX_flag_mcu),
                                 .uart_mcu_config_reg(uart_mcu_SPED_config_reg),
                                 .TX_use_node(TX_use_node),
@@ -187,12 +218,16 @@ module RF_transceiver
                                 .RX_flag_node(RX_flag_node),
                                 .data_from_uart_node(data_out_uart_node),
                                 .data_to_uart_node(data_in_uart_node),
-                                .M0_sync(M0_to_ctrl),
-                                .M1_sync(M1_to_ctrl),
+                                .M0_sync(M0_sync),
+                                .M1_sync(M1_sync),
                                 .rst_n(rst_n)
+                                // debug 
+                                ,.state_counter_mode0_receive_wire(state_counter_mode0_receive_wire)
                                 );
     // Debug 
-    assign data_bus_in_node = data_in_uart_node;
-    assign TX_use_node_wire = TX_use_node;
-    assign RX_flag_mcu_wire = RX_flag_mcu;
+    assign data_bus_out_node = data_out_uart_node;
+    assign RX_flag_node_wire = RX_flag_node;
+    assign data_in_uart_mcu_wire = data_in_uart_mcu;
+    assign TX_use_mcu_wire = TX_use_mcu;
+//    assign RX_flag_mcu_wire = RX_flag_mcu;
 endmodule
