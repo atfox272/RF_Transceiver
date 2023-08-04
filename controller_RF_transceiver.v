@@ -43,7 +43,8 @@ module controller_RF_transceiver
         parameter END_COUNTER_RX_PACKET = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
         parameter START_COUNTER_RX_PACKET = 0,
         parameter END_WAITING_SEND_WLESS_DATA = 20000,
-        parameter START_COUNTER_SEND_WLESS_DATA = 0
+        parameter START_COUNTER_SEND_WLESS_DATA = 0,
+        parameter END_SELF_CHECKING = 10000
     )
     (
     input   wire internal_clk,
@@ -91,10 +92,10 @@ module controller_RF_transceiver
     // Mode controller
     wire [1:0] mode_controller = {M1_sync, M0_sync};
     // AUX controller
-//    reg AUX_controller_1;
+    reg AUX_controller_1;
     wire AUX_controller_2;
     wire AUX_controller_3;
-    assign AUX =  AUX_controller_2 & AUX_controller_3;
+    assign AUX = AUX_controller_1 & AUX_controller_2 & AUX_controller_3;
     
     reg [3:0] state_counter_mode3;
     localparam IDLE_STATE = 0;
@@ -117,6 +118,7 @@ module controller_RF_transceiver
     localparam RETURN_VERSION_CASE = 1;       // Return version
     localparam RETURN_NOTHING_CASE = 2;       // Reset command case
     
+                    
     always @(posedge rdata_mode3_clk, negedge rst_n) begin
         if(!rst_n) begin
             state_counter_mode3 <= IDLE_STATE;
@@ -207,7 +209,8 @@ module controller_RF_transceiver
                 INS_RESET_STATE_3: begin
                     state_counter_mode3 <= IDLE_STATE;
                     if(data_from_uart_mcu == RESET_DETECT) begin
-                    
+                        return_start_asyn <= ~return_stop_asyn;
+                        return_case <= RETURN_NOTHING_CASE;
                     end
                 end
                 default: state_counter_mode3 <= IDLE_STATE;
@@ -215,6 +218,7 @@ module controller_RF_transceiver
             
         end
     end
+    
     // Synchronous enable flag of return_config instruction
     reg return_start_syn;
     reg return_stop_syn;
@@ -257,9 +261,21 @@ module controller_RF_transceiver
     localparam SEND_RET_VERSION_STATE_3 = 19;   
     localparam RET_VERSION_STATE_4 = 10;  
     localparam SEND_RET_VERSION_STATE_4 = 20;
+    localparam SELF_CHECK_STATE = 21;
     wire mode3_clk = (TX_use_mode3_en_syn) ? internal_clk : 1'b0;
     reg TX_use_mcu_mode3;
     reg [DATA_WIDTH - 1:0] data_to_uart_mcu_mode3;
+    wire stop_self_check_signal;
+    waiting_module #(
+                    .END_COUNTER(END_SELF_CHECKING),
+                    .WAITING_TYPE(0),
+                    .LEVEL_PULSE(0)
+                    )waiting_self_check(
+                    .clk(internal_clk),
+                    .start_counting(AUX_controller_1),
+                    .reach_limit(stop_self_check_signal),
+                    .rst_n(rst_n)
+                    );
     always @(posedge mode3_clk, negedge rst_n) begin
         if(!rst_n) begin
             state_counter_mode3_return <= IDLE_STATE;
@@ -268,6 +284,8 @@ module controller_RF_transceiver
             data_to_uart_mcu_mode3 <= {8{1'b0}};
             // TX use (to MCU)
             TX_use_mcu_mode3 <= 0;
+            // AUX controller 
+             AUX_controller_1 <= 1;
         end
         else begin
             case(state_counter_mode3_return) 
@@ -282,8 +300,19 @@ module controller_RF_transceiver
                             state_counter_mode3_return <= SEND_RET_VERSION_STATE_1;
                             data_to_uart_mcu_mode3 <= VERSION_PACKET_1;
                         end
+                        RETURN_NOTHING_CASE: begin
+                            state_counter_mode3_return <= SELF_CHECK_STATE;
+                            AUX_controller_1 <= 0;
+                        end
                         default: state_counter_mode3_return <= IDLE_STATE;
                     endcase
+                end
+                SELF_CHECK_STATE: begin
+                    if(stop_self_check_signal) begin
+                        state_counter_mode3_return <= IDLE_STATE;
+                        AUX_controller_1 <= 1;
+                        return_stop_asyn <= return_start_asyn;
+                    end
                 end
                 RET_HEAD_STATE: begin
                     state_counter_mode3_return <= SEND_RET_ADDH_STATE;
