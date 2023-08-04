@@ -94,7 +94,7 @@ module waiting_module
                 reach_limit <= 0;
             end
             else begin
-                if(start_counting) begin
+                if(start_counting == LEVEL_PULSE) begin
                     if(counter == END_COUNTER) begin
                         counter <= START_COUNTER;
                         reach_limit <= 1;
