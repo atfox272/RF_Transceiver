@@ -42,7 +42,7 @@ module controller_RF_transceiver
         // Waiting module for 3 times empty transaction
         parameter END_COUNTER_RX_PACKET = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
         parameter START_COUNTER_RX_PACKET = 0,
-        parameter END_WAITING_SEND_WLESS_DATA = 200000,
+        parameter END_WAITING_SEND_WLESS_DATA = 20000,
         parameter START_COUNTER_SEND_WLESS_DATA = 0
     )
     (
@@ -67,6 +67,9 @@ module controller_RF_transceiver
     
     
     input   wire rst_n
+    
+    // debug 
+    ,output [1:0] state_counter_mode0_receive_wire
     );
     // Configuartion register 
     reg [TRANSACTION_WIDTH - 1:0] HEAD;
@@ -88,10 +91,10 @@ module controller_RF_transceiver
     // Mode controller
     wire [1:0] mode_controller = {M1_sync, M0_sync};
     // AUX controller
-    reg AUX_controller_1;
+//    reg AUX_controller_1;
     wire AUX_controller_2;
     wire AUX_controller_3;
-    assign AUX = AUX_controller_1 & AUX_controller_2 & AUX_controller_3;
+    assign AUX =  AUX_controller_2 & AUX_controller_3;
     
     reg [3:0] state_counter_mode3;
     localparam IDLE_STATE = 0;
@@ -105,12 +108,15 @@ module controller_RF_transceiver
     localparam INS_CONFIG_STATE_3 = 8;
     localparam INS_VERSION_STATE_2 = 9;
     localparam INS_VERSION_STATE_3 = 10;
+    localparam INS_RESET_STATE_2 = 12;
+    localparam INS_RESET_STATE_3 = 13;
    
     reg [1:0] return_case;          
     // Return Instruction encode
     localparam RETURN_CONFIG_CASE = 0;        // Return configuration
     localparam RETURN_VERSION_CASE = 1;       // Return version
     localparam RETURN_NOTHING_CASE = 2;       // Reset command case
+    
     always @(posedge mode3_clk, negedge rst_n) begin
         if(!rst_n) begin
             state_counter_mode3 <= IDLE_STATE;
@@ -144,7 +150,7 @@ module controller_RF_transceiver
                             state_counter_mode3 <= INS_VERSION_STATE_2;
                         end
                         RESET_DETECT: begin
-                            state_counter_mode3 <= IDLE_STATE;
+                            state_counter_mode3 <= INS_RESET_STATE_2;
                         end
                         default: state_counter_mode3 <= IDLE_STATE;
                     endcase
@@ -193,6 +199,16 @@ module controller_RF_transceiver
                     end
                     else return_start_asyn <= return_start_asyn;
                 end 
+                INS_RESET_STATE_2: begin
+                    if(data_from_uart_mcu == RESET_DETECT) state_counter_mode3 <= INS_RESET_STATE_3;
+                    else state_counter_mode3 <= IDLE_STATE;
+                end
+                INS_RESET_STATE_3: begin
+                    state_counter_mode3 <= IDLE_STATE;
+                    if(data_from_uart_mcu == RESET_DETECT) begin
+                    
+                    end
+                end
                 default: state_counter_mode3 <= IDLE_STATE;
             endcase 
             
@@ -328,6 +344,7 @@ module controller_RF_transceiver
     wire start_wireless_trans_cond = start_wireless_trans_cond_1 | start_wireless_trans_cond_2;
     localparam WIRELESS_TRANS_STATE = 1; 
     localparam START_READ_STATE = 2; 
+    localparam STOP_RX_STATE = 3; 
     assign AUX_controller_2 = (state_counter_mode0_trans == IDLE_STATE);    // Just free in IDLE_STATE
     assign waiting_pulse = RX_flag_mcu & (state_counter_mode0_trans == START_READ_STATE);
     
@@ -340,6 +357,19 @@ module controller_RF_transceiver
                     .clk(internal_clk),
                     .start_counting(RX_flag_mcu),
                     .reach_limit(start_wireless_trans_cond_2),
+                    .rst_n(rst_n)
+                    );
+    wire stop_rx_mode;                 
+    waiting_module #(
+                    // Time to detect is 1/2 frame transaction
+                    .END_COUNTER(END_COUNTER_RX_PACKET / 6),
+                    .START_COUNTER(START_COUNTER_RX_PACKET),
+                    .WAITING_TYPE(0),
+                    .LEVEL_PULSE(1)
+                    )detect_stop_rx(
+                    .clk(internal_clk),
+                    .start_counting(RX_flag_mcu),
+                    .reach_limit(stop_rx_mode),
                     .rst_n(rst_n)
                     );
     // Load data into RFIC 
@@ -369,6 +399,14 @@ module controller_RF_transceiver
                         state_counter_mode0_trans <= IDLE_STATE;
                     end
                     else state_counter_mode0_trans <= WIRELESS_TRANS_STATE;
+                end
+                STOP_RX_STATE : begin
+                    if(buffer_512bytes_empty) begin
+                        state_counter_mode0_trans <= IDLE_STATE; 
+                    end
+                    else begin
+                        state_counter_mode0_trans <= STOP_RX_STATE;
+                    end
                 end
                 default: state_counter_mode0_trans <= IDLE_STATE;
             endcase             
@@ -410,7 +448,7 @@ module controller_RF_transceiver
     // SEND_WIRELESS_DATA_STATE ____/-----------------------       -------\___________________
     // TX_flag_mcu (idle_state) ------\_______/------\______/     \_____/-----\______/----------
     //                          ____/-\_______/------\______/     \_____/-\_________
-    //                               ^                                  ^
+    //                              ^                                  ^
     //               (Wait 5ms when receive frist packet)      (Read last byte in FIFO) 
     // Buffer_empty_n           ----------------------------------------\___________               
     waiting_module #(
@@ -463,4 +501,5 @@ module controller_RF_transceiver
 //     Test mode3 ////////////////////////
     assign TX_use_mcu = (mode_controller == MODE_0) ? TX_use_mcu_mode0 : !TX_use_mcu_mode3;
     assign data_to_uart_mcu = (mode_controller == MODE_0) ? data_to_uart_mcu_mode0 : data_to_uart_mcu_mode3;
+    assign state_counter_mode0_receive_wire = state_counter_mode0_receive;
 endmodule
