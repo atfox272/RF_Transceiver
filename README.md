@@ -146,14 +146,16 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
   + Second: + When data in buffer512 is up to 58bytes, the wireless transmission (RFIC) is start, during which the user can input data continously for transmission. + When data in buffer512 is less than 58bytes and no more transaction for 3-frame time, the wireless transmission (RFIC) is start
 
 ## To-do:
-- Implement✖️: Combination of all mode (transmit ✖️ & receive ✔️)
-- Implement✖️: Wake-up mode  
+- Implement✖️: Wake-up mode
+  
 ## Check-List:
 - Mode3               ✔️
 - Mode0_trans         ✔️
 - Mode0_recei         ✔️
 - Self_checking       ✔️ 
 - Combine mode        ✔️
+- Mode1_wakeup        ✖️  (preamble code?)
+- Mode2_powersaving   ✖️  (preamble code?)
 - On FPGA             ✖️
 ## Config requirement:
 - Config waiting time of sending wireless-packet to MCU (Default: 5ms) must be more than 2-transaction time
