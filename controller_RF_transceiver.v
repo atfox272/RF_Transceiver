@@ -33,11 +33,11 @@ module controller_RF_transceiver
         parameter VERSION_PACKET_3 = 8'h27,     // My config
         parameter VERSION_PACKET_4 = 8'h02,     // My config
         // Mode encode
-        localparam MODE_0 = 0,
-        localparam MODE_3 = 3,
+        parameter MODE_0 = 0,
+        parameter MODE_3 = 3,
         // 512bytes FIFO buffer
         parameter FIFO512_DEPTH = 512,
-        localparam COUNTER_FIFO512_WIDTH = $clog2(FIFO512_DEPTH + 1),
+        parameter COUNTER_FIFO512_WIDTH = $clog2(FIFO512_DEPTH + 1),
         parameter START_WIRELESS_TRANS_VALUE = 58,
         // Waiting module for 3 times empty transaction
         parameter END_COUNTER_RX_PACKET = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
@@ -82,8 +82,7 @@ module controller_RF_transceiver
     wire mode3_en = (M0_sync == 1) & (M1_sync == 1);
     wire rdata_mode3_clk = (mode3_en) ? RX_flag_mcu : 1'b0;
     assign uart_mcu_config_reg = SPED;
-    // Reply 
-    // Config parameter 
+    // Reply     // Config parameter 
     reg return_start_asyn;
     reg return_stop_asyn;
     // Version of device 
@@ -95,9 +94,32 @@ module controller_RF_transceiver
     reg AUX_controller_1;
     wire AUX_controller_2;
     wire AUX_controller_3;
-    assign AUX = AUX_controller_1 & AUX_controller_2 & AUX_controller_3;
-    
+    // Mode 3 state-machine 
     reg [3:0] state_counter_mode3;
+    reg [1:0] return_case;        
+    reg [4:0] state_counter_mode3_return;
+    // Synchronous enable flag of return_config instruction
+    reg return_start_syn;
+    reg return_stop_syn;
+    wire TX_use_mode3_en_syn = return_start_syn ^ return_stop_syn;
+    // Mode 0 controller 
+    wire mode0_en = (M0_sync == 0) & (M1_sync == 0);
+    wire mode0_rx_clk = (mode0_en) ? RX_flag_mcu : 1'b0;
+    // Module is receiving (mode 0 or 1) -> AUX is LOW (state of module)
+    wire [COUNTER_FIFO512_WIDTH - 1:0] counter_buffer_512byte;    
+    wire start_wireless_trans_cond_1 = (counter_buffer_512byte >= START_WIRELESS_TRANS_VALUE);
+    // 512bytes Buffer 
+    wire buffer_512bytes_full;
+    wire buffer_512bytes_empty;                
+    // Waiting_module to waiting for "3-time empty transaction"
+    wire start_wireless_trans_cond_2;
+    wire waiting_pulse;
+    reg [3:0] state_counter_mode0_trans;
+    reg start_wireless_trans;
+    wire mode0_clk = (mode0_en) ? internal_clk : 1'b0;
+    wire start_wireless_trans_cond = start_wireless_trans_cond_1 | start_wireless_trans_cond_2;
+    
+    
     localparam IDLE_STATE = 0;
     localparam READ_SPED_STATE = 6;
     localparam READ_HEAD_STATE = 1;
@@ -111,14 +133,15 @@ module controller_RF_transceiver
     localparam INS_VERSION_STATE_3 = 10;
     localparam INS_RESET_STATE_2 = 12;
     localparam INS_RESET_STATE_3 = 13;
-   
-    reg [1:0] return_case;          
+     
     // Return Instruction encode
     localparam RETURN_CONFIG_CASE = 0;        // Return configuration
     localparam RETURN_VERSION_CASE = 1;       // Return version
     localparam RETURN_NOTHING_CASE = 2;       // Reset command case
     
-                    
+    // AUX controller
+    assign AUX = AUX_controller_1 & AUX_controller_2 & AUX_controller_3;                
+    
     always @(posedge rdata_mode3_clk, negedge rst_n) begin
         if(!rst_n) begin
             state_counter_mode3 <= IDLE_STATE;
@@ -219,10 +242,7 @@ module controller_RF_transceiver
         end
     end
     
-    // Synchronous enable flag of return_config instruction
-    reg return_start_syn;
-    reg return_stop_syn;
-    wire TX_use_mode3_en_syn = return_start_syn ^ return_stop_syn;
+    
     // Synchromous start & stop Enable flag
     always @(posedge internal_clk, negedge rst_n) begin
         if(!rst_n) begin
@@ -240,7 +260,7 @@ module controller_RF_transceiver
             return_stop_syn <= return_stop_asyn;
         end
     end
-    reg [4:0] state_counter_mode3_return;
+    
     localparam RET_HEAD_STATE = 1;
     localparam SEND_RET_HEAD_STATE = 11;
     localparam RET_ADDH_STATE = 2;
@@ -398,15 +418,6 @@ module controller_RF_transceiver
             endcase 
         end
     end
-    wire mode0_en = (M0_sync == 0) & (M1_sync == 0);
-    wire mode0_rx_clk = (mode0_en) ? RX_flag_mcu : 1'b0;
-    // Notice:
-    // Module is receiving (mode 0 or 1) -> AUX is LOW (state of module)
-    wire [COUNTER_FIFO512_WIDTH - 1:0] counter_buffer_512byte;    
-    wire start_wireless_trans_cond_1 = (counter_buffer_512byte >= START_WIRELESS_TRANS_VALUE);
-
-    wire buffer_512bytes_full;
-    wire buffer_512bytes_empty;
     fifo_module     #(
                     .DEPTH(FIFO512_DEPTH),
                     .WIDTH(DATA_WIDTH)
@@ -420,15 +431,7 @@ module controller_RF_transceiver
                     .empty(buffer_512bytes_empty),
                     .rst_n(rst_n)
                     );
-                    
-    // Waiting_module to waiting for "3-time empty transaction"
     
-    wire start_wireless_trans_cond_2;
-    wire waiting_pulse;
-    reg [3:0] state_counter_mode0_trans;
-    reg start_wireless_trans;
-    wire mode0_clk = (mode0_en) ? internal_clk : 1'b0;
-    wire start_wireless_trans_cond = start_wireless_trans_cond_1 | start_wireless_trans_cond_2;
     localparam WIRELESS_TRANS_STATE = 1; 
     localparam START_READ_STATE = 2; 
     localparam STOP_RX_STATE = 3; 
