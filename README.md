@@ -89,7 +89,7 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
 - In "Implement" title
 ### 2. Implement:
 #### a. Block diagram:
-  ![image](https://github.com/atfox272/RF_Transceiver-/assets/99324602/a9bde74b-02c4-40b0-93ba-12b830ec82eb)
+  ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/5eea0832-2c29-4782-acb8-bfda7a8f83de)
 
 
 #### a. Implement MODE 3 (configuration mode): 
