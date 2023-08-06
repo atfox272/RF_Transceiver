@@ -5,8 +5,8 @@ module fifo_module
     #(
         parameter DEPTH             = 32,
         parameter WIDTH             = 8,
-        localparam COUNTER_WIDTH    = $clog2(DEPTH + 1),
-        localparam DEPTH_ALIGN      = DEPTH + 1
+        parameter COUNTER_WIDTH    = $clog2(DEPTH + 1),
+        parameter DEPTH_ALIGN      = DEPTH + 1
      )(
     // Data
     input [WIDTH - 1:0]         data_bus_in,
