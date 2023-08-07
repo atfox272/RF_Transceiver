@@ -107,7 +107,7 @@ module controller_RF_transceiver
     wire mode0_rx_clk = (mode0_en) ? RX_flag_mcu : 1'b0;
     // Module is receiving (mode 0 or 1) -> AUX is LOW (state of module)
     wire [COUNTER_FIFO512_WIDTH - 1:0] counter_buffer_512byte;    
-    wire start_wireless_trans_cond_1 = (counter_buffer_512byte >= START_WIRELESS_TRANS_VALUE);
+    wire start_wireless_trans_cond_1;
     // 512bytes Buffer 
     wire buffer_512bytes_full;
     wire buffer_512bytes_empty;                
@@ -117,7 +117,7 @@ module controller_RF_transceiver
     reg [3:0] state_counter_mode0_trans;
     reg start_wireless_trans;
     wire mode0_clk = (mode0_en) ? internal_clk : 1'b0;
-    wire start_wireless_trans_cond = start_wireless_trans_cond_1 | start_wireless_trans_cond_2;
+    wire start_wireless_trans_cond;
     
     
     localparam IDLE_STATE = 0;
@@ -449,21 +449,9 @@ module controller_RF_transceiver
                     .reach_limit(start_wireless_trans_cond_2),
                     .rst_n(rst_n)
                     );
-//    wire stop_rx_mode0_state;                 
-//    waiting_module #(
-//                    // Time to detect is 1/2 frame transaction
-//                    .END_COUNTER(END_COUNTER_RX_PACKET / 6),
-//                    .START_COUNTER(START_COUNTER_RX_PACKET),
-//                    .WAITING_TYPE(0),
-//                    .LEVEL_PULSE(1)
-//                    )detect_stop_rx(
-//                    .clk(internal_clk),
-//                    .start_counting(RX_flag_mcu),
-//                    .reach_limit(stop_rx_mode0_state),
-//                    .rst_n(rst_n)
-//                    );
     // Load data into RFIC 
-    
+    assign start_wireless_trans_cond_1 = (counter_buffer_512byte >= START_WIRELESS_TRANS_VALUE);
+    assign start_wireless_trans_cond = start_wireless_trans_cond_1 | start_wireless_trans_cond_2;
     always @(posedge mode0_clk, negedge rst_n) begin
         if(!rst_n) begin
             state_counter_mode0_trans <= IDLE_STATE;
@@ -485,19 +473,11 @@ module controller_RF_transceiver
                     else state_counter_mode0_trans <= START_READ_STATE;
                 end
                 WIRELESS_TRANS_STATE: begin
-                    if(buffer_512bytes_empty) begin
+                    if(buffer_512bytes_empty) begin     // Need to change this condition 
                         state_counter_mode0_trans <= IDLE_STATE;
                     end
                     else state_counter_mode0_trans <= WIRELESS_TRANS_STATE;
                 end
-//                STOP_RX_STATE : begin
-//                    if(buffer_512bytes_empty) begin
-//                        state_counter_mode0_trans <= IDLE_STATE; 
-//                    end
-//                    else begin
-//                        state_counter_mode0_trans <= STOP_RX_STATE;
-//                    end
-//                end
                 default: state_counter_mode0_trans <= IDLE_STATE;
             endcase             
         end
