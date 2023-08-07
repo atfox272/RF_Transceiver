@@ -38,7 +38,8 @@ module controller_RF_transceiver
         // 512bytes FIFO buffer
         parameter FIFO512_DEPTH = 512,
         parameter COUNTER_FIFO512_WIDTH = $clog2(FIFO512_DEPTH + 1),
-        parameter START_WIRELESS_TRANS_VALUE = 58,
+        parameter START_WIRELESS_TRANS_VALUE = 58,        
+        parameter COUNTER_58BYTES_WIDTH = $clog2(START_WIRELESS_TRANS_VALUE + 1),
         // Waiting module for 3 times empty transaction
         parameter END_COUNTER_RX_PACKET = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
         parameter START_COUNTER_RX_PACKET = 0,
@@ -445,17 +446,22 @@ module controller_RF_transceiver
                     .LEVEL_PULSE(1)
                     )waiting_RX_packet(
                     .clk(internal_clk),
-                    .start_counting(RX_flag_mcu),
+                    .start_counting(waiting_pulse),
                     .reach_limit(start_wireless_trans_cond_2),
                     .rst_n(rst_n)
                     );
     // Load data into RFIC 
+    reg wireless_trans_start;
+    reg wireless_trans_stop;
+    wire wireless_trans_en;     // IDLE state of wireless_trans_en is HIGH
     assign start_wireless_trans_cond_1 = (counter_buffer_512byte >= START_WIRELESS_TRANS_VALUE);
     assign start_wireless_trans_cond = start_wireless_trans_cond_1 | start_wireless_trans_cond_2;
+    assign wireless_trans_en = wireless_trans_start ^ wireless_trans_stop;
     always @(posedge mode0_clk, negedge rst_n) begin
         if(!rst_n) begin
             state_counter_mode0_trans <= IDLE_STATE;
             start_wireless_trans <= 0;
+            wireless_trans_start <= 1;      // (IDLE state of wireless_trans_en = 1)Different from wireless_trans_stop
         end
         else begin
             case(state_counter_mode0_trans)
@@ -473,13 +479,46 @@ module controller_RF_transceiver
                     else state_counter_mode0_trans <= START_READ_STATE;
                 end
                 WIRELESS_TRANS_STATE: begin
-                    if(buffer_512bytes_empty) begin     // Need to change this condition 
-                        state_counter_mode0_trans <= IDLE_STATE;
+                    // if(!wireless_trans_en | buffer512_empty)
+                    if(wireless_trans_en & !buffer_512bytes_empty) begin     // Need to change this condition 
+                        state_counter_mode0_trans <= WIRELESS_TRANS_STATE;
                     end
-                    else state_counter_mode0_trans <= WIRELESS_TRANS_STATE;
+                    else begin
+                        if(buffer_512bytes_empty) begin
+                            state_counter_mode0_trans <= IDLE_STATE;                        
+                        end
+                        else begin
+                            state_counter_mode0_trans <= START_READ_STATE;
+                        end
+                        // Below statement is used for debugging
+//                        state_counter_mode0_trans <= IDLE_STATE;
+                        /////    
+                        // Prepare for next wireless transmission
+                        wireless_trans_start <= ~wireless_trans_stop;
+                    end 
                 end
                 default: state_counter_mode0_trans <= IDLE_STATE;
             endcase             
+        end
+    end
+    // Counting take-out module 
+    reg [COUNTER_58BYTES_WIDTH - 1:0] _58bytes_counter;
+    always @(negedge TX_use_node, negedge rst_n) begin
+        if(!rst_n) begin
+            _58bytes_counter <= 0;
+            wireless_trans_stop <= 0;
+        end
+        else begin
+            // Add counter_fifo -> if(counter_fifo == 1) 
+            if(buffer_512bytes_empty) begin
+                _58bytes_counter <= 0;
+                // wireless-transmitter has changed state already, so you dont need add state-switching signal here 
+            end
+            else if((_58bytes_counter == START_WIRELESS_TRANS_VALUE)) begin
+                _58bytes_counter <= 0;
+                wireless_trans_stop <= wireless_trans_start;
+            end
+            else _58bytes_counter <= _58bytes_counter + 1;
         end
     end
     // TX to UART node
@@ -571,5 +610,5 @@ module controller_RF_transceiver
 //     Test mode3 ////////////////////////
     assign TX_use_mcu = (mode_controller == MODE_0) ? TX_use_mcu_mode0 : TX_use_mcu_mode3;
     assign data_to_uart_mcu = (mode_controller == MODE_0) ? data_to_uart_mcu_mode0 : data_to_uart_mcu_mode3;
-    assign state_counter_mode0_receive_wire = state_counter_mode0_receive;
+    assign state_counter_mode0_receive_wire = waiting_pulse;
 endmodule
