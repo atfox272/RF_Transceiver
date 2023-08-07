@@ -83,11 +83,11 @@ module RF_transceiver_general_tb;
                     .RX_node(RX_to_node),
                     .rst_n(rst_n)
                     // Debug
-                    ,.data_bus_out_node(data_bus_out_node_internal)
-                    ,.RX_flag_node_wire(RX_flag_node_wire)
+//                    ,.data_bus_out_node(data_bus_out_node_internal)
+//                    ,.RX_flag_node_wire(RX_flag_node_wire)
                     ,.state_counter_mode0_receive_wire(state_counter_mode0_receive_wire)
-                    ,.data_in_uart_mcu_wire(data_in_uart_mcu_wire)
-                    ,.TX_use_mcu_wire(TX_use_mcu_wire)
+//                    ,.data_in_uart_mcu_wire(data_in_uart_mcu_wire)
+//                    ,.TX_use_mcu_wire(TX_use_mcu_wire)
                     );
     initial begin
         internal_clk <= 0;
@@ -178,37 +178,37 @@ module RF_transceiver_general_tb;
         #12;
         
         
-        data_in_mcu_external <= 8'h27;
-        #1 TX_use_mcu_external <= 1;
-        #1 TX_use_mcu_external <= 0;
+//        data_in_mcu_external <= 8'h27;
+//        #1 TX_use_mcu_external <= 1;
+//        #1 TX_use_mcu_external <= 0;
         
-        data_in_mcu_external <= 8'h11;
-        #1 TX_use_mcu_external <= 1;
-        #1 TX_use_mcu_external <= 0;
+//        data_in_mcu_external <= 8'h11;
+//        #1 TX_use_mcu_external <= 1;
+//        #1 TX_use_mcu_external <= 0;
         
-        data_in_mcu_external <= 8'h22;
-        #1 TX_use_mcu_external <= 1;
-        #1 TX_use_mcu_external <= 0;
+//        data_in_mcu_external <= 8'h22;
+//        #1 TX_use_mcu_external <= 1;
+//        #1 TX_use_mcu_external <= 0;
         
-        data_in_mcu_external <= 8'h33;
-        #1 TX_use_mcu_external <= 1;
-        #1 TX_use_mcu_external <= 0;
+//        data_in_mcu_external <= 8'h33;
+//        #1 TX_use_mcu_external <= 1;
+//        #1 TX_use_mcu_external <= 0;
         
-        data_in_mcu_external <= 8'h44;
-        #1 TX_use_mcu_external <= 1;
-        #1 TX_use_mcu_external <= 0;
+//        data_in_mcu_external <= 8'h44;
+//        #1 TX_use_mcu_external <= 1;
+//        #1 TX_use_mcu_external <= 0;
         
-        data_in_mcu_external <= 8'h55;
-        #1 TX_use_mcu_external <= 1;
-        #1 TX_use_mcu_external <= 0;
+//        data_in_mcu_external <= 8'h55;
+//        #1 TX_use_mcu_external <= 1;
+//        #1 TX_use_mcu_external <= 0;
         
-        data_in_mcu_external <= 8'h66;
-        #1 TX_use_mcu_external <= 1;
-        #1 TX_use_mcu_external <= 0;
+//        data_in_mcu_external <= 8'h66;
+//        #1 TX_use_mcu_external <= 1;
+//        #1 TX_use_mcu_external <= 0;
         
-        data_in_mcu_external <= 8'h77;
-        #1 TX_use_mcu_external <= 1;
-        #1 TX_use_mcu_external <= 0;
+//        data_in_mcu_external <= 8'h77;
+//        #1 TX_use_mcu_external <= 1;
+//        #1 TX_use_mcu_external <= 0;
         
 //        #1000;
 //        M0 <= 1;
@@ -226,52 +226,146 @@ module RF_transceiver_general_tb;
     initial begin
         forever #1 internal_clk <= ~internal_clk;
     end
-    always @(negedge AUX) begin
-        #10000;
-        M0 <= 1;
-        M1 <= 1;
+    reg [5:0] state_counter;
+    localparam IDLE_STATE = 0;
+    localparam INIT_STATE = 1;
+    localparam TRANS_STATE = 2;
+    localparam RECEIVE_STATE = 3;
+    localparam MODE_SWITCHING_STATE = 5;
+    localparam CONFIG_STATE = 4;
+    initial begin
+        state_counter <= IDLE_STATE;
     end
     always @(posedge AUX) begin
-        #1000; 
-        
-        if(simulate_flag) begin
-            data_in_mcu_external <= 8'hC0;
-            #1 TX_use_mcu_external <= 1;
-            #1 TX_use_mcu_external <= 0;
+        case(state_counter) 
+            // XXX/----
+            IDLE_STATE: begin
+                state_counter <= INIT_STATE;
+            end
+            // XXX/----\______/---
+            INIT_STATE: begin
+                state_counter <= TRANS_STATE;
+                // Transmission test
+//                state_counter <= RECEIVE_STATE;
+                #1000;
+                
+                data_in_mcu_external <= 8'h27;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'h11;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'h22;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'h33;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'h44;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'h55;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'h66;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'h77;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+            end
+            // XXX/----\______/--------\____WIRELESS_TRANS____/---
+            TRANS_STATE: begin
+                state_counter <= RECEIVE_STATE;
+                
+                #1000;
+                data_in_node_external <= 8'hFF;
+                #1 TX_use_node_external <= 1;
+                #1 TX_use_node_external <= 0;
+                
+                data_in_node_external <= 8'h11;
+                #1 TX_use_node_external <= 1;
+                #1 TX_use_node_external <= 0;
+                
+                data_in_node_external <= 8'h22;
+                #1 TX_use_node_external <= 1;
+                #1 TX_use_node_external <= 0;
+                
+                data_in_node_external <= 8'h33;
+                #1 TX_use_node_external <= 1;
+                #1 TX_use_node_external <= 0;
+                
+                data_in_node_external <= 8'h44;
+                #1 TX_use_node_external <= 1;
+                #1 TX_use_node_external <= 0;
+                
+                data_in_node_external <= 8'h55;
+                #1 TX_use_node_external <= 1;
+                #1 TX_use_node_external <= 0;
+                
+                data_in_node_external <= 8'h00;
+                #1 TX_use_node_external <= 1;
+                #1 TX_use_node_external <= 0;
+                
+            end
+            RECEIVE_STATE: begin
+                state_counter <= MODE_SWITCHING_STATE;
+                
+                #10000;
+                M0 <= 1;
+                M1 <= 1;
+                
+            end
+            MODE_SWITCHING_STATE: begin
+                state_counter <= CONFIG_STATE;
+                #10000;
+                data_in_mcu_external <= 8'hC0;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'h27;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'h02;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hFF;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'h00;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hAA;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                // Ask transceiver
+                data_in_mcu_external <= 8'hC1;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hC1;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hC1;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+            end
+            CONFIG_STATE: begin
             
-            data_in_mcu_external <= 8'h27;
-            #1 TX_use_mcu_external <= 1;
-            #1 TX_use_mcu_external <= 0;
-            
-            data_in_mcu_external <= 8'h02;
-            #1 TX_use_mcu_external <= 1;
-            #1 TX_use_mcu_external <= 0;
-            
-            data_in_mcu_external <= 8'hFF;
-            #1 TX_use_mcu_external <= 1;
-            #1 TX_use_mcu_external <= 0;
-            
-            data_in_mcu_external <= 8'h00;
-            #1 TX_use_mcu_external <= 1;
-            #1 TX_use_mcu_external <= 0;
-            
-            data_in_mcu_external <= 8'hAA;
-            #1 TX_use_mcu_external <= 1;
-            #1 TX_use_mcu_external <= 0;
-            
-            
-            data_in_mcu_external <= 8'hC4;
-            #1 TX_use_mcu_external <= 1;
-            #1 TX_use_mcu_external <= 0;
-            
-            data_in_mcu_external <= 8'hC4;
-            #1 TX_use_mcu_external <= 1;
-            #1 TX_use_mcu_external <= 0;
-            
-            data_in_mcu_external <= 8'hC4;
-            #1 TX_use_mcu_external <= 1;
-            #1 TX_use_mcu_external <= 0;
-        end
-        else simulate_flag <= 1;
+            end
+        endcase 
     end
 endmodule
