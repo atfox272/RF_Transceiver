@@ -147,7 +147,9 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
 
 ## To-do:
 - Implement✖️: Wake-up mode
-  
+- Implement✖️: Seprerate 512bytes buffer to 2 more pages
+  + Problem: Power comsumption of FIFO is very high (pointer and queue)
+  + Solution: when you use almost over 1 page, next page will enable -> reduce power of module   
 ## Check-List:
 - Mode3               ✔️
 - Mode0_trans         ✔️
