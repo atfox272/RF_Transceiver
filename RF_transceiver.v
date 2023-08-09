@@ -1,6 +1,9 @@
 module RF_transceiver
     #(  // Device parameter
         parameter INTERNAL_CLK = 10000000,
+        // Sleep mode configutation (When you in sleep-mode, module will delay 1 clock cycle to wake-up module)
+        parameter SLEEP_MODE_UART_MCU = 1,  
+        parameter SLEEP_MODE_UART_NODE = 1,
         // UART configuration parament
         parameter UART_CONFIG_WIDTH = 8,
         parameter BAUDRATE_SEL_MSB = 7, // Index of this bit in reg
@@ -29,16 +32,23 @@ module RF_transceiver
         parameter VERSION_PACKET_3 = 8'h27,     // My config
         parameter VERSION_PACKET_4 = 8'h02,     // My config
         // 512bytes FIFO buffer
-        parameter FIFO512_DEPTH = 10'd512,
+//        parameter FIFO512_DEPTH = 10'd63,   
+//      Top parameter for power testing 
+        parameter FIFO512_DEPTH = 10'd63,   
         parameter START_WIRELESS_TRANS_VALUE = 8'd58,   // If data in buffer is up to <58> bytes, wireless transmission will start
-        // Delay unit
-        parameter DELAY_UNIT_CLK = 100,
+        // UART FIFO 
+        parameter FIFO_DEPTH = 3,
+        // State of module encoder (One-hot state-machine encoding)
+        parameter MODULE_IDLE_STATE = 3,    // (wireless_trans and wireless_recei is not woking 
+        parameter MODULE_WTRANS_STATE = 2,  // (wireless_trans is working )
+        parameter MODULE_WRECEIVE_STATE = 1,// (wireless_receiver is working)
+        parameter MODULE_PROGRAM_STATE = 0, // (programed state is working
         // Data
         parameter DATA_WIDTH = 8,
         // Waiting module for 3 times empty transaction
-        parameter END_COUNTER_RX_PACKET = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
+        parameter END_COUNTER_RX_PACKET = 5000,    // count (END_COUNTER - START_COUNTER) clock cycle
         parameter START_COUNTER_RX_PACKET = 0,
-        parameter END_WAITING_SEND_WLESS_DATA = 200000,
+        parameter END_WAITING_SEND_WLESS_DATA = 5000,
         parameter START_COUNTER_SEND_WLESS_DATA = 0,
         parameter END_SELF_CHECKING = 5000,
         // Mode controller
@@ -55,7 +65,7 @@ module RF_transceiver
     // UART-Node
     output TX_node,
     input RX_node,
-    input [UART_CONFIG_WIDTH - 1:0] Node_UART_config,   // TX_node module and RX_node module use same configuration parament
+//    input [UART_CONFIG_WIDTH - 1:0] Node_UART_config,   // TX_node module and RX_node module use same configuration parament
     
     input rst_n
     
@@ -65,8 +75,9 @@ module RF_transceiver
 //    ,output [DATA_WIDTH - 1:0] data_in_uart_mcu_wire
 //    ,output RX_flag_node_wire
 //    ,output TX_use_mcu_wire
-    ,output [1:0] state_counter_mode0_receive_wire
+//    ,output [1:0] state_counter_mode0_receive_wire
 //    ,output RX_flag_mcu_wire 
+    ,output [3:0] state_module_wire
     );
     // Mode controller 
     wire M1_sync;
@@ -90,6 +101,8 @@ module RF_transceiver
     wire RX_use_node;
     wire RX_flag_node;
     wire TX_flag_node;
+    // State of module
+    wire [3:0] state_module;
     
     // AUX controller
     assign AUX = AUX_mode_ctrl & AUX_state_ctrl;
@@ -108,7 +121,10 @@ module RF_transceiver
                 .M0_sync(M0_sync),
                 .rst_n(rst_n)
                 );
-    
+    // Power checking area            
+//    assign M0_sync = 1'b0;
+//    assign M1_sync = 1'b0;
+    //
     // In this block, I will convert SPED_encode_config to my encode config 
     // Baudrate speed 
     assign uart_mcu_my_config_reg[7:5] = uart_mcu_SPED_config_reg[5:3] - 3'b010; 
@@ -122,7 +138,13 @@ module RF_transceiver
     assign uart_mcu_my_config_reg[1:0] = 2'b11; // = 8 bits
     //////////////////////////////////////////////////////////////////////////////
     assign uart_mcu_config_reg = (M1_sync == 1 & M0_sync == 1) ? UART_MCU_MODE3_CONFIG : uart_mcu_my_config_reg;
+    
     // UART to MCU
+    wire TX_mcu_enable;
+    wire RX_mcu_enable;
+    
+    assign RX_mcu_enable = (state_module[MODULE_IDLE_STATE] | state_module[MODULE_WTRANS_STATE] | state_module[MODULE_PROGRAM_STATE]);
+    assign TX_mcu_enable = (state_module[MODULE_WRECEIVE_STATE] | state_module[MODULE_PROGRAM_STATE]);
     com_uart #(
               .UART_CONFIG_WIDTH(UART_CONFIG_WIDTH),
               .BAUDRATE_SEL_MSB(BAUDRATE_SEL_MSB),
@@ -131,7 +153,9 @@ module RF_transceiver
               .PARITY_BIT_CONFIG_MSB(PARITY_BIT_CONFIG_MSB),
               .PARITY_BIT_CONFIG_LSB(PARITY_BIT_CONFIG_LSB),
               .DATA_BIT_CONFIG_MSB(DATA_BIT_CONFIG_MSB),
-              .DATA_BIT_CONFIG_LSB(DATA_BIT_CONFIG_LSB)
+              .DATA_BIT_CONFIG_LSB(DATA_BIT_CONFIG_LSB),
+              .FIFO_DEPTH(FIFO_DEPTH),
+              .SLEEP_MODE(SLEEP_MODE_UART_MCU)
               )uart_to_mcu(
               .clk(internal_clk),
               .TX(TX_mcu),
@@ -144,11 +168,20 @@ module RF_transceiver
               .RX_config_register(uart_mcu_config_reg),
               .data_bus_in(data_in_uart_mcu),
               .data_bus_out(data_out_uart_mcu),
+              .TX_enable(TX_mcu_enable),
+              .RX_enable(RX_mcu_enable),
               .rst_n(rst_n)
               );
     
     
     // UART_node 
+    wire RX_node_enable;
+    wire TX_node_enable;
+    
+    assign RX_node_enable = (state_module[MODULE_IDLE_STATE] | state_module[MODULE_WRECEIVE_STATE]);
+    assign TX_node_enable = (state_module[MODULE_WTRANS_STATE]);
+    
+    wire TX_complete_mcu;   // Send all packet in fifo
     com_uart #(
               .UART_CONFIG_WIDTH(UART_CONFIG_WIDTH),
               .BAUDRATE_SEL_MSB(BAUDRATE_SEL_MSB),
@@ -157,7 +190,9 @@ module RF_transceiver
               .PARITY_BIT_CONFIG_MSB(PARITY_BIT_CONFIG_MSB),
               .PARITY_BIT_CONFIG_LSB(PARITY_BIT_CONFIG_LSB),
               .DATA_BIT_CONFIG_MSB(DATA_BIT_CONFIG_MSB),
-              .DATA_BIT_CONFIG_LSB(DATA_BIT_CONFIG_LSB)
+              .DATA_BIT_CONFIG_LSB(DATA_BIT_CONFIG_LSB),
+              .FIFO_DEPTH(FIFO_DEPTH),
+              .SLEEP_MODE(SLEEP_MODE_UART_NODE)
               )uart_to_node(
               .clk(internal_clk),
               .TX(TX_node),
@@ -166,10 +201,13 @@ module RF_transceiver
               .RX_use(RX_use_node),
               .RX_flag(RX_flag_node),
               .TX_flag(TX_flag_node),
+              .TX_complete(TX_complete_mcu),
               .TX_config_register(TX_UART_NODE_CONFIG),
               .RX_config_register(RX_UART_NODE_CONFIG),
               .data_bus_in(data_in_uart_node),
               .data_bus_out(data_out_uart_node),
+              .TX_enable(TX_node_enable),
+              .RX_enable(RX_node_enable),
               .rst_n(rst_n)
              );
                            
@@ -214,15 +252,18 @@ module RF_transceiver
                                 .uart_mcu_config_reg(uart_mcu_SPED_config_reg),
                                 .TX_use_node(TX_use_node),
                                 .TX_flag_node(TX_flag_node),
+                                .TX_complete_mcu(TX_complete_mcu),
                                 .RX_use_node(RX_use_node),
                                 .RX_flag_node(RX_flag_node),
                                 .data_from_uart_node(data_out_uart_node),
                                 .data_to_uart_node(data_in_uart_node),
                                 .M0_sync(M0_sync),
                                 .M1_sync(M1_sync),
+                                // State of module
+                                .state_module(state_module),
                                 .rst_n(rst_n)
                                 // debug 
-                                ,.state_counter_mode0_receive_wire(state_counter_mode0_receive_wire)
+//                                ,.state_counter_mode0_receive_wire(state_counter_mode0_receive_wire)
                                 );
     // Debug 
 //    assign data_bus_out_node = data_out_uart_node;
@@ -230,4 +271,5 @@ module RF_transceiver
 //    assign data_in_uart_mcu_wire = data_in_uart_mcu;
 //    assign TX_use_mcu_wire = TX_use_mcu;
 //    assign RX_flag_mcu_wire = RX_flag_mcu;
+    assign state_module_wire = state_module;
 endmodule
