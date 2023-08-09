@@ -37,7 +37,7 @@ module RF_transceiver
         parameter FIFO512_DEPTH = 10'd63,   
         parameter START_WIRELESS_TRANS_VALUE = 8'd58,   // If data in buffer is up to <58> bytes, wireless transmission will start
         // UART FIFO 
-        parameter FIFO_DEPTH = 3,
+        parameter FIFO_DEPTH = 7,
         // State of module encoder (One-hot state-machine encoding)
         parameter MODULE_IDLE_STATE = 3,    // (wireless_trans and wireless_recei is not woking 
         parameter MODULE_WTRANS_STATE = 2,  // (wireless_trans is working )
@@ -72,9 +72,9 @@ module RF_transceiver
     // Debug 
     // Add pin out for Testbench
 //    ,output [DATA_WIDTH - 1:0] data_bus_out_node
-//    ,output [DATA_WIDTH - 1:0] data_in_uart_mcu_wire
+    ,output [DATA_WIDTH - 1:0] data_in_uart_mcu_wire
 //    ,output RX_flag_node_wire
-//    ,output TX_use_mcu_wire
+    ,output TX_use_mcu_wire
 //    ,output [1:0] state_counter_mode0_receive_wire
 //    ,output RX_flag_mcu_wire 
     ,output [3:0] state_module_wire
@@ -268,8 +268,8 @@ module RF_transceiver
     // Debug 
 //    assign data_bus_out_node = data_out_uart_node;
 //    assign RX_flag_node_wire = RX_flag_node;
-//    assign data_in_uart_mcu_wire = data_in_uart_mcu;
-//    assign TX_use_mcu_wire = TX_use_mcu;
+    assign data_in_uart_mcu_wire = data_in_uart_mcu;
+    assign TX_use_mcu_wire = TX_use_mcu;
 //    assign RX_flag_mcu_wire = RX_flag_mcu;
     assign state_module_wire = state_module;
 endmodule
