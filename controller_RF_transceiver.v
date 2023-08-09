@@ -374,11 +374,9 @@ module controller_RF_transceiver
                     TX_use_mcu_mode3 <= 0;
                 end
                 RET_CHAN_STATE: begin
-                    state_counter_mode3_return <= WAITING_UART_TRANS_STATE;
+                    state_counter_mode3_return <= SEND_RET_OPTION_STATE;
                     data_to_uart_mcu_mode3 <= OPTION;
                     TX_use_mcu_mode3 <= 0;
-                    // Stop return_clk
-                    return_stop_asyn <= return_start_asyn;
                 end
                 RET_VERSION_STATE_1: begin
                     state_counter_mode3_return <= SEND_RET_VERSION_STATE_2;
@@ -415,6 +413,12 @@ module controller_RF_transceiver
                     state_counter_mode3_return <= RET_CHAN_STATE;
                     TX_use_mcu_mode3 <= 1;
                 end
+                SEND_RET_OPTION_STATE: begin
+                    state_counter_mode3_return <= IDLE_STATE; 
+                    TX_use_mcu_mode3 <= 1;
+                    // Stop return clock
+                    return_stop_asyn <= return_start_asyn;
+                end
                 SEND_RET_VERSION_STATE_1: begin
                     state_counter_mode3_return <= RET_VERSION_STATE_1;
                     TX_use_mcu_mode3 <= 1;
@@ -428,7 +432,7 @@ module controller_RF_transceiver
                     TX_use_mcu_mode3 <= 1;
                 end        
                 SEND_RET_VERSION_STATE_4: begin
-                    state_counter_mode3_return <= WAITING_UART_TRANS_STATE; 
+                    state_counter_mode3_return <= IDLE_STATE; 
                     TX_use_mcu_mode3 <= 1;
                     // Stop return clock
                     return_stop_asyn <= return_start_asyn;
