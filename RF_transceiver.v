@@ -1,6 +1,8 @@
 module RF_transceiver
     #(  // Device parameter
-        parameter INTERNAL_CLK = 10000000,
+        parameter INTERNAL_CLK = 50000000,
+        // DEVICE_CLOCK_DIV4800 = INTERNAL_CLK / (DEVICE_CLOCK_DIV4800 * 256)
+        parameter CLOCK_DIVIDER_UART = 21,
         // Sleep mode configutation (When you in sleep-mode, module will delay 1 clock cycle to wake-up module)
         parameter SLEEP_MODE_UART_MCU = 1,  
         parameter SLEEP_MODE_UART_NODE = 1,
@@ -34,10 +36,10 @@ module RF_transceiver
         // 512bytes FIFO buffer
 //        parameter FIFO512_DEPTH = 10'd63,   
 //      Top parameter for power testing 
-        parameter FIFO512_DEPTH = 10'd63,   
+        parameter FIFO512_DEPTH = 10'd512,   
         parameter START_WIRELESS_TRANS_VALUE = 8'd58,   // If data in buffer is up to <58> bytes, wireless transmission will start
         // UART FIFO 
-        parameter FIFO_DEPTH = 7,
+        parameter FIFO_DEPTH = 3'd7,
         // State of module encoder (One-hot state-machine encoding)
         parameter MODULE_IDLE_STATE = 3,    // (wireless_trans and wireless_recei is not woking 
         parameter MODULE_WTRANS_STATE = 2,  // (wireless_trans is working )
@@ -46,12 +48,14 @@ module RF_transceiver
         // Data
         parameter DATA_WIDTH = 8,
         // Waiting module for 3 times empty transaction
-        parameter END_COUNTER_RX_PACKET = 5000,    // count (END_COUNTER - START_COUNTER) clock cycle
+        //        <divider_name>  = <divider_value>
+        // waiting_time = (<divider_value> * 2) / INTERNAL_CLK
+        parameter END_COUNTER_RX_PACKET = 26041,        // 3 transaction time 
         parameter START_COUNTER_RX_PACKET = 0,
-        parameter END_WAITING_SEND_WLESS_DATA = 5000,
+        parameter END_WAITING_SEND_WLESS_DATA = 125000, // 2-3ms
         parameter START_COUNTER_SEND_WLESS_DATA = 0,
-        parameter END_SELF_CHECKING = 5000,
-        // Mode controller
+        parameter END_SELF_CHECKING = 5000,             // No information (Assume: 
+        // Mode controller  
         parameter DEFAULT_MODE = 3
     )
     (
@@ -72,12 +76,12 @@ module RF_transceiver
     // Debug 
     // Add pin out for Testbench
 //    ,output [DATA_WIDTH - 1:0] data_bus_out_node
-    ,output [DATA_WIDTH - 1:0] data_in_uart_mcu_wire
-//    ,output RX_flag_node_wire
-    ,output TX_use_mcu_wire
-//    ,output [1:0] state_counter_mode0_receive_wire
-//    ,output RX_flag_mcu_wire 
-    ,output [3:0] state_module_wire
+//    ,output [DATA_WIDTH - 1:0] data_in_uart_mcu_wire
+////    ,output RX_flag_node_wire
+//    ,output TX_use_mcu_wire
+////    ,output [1:0] state_counter_mode0_receive_wire
+////    ,output RX_flag_mcu_wire 
+//    ,output [3:0] state_module_wire
     );
     // Mode controller 
     wire M1_sync;
@@ -146,6 +150,7 @@ module RF_transceiver
     assign RX_mcu_enable = (state_module[MODULE_IDLE_STATE] | state_module[MODULE_WTRANS_STATE] | state_module[MODULE_PROGRAM_STATE]);
     assign TX_mcu_enable = (state_module[MODULE_WRECEIVE_STATE] | state_module[MODULE_PROGRAM_STATE]);
     com_uart #(
+              .CLOCK_DIVIDER(CLOCK_DIVIDER_UART),
               .UART_CONFIG_WIDTH(UART_CONFIG_WIDTH),
               .BAUDRATE_SEL_MSB(BAUDRATE_SEL_MSB),
               .BAUDRATE_SEL_LSB(BAUDRATE_SEL_LSB),
@@ -183,6 +188,7 @@ module RF_transceiver
     
     wire TX_complete_mcu;   // Send all packet in fifo
     com_uart #(
+              .CLOCK_DIVIDER(CLOCK_DIVIDER_UART),
               .UART_CONFIG_WIDTH(UART_CONFIG_WIDTH),
               .BAUDRATE_SEL_MSB(BAUDRATE_SEL_MSB),
               .BAUDRATE_SEL_LSB(BAUDRATE_SEL_LSB),
@@ -268,8 +274,8 @@ module RF_transceiver
     // Debug 
 //    assign data_bus_out_node = data_out_uart_node;
 //    assign RX_flag_node_wire = RX_flag_node;
-    assign data_in_uart_mcu_wire = data_in_uart_mcu;
-    assign TX_use_mcu_wire = TX_use_mcu;
+//    assign data_in_uart_mcu_wire = data_in_uart_mcu;
+//    assign TX_use_mcu_wire = TX_use_mcu;
 //    assign RX_flag_mcu_wire = RX_flag_mcu;
-    assign state_module_wire = state_module;
+//    assign state_module_wire = state_module;
 endmodule
