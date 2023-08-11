@@ -47,6 +47,7 @@ module controller_RF_transceiver
         parameter COUNTER_FIFO512_WIDTH = $clog2(FIFO512_DEPTH + 1),
         parameter START_WIRELESS_TRANS_VALUE = 58,        
         parameter COUNTER_58BYTES_WIDTH = $clog2(START_WIRELESS_TRANS_VALUE + 1),
+        parameter COUNTER_START_TRANS_WIDTH = $clog2(COUNTER_58BYTES_WIDTH + 1),
         // Waiting module for 3 times empty transaction
         parameter END_COUNTER_RX_PACKET = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
         parameter START_COUNTER_RX_PACKET = 0,
@@ -80,7 +81,7 @@ module controller_RF_transceiver
     input   wire rst_n
     
     // debug 
-    ,output [1:0] state_counter_mode0_receive_wire
+//    ,output [1:0] state_counter_mode0_receive_wire
     );
     // Configuartion register 
     reg [TRANSACTION_WIDTH - 1:0] HEAD;
@@ -109,8 +110,7 @@ module controller_RF_transceiver
     // Synchronous enable flag of return_config instruction
     // Mode 0 controller 
     wire mode0_en = (M0_sync == 0) & (M1_sync == 0);
-    // Module is receiving (mode 0 or 1) -> AUX is LOW (state of module)
-    wire [COUNTER_FIFO512_WIDTH - 1:0] counter_buffer_512byte;    
+    // Module is receiving (mode 0 or 1) -> AUX is LOW (state of module)  
     wire start_wireless_trans_cond_1;
     // 512bytes Buffer 
     wire buffer_512bytes_full;
@@ -483,13 +483,14 @@ module controller_RF_transceiver
     fifo_module     #(
                     .DEPTH(FIFO512_DEPTH),
                     .WIDTH(DATA_WIDTH),
+                    .LIMIT_COUNTER(START_WIRELESS_TRANS_VALUE),
                     .SLEEP_MODE(1'b1)
                     )buffer_512bytes(
                     .data_bus_in(data_from_uart_mcu),
                     .data_bus_out(data_to_uart_node),
                     .write_ins(RX_flag_mcu),
                     .read_ins(TX_use_node),
-                    .counter_elem(counter_buffer_512byte),
+                    .reach_limit(start_wireless_trans_cond_1),
                     .enable(wireless_trans_enable),
                     .full(buffer_512bytes_full),
                     .empty(buffer_512bytes_empty),
@@ -517,7 +518,6 @@ module controller_RF_transceiver
     reg wireless_trans_start;
     reg wireless_trans_stop;
     wire wireless_trans_en;     // IDLE state of wireless_trans_en is HIGH
-    assign start_wireless_trans_cond_1 = (counter_buffer_512byte >= START_WIRELESS_TRANS_VALUE);
     assign start_wireless_trans_cond = start_wireless_trans_cond_1 | start_wireless_trans_cond_2;
     assign wireless_trans_en = wireless_trans_start ^ wireless_trans_stop;
     always @(posedge wireless_trans_clk, negedge rst_n) begin
@@ -716,6 +716,8 @@ module controller_RF_transceiver
     assign state_module[MODULE_WRECEIVE_STATE] = wireless_receiver_enable;
     assign state_module[MODULE_PROGRAM_STATE] = (mode_controller == MODE_3);
 
+    assign TX_use_mcu = (mode_controller == MODE_0) ? TX_use_mcu_mode0 : TX_use_mcu_mode3;
+    assign data_to_uart_mcu = (mode_controller == MODE_0) ? data_to_uart_mcu_mode0 : data_to_uart_mcu_mode3;
 //        parameter MODULE_IDLE_STATE = 3,    // (wireless_trans and wireless_recei is not woking 
 //        parameter MODULE_WTRANS_STATE = 2,  // (wireless_trans is working )
 //        parameter MODULE_WRECEIVE_STATE = 1,// (wireless_receiver is working)
@@ -727,8 +729,5 @@ module controller_RF_transceiver
 //        assign state_module = 4'b0010;
         // Power checking (programmed state)
 //        assign state_module = 4'b1000;
-//     Test mode3 ////////////////////////
-    assign TX_use_mcu = (mode_controller == MODE_0) ? TX_use_mcu_mode0 : TX_use_mcu_mode3;
-    assign data_to_uart_mcu = (mode_controller == MODE_0) ? data_to_uart_mcu_mode0 : data_to_uart_mcu_mode3;
-    assign state_counter_mode0_receive_wire = waiting_pulse;
+
 endmodule
