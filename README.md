@@ -91,6 +91,13 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
 #### a. Block diagram:
   ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/5eea0832-2c29-4782-acb8-bfda7a8f83de)
 
+### Working-block of each state:
+  ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/17bacdf4-3eed-4112-9bb7-50ef296d87f7)
+  ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/d5c463a2-d44b-42e9-a349-ad701235a8a4)
+
+### Pin assignment (Top view):
+  ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/aa0b8a7f-593e-4b19-bd61-995ae7ac599b)
+
 
 #### a. Implement MODE 3 (configuration mode): 
 - Transaction format: 9600 - 8N1 (8bits - no parity - 1bit stop)
