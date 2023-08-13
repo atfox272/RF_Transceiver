@@ -154,9 +154,10 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
 
 ## To-do:
 - Implement✖️: Wake-up mode
-- Implement✖️: Seprerate 512bytes buffer to 2 more pages
+- Implement✔️: Seprerate 512bytes buffer to 2 more pages
   + Problem: Power comsumption of FIFO is very high (pointer and queue)
-  + Solution: when you use almost over 1 page, next page will enable -> reduce power of module   
+  + Solution: when you use almost over 1 page, next page will enable -> reduce power of module
+- Implement✖️: Baudrate 115200 | Re-calculate waiting_value (waiting for start wireless_transmission)  
 ## Check-List:
 - Mode3               ✔️
 - Mode0_trans         ✔️
@@ -166,9 +167,11 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
 - Mode1_wakeup        ✖️  (preamble code?)
 - Mode2_powersaving   ✖️  (preamble code?)
 - On FPGA             ✖️
-## Config requirement:
-- Config waiting time of sending wireless-packet to MCU (Default: 5ms) must be more than 2-transaction time
-- Config 
+## Debugging:
+- Modify FIFO_DEPTH of UART from 7 -> 15
+- Modify END_COUNTER_RX_PACKET to debug state_module
+- Modify TX_node_enable to always == 1, 
+  + Bug: When controller turn TX_node module to Sleep mode, TX_node module hasn't finished last transaction yet
 ## Experiences distilled:
 - When you build state-machine to replace for programmed-MCU, you should seperate "_controller_" in "Block Diagram" into sub-modules _as more as possible_
 - When you have drawn block diagram with highest-level of abstraction completely. After that you implement and a block seem to still be hard (can't specify it) to implement, you should seperate this block into some blocks, which in next level of abstraction (just == highest-level - 1)
