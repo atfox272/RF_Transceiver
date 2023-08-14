@@ -4,29 +4,21 @@ module controller_RF_transceiver
         parameter DATA_WIDTH = 8,
         // UART configuration parament
         parameter UART_CONFIG_WIDTH = 8,
-        parameter BAUDRATE_SEL_MSB = 7, // Index of this bit in reg
-        parameter BAUDRATE_SEL_LSB = 5, // Index of this bit in reg
-        parameter STOP_BIT_CONFIG = 4, // Index of this bit in reg
-        parameter PARITY_BIT_CONFIG_MSB = 3, // Index of this bit in reg
-        parameter PARITY_BIT_CONFIG_LSB = 2, // Index of this bit in reg
-        parameter DATA_BIT_CONFIG_MSB = 1, // Index of this bit in reg
-        parameter DATA_BIT_CONFIG_LSB = 0, // Index of this bit in reg
-        parameter TX_USE_IDLE_STATE = 0,
         // Transaction
         parameter TRANSACTION_WIDTH = 8,
         // INIT parameter setting command buffer  
-        parameter INIT_BUFFER_HEAD = {8{1'b0}},
-        parameter INIT_BUFFER_ADDH = {8{1'b0}},
-        parameter INIT_BUFFER_ADDL = {8{1'b0}},
-        parameter INIT_BUFFER_SPED = 8'b00011000,   // 8N1 - 9600
-        parameter INIT_BUFFER_CHAN = {8{1'b0}},
-        parameter INIT_BUFFER_OPTION = {8{1'b0}},
+        parameter INIT_BUFFER_HEAD      = {8{1'b0}},
+        parameter INIT_BUFFER_ADDH      = {8{1'b0}},
+        parameter INIT_BUFFER_ADDL      = {8{1'b0}},
+        parameter INIT_BUFFER_SPED      = 8'b00011000,   // 8N1 - 9600
+        parameter INIT_BUFFER_CHAN      = {8{1'b0}},
+        parameter INIT_BUFFER_OPTION    = {8{1'b0}},
         // Detect Instruction
-        parameter HEAD_DETECT_1 = 8'hC0,        // Load config
-        parameter HEAD_DETECT_2 = 8'hC2,        // 
+        parameter HEAD_DETECT_1     = 8'hC0,        // Load config
+        parameter HEAD_DETECT_2     = 8'hC2,        // 
         parameter RET_CONFIG_DETECT = 8'hC1,    // Return config
-        parameter RET_VERSION_DETECT = 8'hC3,    // Return version
-        parameter RESET_DETECT = 8'hC4,
+        parameter RET_VERSION_DETECT= 8'hC3,    // Return version
+        parameter RESET_DETECT      = 8'hC4,
         // Version
         parameter VERSION_PACKET_1 = 8'hC3,     // Format (default)
         parameter VERSION_PACKET_2 = 8'h32,     // Format (default)
@@ -38,22 +30,23 @@ module controller_RF_transceiver
         parameter MODE_2 = 2,
         parameter MODE_3 = 3,
         // State of module encoder (One-hot state-machine encoding)
-        parameter MODULE_IDLE_STATE = 3,    // (wireless_trans and wireless_recei is not woking 
-        parameter MODULE_WTRANS_STATE = 2,  // (wireless_trans is working )
+        parameter MODULE_IDLE_STATE     = 3,    // (wireless_trans and wireless_recei is not woking 
+        parameter MODULE_WTRANS_STATE   = 2,  // (wireless_trans is working )
         parameter MODULE_WRECEIVE_STATE = 1,// (wireless_receiver is working)
-        parameter MODULE_PROGRAM_STATE = 0, // (programed state is working
+        parameter MODULE_PROGRAM_STATE  = 0, // (programed state is working
         // 512bytes FIFO buffer
-        parameter FIFO512_DEPTH = 512,
-        parameter COUNTER_FIFO512_WIDTH = $clog2(FIFO512_DEPTH + 1),
-        parameter START_WIRELESS_TRANS_VALUE = 58,        
-        parameter COUNTER_58BYTES_WIDTH = $clog2(START_WIRELESS_TRANS_VALUE + 1),
+        parameter FIFO512_DEPTH         = 512,
+        parameter FIFO512_COUNTER_WIDTH = $clog2(FIFO512_DEPTH + 1),
+//        parameter COUNTER_FIFO512_WIDTH = $clog2(FIFO512_DEPTH + 1),
+        parameter START_WIRELESS_TRANS_VALUE= 8'd57,        
+        parameter COUNTER_58BYTES_WIDTH     = $clog2(START_WIRELESS_TRANS_VALUE + 1),
         parameter COUNTER_START_TRANS_WIDTH = $clog2(COUNTER_58BYTES_WIDTH + 1),
         // Waiting module for 3 times empty transaction
-        parameter END_COUNTER_RX_PACKET = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
-        parameter START_COUNTER_RX_PACKET = 0,
-        parameter END_WAITING_SEND_WLESS_DATA = 20000,
+        parameter END_COUNTER_RX_PACKET         = 500000,    // count (END_COUNTER - START_COUNTER) clock cycle
+        parameter START_COUNTER_RX_PACKET       = 0,
+        parameter END_WAITING_SEND_WLESS_DATA   = 20000,
         parameter START_COUNTER_SEND_WLESS_DATA = 0,
-        parameter END_SELF_CHECKING = 10000
+        parameter END_SELF_CHECKING             = 10000
     )
     (
     input   wire internal_clk,
@@ -480,12 +473,14 @@ module controller_RF_transceiver
             if(state_counter_wireless_trans == IDLE_STATE) wireless_trans_enable_stop <= wireless_trans_enable_start;
         end
     end
-    fifo_module     #(
+    fifo_ram_module #(
                     .DEPTH(FIFO512_DEPTH),
                     .WIDTH(DATA_WIDTH),
+                    .COUNTER_WIDTH(FIFO512_COUNTER_WIDTH),
                     .LIMIT_COUNTER(START_WIRELESS_TRANS_VALUE),
                     .SLEEP_MODE(1'b1)
                     )buffer_512bytes(
+                    .clk(internal_clk),
                     .data_bus_in(data_from_uart_mcu),
                     .data_bus_out(data_to_uart_node),
                     .write_ins(RX_flag_mcu),
@@ -529,10 +524,10 @@ module controller_RF_transceiver
         else begin
             case(state_counter_wireless_trans)
                 IDLE_STATE: begin
-                    if(!buffer_512bytes_empty) begin
+//                    if(!buffer_512bytes_empty) begin
                         state_counter_wireless_trans <= START_READ_STATE;
-                    end
-                    else state_counter_wireless_trans <= IDLE_STATE;
+//                    end
+//                    else state_counter_wireless_trans <= IDLE_STATE;
                 end
                 START_READ_STATE: begin
                     if(start_wireless_trans_cond) begin
@@ -639,11 +634,13 @@ module controller_RF_transceiver
     localparam SEND_ALL_STATE = 3; 
     
     assign TX_use_mcu_mode0 = (state_counter_wireless_receive == SEND_WIRELESS_DATA_STATE) & TX_flag_mcu;
-    fifo_module     #(
+    fifo_ram_module     #(
                     .DEPTH(FIFO512_DEPTH),
                     .WIDTH(DATA_WIDTH),
+                    .COUNTER_WIDTH(FIFO512_COUNTER_WIDTH),
                     .SLEEP_MODE(1'b1)
                     )buffer_wireless_receiver(
+                    .clk(internal_clk),
                     .data_bus_in(data_from_uart_node),
                     .data_bus_out(data_to_uart_mcu_mode0),
                     .write_ins(RX_flag_node),
@@ -710,7 +707,7 @@ module controller_RF_transceiver
         end
     end
     
-    // One-hot encoding    
+    // One-hot FSM    
     assign state_module[MODULE_IDLE_STATE] = ~(wireless_trans_enable | wireless_receiver_enable | (mode_controller == MODE_3)); // IDLE state is always HIGH, when ohter bits is LOW
     assign state_module[MODULE_WTRANS_STATE] = wireless_trans_enable;
     assign state_module[MODULE_WRECEIVE_STATE] = wireless_receiver_enable;
@@ -718,10 +715,7 @@ module controller_RF_transceiver
 
     assign TX_use_mcu = (mode_controller == MODE_0) ? TX_use_mcu_mode0 : TX_use_mcu_mode3;
     assign data_to_uart_mcu = (mode_controller == MODE_0) ? data_to_uart_mcu_mode0 : data_to_uart_mcu_mode3;
-//        parameter MODULE_IDLE_STATE = 3,    // (wireless_trans and wireless_recei is not woking 
-//        parameter MODULE_WTRANS_STATE = 2,  // (wireless_trans is working )
-//        parameter MODULE_WRECEIVE_STATE = 1,// (wireless_receiver is working)
-//        parameter MODULE_PROGRAM_STATE = 0, // (programed state is working
+
         
         // Power checking (wireless_receiver is on)
 //        assign state_module = 4'b0100;
