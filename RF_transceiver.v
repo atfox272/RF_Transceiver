@@ -1,8 +1,10 @@
 module RF_transceiver
     #(  // Device parameter
-        parameter INTERNAL_CLK = 125000000,
+        parameter INTERNAL_CLK = 50000000,
         // CLOCK_DIVIDER_UART = INTERNAL_CLK / ((9600 * 256) * 2)
-        parameter CLOCK_DIVIDER_UART = 51,
+        parameter CLOCK_DIVIDER_UART = 21,
+        parameter CLOCK_DIVIDER_UNIQUE_1 =  218,    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
+        parameter CLOCK_DIVIDER_UNIQUE_2 =  2605,   // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (9600)
         // Sleep mode configutation (When you in sleep-mode, module will delay 1 clock cycle to wake-up module)
         parameter SLEEP_MODE_UART_MCU   = 1,  
         parameter SLEEP_MODE_UART_NODE  = 1,
@@ -46,11 +48,11 @@ module RF_transceiver
         //        <divider_name>  = <divider_value>
         // waiting_time = (<divider_value> * 2) / INTERNAL_CLK
 //        parameter END_COUNTER_RX_PACKET = 1627,        // 3 transaction time (for 115.200)
-        parameter END_COUNTER_RX_PACKET         = 16276, // 3 transaction time (for 9600)
+        parameter END_COUNTER_RX_PACKET         = 6511, // 3 transaction time (for 9600)
         parameter START_COUNTER_RX_PACKET       = 0,
-        parameter END_WAITING_SEND_WLESS_DATA   = 156250, // 2-3ms
+        parameter END_WAITING_SEND_WLESS_DATA   = 625000, // 2-3ms
         parameter START_COUNTER_SEND_WLESS_DATA = 0,
-        parameter END_SELF_CHECKING             = 78125,  // No information (Assume: 1.25ms)
+        parameter END_SELF_CHECKING             = 31250,  // No information (Assume: 12.5ms)
         // Mode controller  
         parameter DEFAULT_MODE = 3
     )
@@ -70,7 +72,7 @@ module RF_transceiver
     
     // Debug 
     
-    ,output reg [3:0]   state_module_wire
+//    ,output wire [3:0]  state_module_wire
     // Add pin out for Testbench
 //    ,output [DATA_WIDTH - 1:0] data_bus_out_node
 ////    ,output RX_flag_node_wire
@@ -109,6 +111,7 @@ module RF_transceiver
     
     // AUX controller
     assign AUX = AUX_mode_ctrl & AUX_state_ctrl;
+//    assign AUX = AUX_mode_ctrl;
     
     // Mode controller
     mode_controller_RF_transceiver 
@@ -150,6 +153,8 @@ module RF_transceiver
     assign TX_mcu_enable = (state_module[MODULE_WRECEIVE_STATE] | state_module[MODULE_PROGRAM_STATE]);
     com_uart #(
               .CLOCK_DIVIDER(CLOCK_DIVIDER_UART),
+              .CLOCK_DIVIDER_UNIQUE_1(CLOCK_DIVIDER_UNIQUE_1),
+              .CLOCK_DIVIDER_UNIQUE_2(CLOCK_DIVIDER_UNIQUE_2),
               .FIFO_DEPTH(FIFO_DEPTH),
               .SLEEP_MODE(SLEEP_MODE_UART_MCU)
               )uart_to_mcu(
@@ -181,6 +186,8 @@ module RF_transceiver
     
     com_uart #(
               .CLOCK_DIVIDER(CLOCK_DIVIDER_UART),
+              .CLOCK_DIVIDER_UNIQUE_1(CLOCK_DIVIDER_UNIQUE_1),
+              .CLOCK_DIVIDER_UNIQUE_2(CLOCK_DIVIDER_UNIQUE_2),
               .FIFO_DEPTH(FIFO_DEPTH),
               .SLEEP_MODE(SLEEP_MODE_UART_NODE)
               )uart_to_node(
