@@ -621,6 +621,7 @@ module controller_RF_transceiver
             if(RX_flag_node_sync) wireless_receiver_enable_start <= ~wireless_receiver_enable_stop;
         end
     end       
+    
     always @(negedge wakeup_wireless_receiver_clk, negedge rst_n) begin
         if(!rst_n) begin
             wireless_receiver_enable_stop  <= 0;
@@ -634,7 +635,8 @@ module controller_RF_transceiver
     localparam SEND_ALL_STATE = 3; 
     
     assign TX_use_mcu_mode0 = (state_counter_wireless_receive == SEND_WIRELESS_DATA_STATE) & TX_flag_mcu;
-    fifo_ram_module     #(
+    fifo_ram_module     
+                    #(
                     .DEPTH(FIFO512_DEPTH),
                     .WIDTH(DATA_WIDTH),
                     .COUNTER_WIDTH(FIFO512_COUNTER_WIDTH),
@@ -680,10 +682,10 @@ module controller_RF_transceiver
         else begin
             case(state_counter_wireless_receive) 
                 IDLE_STATE: begin
-                    if(!buffer_wireless_receiver_empty) begin
+//                    if(!buffer_wireless_receiver_empty) begin
                         state_counter_wireless_receive <= START_RECEIVE_STATE;
-                    end
-                    else state_counter_wireless_receive <= IDLE_STATE;
+//                    end
+//                    else state_counter_wireless_receive <= IDLE_STATE;
                 end
                 START_RECEIVE_STATE: begin
                     if(start_send_wireless_data_cond) begin
