@@ -1,12 +1,12 @@
 module waiting_module
     #(
-    parameter END_COUNTER = 100,
+    parameter END_COUNTER = 156250,
     parameter START_COUNTER = 0,
     parameter WAITING_TYPE = 0, // 0: Counting HIGH or LOW pulse
                                 // 1: Counting between "start" and "stop" 
     parameter LEVEL_PULSE = 1,  // 0: count when LOW level
                                 // 1: count when HIGH level                           
-    localparam LIMIT_COUNTER_WIDTH = $clog2(END_COUNTER)
+    parameter LIMIT_COUNTER_WIDTH = $clog2(END_COUNTER)
     )
     (
     input clk,
@@ -16,7 +16,7 @@ module waiting_module
     input rst_n,
     output reg reach_limit
     // Debug 
-    ,output [LIMIT_COUNTER_WIDTH - 1:0] counter_wire
+//    ,output [LIMIT_COUNTER_WIDTH - 1:0] counter_wire
     );
     reg [LIMIT_COUNTER_WIDTH - 1:0] counter;
     reg start_counting_sync;
@@ -38,80 +38,81 @@ module waiting_module
         
     end
     
-    if(WAITING_TYPE) begin
-        localparam IDLE_STATE = 0;
-        localparam COUNTING_STATE = 1;
-        localparam STOP_STATE = 2;
-        always @(posedge clk, negedge rst_n) begin
-            if(!rst_n) begin
-                counter <= START_COUNTER;
-                state_counter <= IDLE_STATE;
-                reach_limit <= 0;
-            end
-            else begin
-                case(state_counter)
-                    IDLE_STATE: begin
-                        if(start_counting_sync) begin
-                            state_counter <= COUNTING_STATE;
-                            counter <= counter + 1;
-                        end
-                        reach_limit <= 0;
-                    end
-                    COUNTING_STATE: begin
-                        if(rst_counting_sync) begin
-                            state_counter <= IDLE_STATE;
-                            counter <= START_COUNTER;
-                        end
-                        else if(counter == END_COUNTER) begin
-                            state_counter <= IDLE_STATE;
-                            counter <= START_COUNTER;
-                            reach_limit <= 1;
-                        end
-                        else if(stop_counting_sync) begin
-                            state_counter <= STOP_STATE;
-                        end 
-                        else counter <= counter + 1; 
-                    end
-                    STOP_STATE: begin
-                        if(rst_counting_sync) begin
-                            state_counter <= IDLE_STATE;
-                            counter <= START_COUNTER;
-                        end
-                        else if(start_counting_sync) begin
-                            state_counter <= COUNTING_STATE;
-                            counter <= counter + 1;
-                        end
-                    end
-                    
-                endcase 
-            end
-        end
-    end
-    else begin
-        always @(posedge clk, negedge rst_n) begin
-            if(!rst_n) begin
-                counter <= START_COUNTER;
-                reach_limit <= 0;
-            end
-            else begin
-                if(start_counting == LEVEL_PULSE) begin
-                    if(counter == END_COUNTER) begin
-                        counter <= START_COUNTER;
-                        reach_limit <= 1;
-                    end 
-                    else begin
-                        counter <= counter + 1;
-                        reach_limit <= 0;
-                    end
+	generate
+        if(WAITING_TYPE) begin
+            localparam IDLE_STATE = 0;
+            localparam COUNTING_STATE = 1;
+            localparam STOP_STATE = 2;
+            always @(posedge clk, negedge rst_n) begin
+                if(!rst_n) begin
+                    counter <= START_COUNTER;
+                    state_counter <= IDLE_STATE;
+                    reach_limit <= 0;
                 end
                 else begin
+                    case(state_counter)
+                        IDLE_STATE: begin
+                            if(start_counting_sync) begin
+                                state_counter <= COUNTING_STATE;
+                                counter <= counter + 1;
+                            end
+                            reach_limit <= 0;
+                        end
+                        COUNTING_STATE: begin
+                            if(rst_counting_sync) begin
+                                state_counter <= IDLE_STATE;
+                                counter <= START_COUNTER;
+                            end
+                            else if(counter == END_COUNTER) begin
+                                state_counter <= IDLE_STATE;
+                                counter <= START_COUNTER;
+                                reach_limit <= 1;
+                            end
+                            else if(stop_counting_sync) begin
+                                state_counter <= STOP_STATE;
+                            end 
+                            else counter <= counter + 1; 
+                        end
+                        STOP_STATE: begin
+                            if(rst_counting_sync) begin
+                                state_counter <= IDLE_STATE;
+                                counter <= START_COUNTER;
+                            end
+                            else if(start_counting_sync) begin
+                                state_counter <= COUNTING_STATE;
+                                counter <= counter + 1;
+                            end
+                        end
+                        
+                    endcase 
+                end
+            end
+        end
+        else begin
+            always @(posedge clk, negedge rst_n) begin
+                if(!rst_n) begin
                     counter <= START_COUNTER;
                     reach_limit <= 0;
                 end
+                else begin
+                    if(start_counting == LEVEL_PULSE) begin
+                        if(counter == END_COUNTER) begin
+                            counter <= START_COUNTER;
+                            reach_limit <= 1;
+                        end 
+                        else begin
+                            counter <= counter + 1;
+                            reach_limit <= 0;
+                        end
+                    end
+                    else begin
+                        counter <= START_COUNTER;
+                        reach_limit <= 0;
+                    end
+                end
             end
         end
-    end
-        
+    endgenerate
     // debug area
-    assign counter_wire = counter;
+//    assign counter_wire = counter;
 endmodule
