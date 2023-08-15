@@ -40,16 +40,18 @@ module fifo_ram_module
     reg [COUNTER_WIDTH - 1:0] front_addr;
     reg [COUNTER_WIDTH - 1:0] rear_addr;
     
-    if(SLEEP_MODE) begin
-        assign clk_en = (!enable) ? 1'b0 : clk;
-        assign read_ins_en = (empty | !enable) ? 1'b0 : read_ins;
-        assign write_ins_en = (full | !enable) ? 1'b0 : write_ins;
-    end
-    else begin
-        assign clk_en = clk;
-        assign read_ins_en = (empty) ? 1'b0 : read_ins;
-        assign write_ins_en = (full) ? 1'b0 : write_ins;
-    end
+    generate 
+        if(SLEEP_MODE) begin
+            assign clk_en = (!enable) ? 1'b0 : clk;
+            assign read_ins_en = (empty | !enable) ? 1'b0 : read_ins;
+            assign write_ins_en = (full | !enable) ? 1'b0 : write_ins;
+        end
+        else begin
+            assign clk_en = clk;
+            assign read_ins_en = (empty) ? 1'b0 : read_ins;
+            assign write_ins_en = (full) ? 1'b0 : write_ins;
+        end
+    endgenerate
     
     ram_module #(
                 .DATA_WIDTH(WIDTH),
@@ -70,12 +72,14 @@ module fifo_ram_module
     assign empty = (front_addr == (rear_addr + 1));     
     assign full = (rear_addr - front_addr) == (DEPTH - 1);   
     
-    if(LIMIT_COUNTER == DEPTH) begin
-        assign reach_limit = full;
-    end          
-    else begin
-        assign reach_limit = (rear_addr - front_addr) == (LIMIT_COUNTER - 1);
-    end
+    generate
+        if(LIMIT_COUNTER == DEPTH) begin
+            assign reach_limit = full;
+        end          
+        else begin
+            assign reach_limit = (rear_addr - front_addr) == (LIMIT_COUNTER - 1);
+        end
+    endgenerate
     
     // Address management        
     always @(posedge flag_rd, negedge rst_n) begin
