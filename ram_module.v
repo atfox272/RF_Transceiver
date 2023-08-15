@@ -146,14 +146,18 @@ module ram_module
             endcase 
         end
     end 
-    for(genvar i = 0; i < ADDR_DEPTH; i = i + 1) begin
-        assign reg_clk[i] = (addr_wr_buf == i) ? wr_clk : 1'b0;
-        always @(posedge reg_clk[i], negedge rst_n) begin
-            if(!rst_n) registers[i] <= DEFAULT_DATA;
-            else begin
-                registers[i] <= data_bus_wr_buf;
+    
+    genvar i;
+    generate
+        for(i = 0; i < ADDR_DEPTH; i = i + 1) begin : register_selector_block
+            assign reg_clk[i] = (addr_wr_buf == i) ? wr_clk : 1'b0;
+            always @(posedge reg_clk[i], negedge rst_n) begin
+                if(!rst_n) registers[i] <= DEFAULT_DATA;
+                else begin
+                    registers[i] <= data_bus_wr_buf;
+                end
             end
         end
-    end
+    endgenerate
     
 endmodule
