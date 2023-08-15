@@ -12,22 +12,22 @@ module fifo_module
         parameter DEPTH_ALIGN      = DEPTH + 1
      )(
     // Clock for synchronous fifo
-    input clk,
+    input   wire                clk,
     // Data
-    input [WIDTH - 1:0]         data_bus_in,
-    output [WIDTH - 1:0]        data_bus_out,
+    input   wire    [WIDTH - 1:0]   data_bus_in,
+    output  wire    [WIDTH - 1:0]   data_bus_out,
     // Instruction
-    input               write_ins,
-    input               read_ins,
+    input   wire                    write_ins,
+    input   wire                    read_ins,
     // State 
-    output              full,
-    output              empty,
+    output  wire                    full,
+    output  wire                    empty,
     // Option feature
-    output reach_limit,
+    output  wire                    reach_limit,
     // Enable pin
-    input enable,
+    input   wire                    enable,
     // Reset 
-    input               rst_n
+    input   wire                    rst_n
     );
     
     localparam init_buffer = 8'h00;
@@ -40,14 +40,16 @@ module fifo_module
     wire read_ins_sleepmode;
     wire write_ins_sleepmode;
     
-    if(SLEEP_MODE) begin
-        assign read_ins_sleepmode = (enable) ? read_ins : 1'b0;
-        assign write_ins_sleepmode = (enable) ? write_ins : 1'b0;
-    end
-    else begin
-        assign read_ins_sleepmode = read_ins;
-        assign write_ins_sleepmode = write_ins;
-    end
+	generate
+        if(SLEEP_MODE) begin
+            assign read_ins_sleepmode = (enable) ? read_ins : 1'b0;
+            assign write_ins_sleepmode = (enable) ? write_ins : 1'b0;
+        end
+        else begin
+            assign read_ins_sleepmode = read_ins;
+            assign write_ins_sleepmode = write_ins;
+        end
+	endgenerate
     //Data 
     assign data_bus_out = queue[front_queue];
     // State 
