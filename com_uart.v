@@ -4,7 +4,7 @@ module com_uart
         parameter SLEEP_MODE = 0,
             
         // Prescaler 
-        parameter INTERNAL_CLK = 50000000,
+        parameter INTERNAL_CLK = 125000000,
         // CLOCK_DIVIDER = INTERNAL_CLK / ((128 * 2) * (4800 * 2))
         parameter CLOCK_DIVIDER          =  51,     // <value> = ceil(Internal clock / (256 * 2))
         parameter CLOCK_DIVIDER_UNIQUE_1 =  542,    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
@@ -139,15 +139,16 @@ module com_uart
     wire rx_port_sync;
     wire rx_module_clk;
     
-    
-    if(SLEEP_MODE) begin
-        assign rx_module_clk = (RX_enable_sync) ? clk : 1'b0;
-        assign rx_port_sync = (RX_enable_sync) ? RX : 1'b1;
-    end
-    else begin
-        assign rx_module_clk = clk;    
-        assign rx_port_sync = RX;
-    end
+    generate
+        if(SLEEP_MODE) begin
+            assign rx_module_clk = (RX_enable_sync) ? clk : 1'b0;
+            assign rx_port_sync = (RX_enable_sync) ? RX : 1'b1;
+        end
+        else begin
+            assign rx_module_clk = clk;    
+            assign rx_port_sync = RX;
+        end
+	endgenerate
     
     com_uart_receiver_timer  #( .CLOCK_DIVIDER(CLOCK_DIVIDER),
                                 .CLOCK_DIVIDER_UNIQUE_1(CLOCK_DIVIDER_UNIQUE_1),
@@ -234,12 +235,14 @@ module com_uart
                     .rst_n(rst_n)
                    );
     
-    if(SLEEP_MODE) begin                          
-        assign tx_module_clk = (TX_enable_sync) ? clk : 1'b0;  
-    end
-    else begin
-        assign tx_module_clk = clk;      
-    end
+	generate 
+        if(SLEEP_MODE) begin                          
+            assign tx_module_clk = (TX_enable_sync) ? clk : 1'b0;  
+        end
+        else begin
+            assign tx_module_clk = clk;      
+        end
+	endgenerate
     com_uart_trans_timer        #(
                                     .CLOCK_DIVIDER(CLOCK_DIVIDER),
                                     .CLOCK_DIVIDER_UNIQUE_1(CLOCK_DIVIDER_UNIQUE_1),
