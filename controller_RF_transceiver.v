@@ -146,7 +146,7 @@ module controller_RF_transceiver
     
     assign mode3_en = (mode_controller == MODE_3);
     assign mode3_clk = (mode3_en) ? internal_clk : 1'b0;
-    assign mode3_receive_clk = (mode3_en) ? RX_flag_mcu : 1'b0;
+    assign mode3_receive_clk = (mode3_en) ? RX_flag_mcu : 1'b1;
     
     always @(posedge mode3_receive_clk, negedge rst_n) begin
         if(!rst_n) begin
