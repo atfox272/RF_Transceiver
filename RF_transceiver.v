@@ -53,6 +53,7 @@ module RF_transceiver
         parameter END_WAITING_SEND_WLESS_DATA   = 625000, // 2-3ms
         parameter START_COUNTER_SEND_WLESS_DATA = 0,
         parameter END_SELF_CHECKING             = 31250,  // No information (Assume: 12.5ms)
+        parameter END_MODE_SWITCH               = 31250,
         // Mode controller  
         parameter DEFAULT_MODE = 3
     )
@@ -116,7 +117,8 @@ module RF_transceiver
     // Mode controller
     mode_controller_RF_transceiver 
                 #(
-                .DEFAULT_MODE(DEFAULT_MODE)
+                .DEFAULT_MODE(DEFAULT_MODE),
+                .END_MODE_SWITCH(END_MODE_SWITCH)               
                 )mode_controller(
                 .internal_clk(internal_clk),
                 .AUX_state_ctrl(AUX_state_ctrl),
