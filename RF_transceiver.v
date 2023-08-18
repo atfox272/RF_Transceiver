@@ -34,7 +34,7 @@ module RF_transceiver
 //        parameter FIFO512_DEPTH = 10'd63,   
 //      Top parameter for power testing 
         parameter BUFFER_512_DEPTH           = 10'd512,   
-        parameter START_WIRELESS_TRANS_VALUE = 8'd57,   // If data in buffer is up to <58> bytes, wireless transmission will start
+        parameter START_WIRELESS_TRANS_VALUE = 8'd58,   // If data in buffer is up to <58> bytes, wireless transmission will start
         // UART FIFO 
         parameter FIFO_DEPTH = 3'd7,
         // State of module ENCODER (One-hot state-machine encoding)
@@ -48,9 +48,9 @@ module RF_transceiver
         //        <divider_name>  = <divider_value>
         // waiting_time = (<divider_value> * 2) / INTERNAL_CLK
 //        parameter END_COUNTER_RX_PACKET = 1627,        // 3 transaction time (for 115.200)
-        parameter END_COUNTER_RX_PACKET         = 6511, // 3 transaction time (for 9600)
+        parameter END_COUNTER_RX_PACKET         = 6511, // 3 transaction time (for 115200)
         parameter START_COUNTER_RX_PACKET       = 0,
-        parameter END_WAITING_SEND_WLESS_DATA   = 625000, // 2-3ms
+        parameter END_WAITING_SEND_WLESS_DATA   = 125000, // 2-3ms	(Assume: 2.5)
         parameter START_COUNTER_SEND_WLESS_DATA = 0,
         parameter END_SELF_CHECKING             = 31250,  // No information (Assume: 12.5ms)
         parameter END_MODE_SWITCH               = 31250,
