@@ -21,7 +21,7 @@ Example: parameter END_COUNTER_RX_PACKET = 26041
 
 ### 2.Equation: 
 #### a. Waiting time: 
-_waiting_time = (<divider_value> * 2) / INTERNAL_CLK_
+_waiting_time = <divider_value> / INTERNAL_CLK_
 
 Example: Assume internal clock is 50MHz, waiting time of END_WAITING_SEND_WLESS_DATA is 2-3ms (assume 2.5ms), so divider_value of END_WAITING_SEND_WLESS_DATA is 26041
 #### b. Divider of UART: 
@@ -49,6 +49,6 @@ _CLOCK_DIVIDER_UNIQUE_2 = INTERNAL_CLK / (9600 * 2)_
 | CLOCK_DIVIDER_UART | 21 |
 | CLOCK_DIVIDER_UNIQUE_1 | 218 |
 | CLOCK_DIVIDER_UNIQUE_2 | 2605 | 
-| END_COUNTER_RX_PACKET | 6511 |
-| END_WAITING_SEND_WLESS_DATA | 625000 |
+| END_COUNTER_RX_PACKET | 3840 |
+| END_WAITING_SEND_WLESS_DATA | 125000 |
 | END_SELF_CHECKING | 31250 |
