@@ -1,22 +1,27 @@
 `timescale 1s / 1ns
 module RF_transceiver_general_tb;
     parameter DATA_WIDTH = 8;
-    parameter CLOCK_DIVIDER = 21;
-    parameter START_WIRELESS_TRANS_VALUE = 8'd4;
-    parameter FIFO_DEPTH_EXTERNAL_UART = 8'd15;
+    parameter START_WIRELESS_TRANS_VALUE = 8'd58;
+    
+    // UART configuration
+    parameter CLK_DIVIDER  = 8'd10;             // Use clock divider (prescaler) to reduce power consumption
+    // CLOCK_DIVIDER_UART = INTERNAL_CLK / ((9600 * 256) * 2)
+    parameter CLOCK_DIVIDER_UART     =  8'd5;
+    parameter CLOCK_DIVIDER_UNIQUE_1 =  8'd55;    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
+    parameter CLOCK_DIVIDER_UNIQUE_2 =  10'd652;   // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (9600)
+    
     // Waiting module for 3 times empty transaction
 //        parameter END_COUNTER_RX_PACKET = 50000;    // count (END_COUNTER - START_COUNTER) clock cycle
 //        parameter START_COUNTER_RX_PACKET = 0;
 //        parameter END_WAITING_SEND_WLESS_DATA = 50000;
 //        parameter START_COUNTER_SEND_WLESS_DATA = 0;
 //        parameter END_SELF_CHECKING = 100000;
-    parameter CLOCK_DIVIDER_UNIQUE_1 =  218;    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
-    parameter CLOCK_DIVIDER_UNIQUE_2 =  2605;   // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (9600)
-       
+
     // Common            
     reg M0;
     reg M1;
-    reg internal_clk;
+    reg device_clk;
+    wire internal_clk;
     reg rst_n;
     wire AUX;                               //             BD_9600      BD_115200
     wire [7:0] all_common_config = (M0 == 1 & M1 == 1) ? 8'b10100011 : 8'b10000011;
@@ -51,13 +56,23 @@ module RF_transceiver_general_tb;
     
     wire [3:0] state_module_wire;
     
+    prescaler_module#(
+                    .IDLE_CLK(1'b0),
+                    .REVERSE_CLK(1'b0),
+                    .MULTI_PRESCALER(1'b0),
+                    .HARDCONFIG_DIV(CLK_DIVIDER)
+                    )uut(
+                    .clk_in(device_clk),
+                    .prescaler_enable(1'b1),
+                    .clk_1(internal_clk),
+                    .rst_n(rst_n)
+                    );
+                    
     com_uart        #(
-                    .CLOCK_DIVIDER(CLOCK_DIVIDER),
-                    .FIFO_DEPTH(FIFO_DEPTH_EXTERNAL_UART),
+                    .CLOCK_DIVIDER(CLOCK_DIVIDER_UART),
                     .CLOCK_DIVIDER_UNIQUE_1(CLOCK_DIVIDER_UNIQUE_1),
                     .CLOCK_DIVIDER_UNIQUE_2(CLOCK_DIVIDER_UNIQUE_2),
-                    .FIFO_COUNTER_WIDTH($clog2(FIFO_DEPTH_EXTERNAL_UART + 1))
-                    
+                    .FIFO_DEPTH(11'd1024)
                     )uart_mcu_external(
                     .clk(internal_clk), 
                     .TX_config_register(all_common_config),
@@ -71,11 +86,10 @@ module RF_transceiver_general_tb;
                     .rst_n(rst_n)
                     );
     com_uart        #(
-                    .CLOCK_DIVIDER(CLOCK_DIVIDER),
+                    .CLOCK_DIVIDER(CLOCK_DIVIDER_UART),
                     .CLOCK_DIVIDER_UNIQUE_1(CLOCK_DIVIDER_UNIQUE_1),
                     .CLOCK_DIVIDER_UNIQUE_2(CLOCK_DIVIDER_UNIQUE_2),
-                    .FIFO_DEPTH(FIFO_DEPTH_EXTERNAL_UART),
-                    .FIFO_COUNTER_WIDTH($clog2(FIFO_DEPTH_EXTERNAL_UART + 1))
+                    .FIFO_DEPTH(11'd1024)
                     )uart_node_external(
                     .clk(internal_clk), 
                     .TX_config_register(TX_node_external_config),
@@ -89,7 +103,7 @@ module RF_transceiver_general_tb;
                     .rst_n(rst_n)
                     );
     RF_transceiver  #(
-                    .CLOCK_DIVIDER(CLOCK_DIVIDER),
+                    .CLK_DIVIDER(CLK_DIVIDER),
                     .START_WIRELESS_TRANS_VALUE(START_WIRELESS_TRANS_VALUE)
 //                    ,.END_COUNTER_RX_PACKET (END_COUNTER_RX_PACKET)
 //                    ,.START_COUNTER_RX_PACKET(START_COUNTER_RX_PACKET)
@@ -97,7 +111,7 @@ module RF_transceiver_general_tb;
 //                    ,.START_COUNTER_SEND_WLESS_DATA(START_COUNTER_SEND_WLESS_DATA)
 //                    ,.END_SELF_CHECKING(END_SELF_CHECKING)
                     )rf_transceiver(
-                    .internal_clk(internal_clk),
+                    .device_clk(device_clk),
                     .TX_mcu(TX_to_mcu),
                     .RX_mcu(RX_to_mcu),
                     .M0(M0),
@@ -117,9 +131,10 @@ module RF_transceiver_general_tb;
 //                    ,.data_out_uart_mcu_wire(data_out_uart_mcu_wire)
 //                    ,.TX_use_node_wire(TX_use_node_wire)
 //                    ,.data_in_uart_node_wire(data_in_uart_node_wire)
+//                    ,.internal_clk_wire(internal_clk)
                     );
     initial begin
-        internal_clk <= 0;
+        device_clk <= 0;
         rst_n <= 1;
         // Wireless-receiver test 
         TX_use_mcu_external <= 0;
@@ -251,7 +266,7 @@ module RF_transceiver_general_tb;
     end
     
     initial begin
-        forever #1 internal_clk <= ~internal_clk;
+        forever #1 device_clk <= ~device_clk;
     end
     reg [6:0] state_counter;
     localparam IDLE_STATE = 0;
@@ -264,16 +279,147 @@ module RF_transceiver_general_tb;
     localparam END_STATE = 7;
     
     
+//    initial begin
+//        state_counter <= IDLE_STATE;
+//        #10000;
+//        #100000;
+//        M0 <= 0;
+//        M1 <= 0;
+//        #1000000;
+       
+//        M1 <= 1;
+//        M0 <= 1;
+//        #10;
+//        // Ask transceiver
+//                data_in_mcu_external <= 8'hC0;  // HEAD
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'hCD;  // ADDH
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                    
+//                data_in_mcu_external <= 8'hAB;  // ADDL
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'h3D;  // SPED
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'h17;  // CHAN
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'hC4;  // OPTION 
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+                
+//               #900000;
+//               M1 <= 0;
+//               M0 <= 0;
+               
+//               #450000;
+//               M1 <= 1;
+//               M0 <= 1;
+               
+//               #100000;
+//                data_in_mcu_external <= 8'hC1;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'hC1;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'hC1;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+                
+//                // Send testing
+                
+//                #1000000;
+               
+//                M1 <= 0;
+//                M0 <= 0;
+//                #100;
+//                data_in_mcu_external <= 8'h27;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'h11;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'h22;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'h33;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'h44;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'h55;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'h66;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                data_in_mcu_external <= 8'h77;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
+                
+//                // receive testing
+//                 #1000000;
+//                 #1000;
+//                data_in_node_external <= 8'hFF;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
+                
+//                data_in_node_external <= 8'h11;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
+                
+//                data_in_node_external <= 8'h22;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
+                
+//                data_in_node_external <= 8'h33;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
+                
+//                data_in_node_external <= 8'h44;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
+                
+//                data_in_node_external <= 8'h55;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
+                
+//                data_in_node_external <= 8'h00;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
+//    end
+    
+    // Prescaler case
     initial begin
         state_counter <= IDLE_STATE;
-        #10000;
+        #100000;
         M0 <= 0;
         M1 <= 0;
         #1000000;
        
         M1 <= 1;
         M0 <= 1;
-        #10;
+        #100;
         // Ask transceiver
                 data_in_mcu_external <= 8'hC0;  // HEAD
                 #1 TX_use_mcu_external <= 1;
@@ -300,15 +446,15 @@ module RF_transceiver_general_tb;
                 #1 TX_use_mcu_external <= 0;
                 
                 
-               #900000;
+               #9000000;
                M1 <= 0;
                M0 <= 0;
                
-               #450000;
+               #4500000;
                M1 <= 1;
                M0 <= 1;
                
-               #100000;
+               #1000000;
                 data_in_mcu_external <= 8'hC1;
                 #1 TX_use_mcu_external <= 1;
                 #1 TX_use_mcu_external <= 0;
@@ -324,73 +470,84 @@ module RF_transceiver_general_tb;
                 
                 // Send testing
                 
-                #1000000;
+                #10000000;
                
                 M1 <= 0;
                 M0 <= 0;
-                #100;
-                data_in_mcu_external <= 8'h27;
-                #1 TX_use_mcu_external <= 1;
-                #1 TX_use_mcu_external <= 0;
+                #1000;
+                for(integer i = 0; i < 512; i = i + 1) begin
+                    data_in_mcu_external <= i;
+                    #1 TX_use_mcu_external <= 1;
+                    #1 TX_use_mcu_external <= 0;
+                end
+//                data_in_mcu_external <= 8'h27;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
                 
-                data_in_mcu_external <= 8'h11;
-                #1 TX_use_mcu_external <= 1;
-                #1 TX_use_mcu_external <= 0;
+//                data_in_mcu_external <= 8'h11;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
                 
-                data_in_mcu_external <= 8'h22;
-                #1 TX_use_mcu_external <= 1;
-                #1 TX_use_mcu_external <= 0;
+//                data_in_mcu_external <= 8'h22;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
                 
-                data_in_mcu_external <= 8'h33;
-                #1 TX_use_mcu_external <= 1;
-                #1 TX_use_mcu_external <= 0;
+//                data_in_mcu_external <= 8'h33;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
                 
-                data_in_mcu_external <= 8'h44;
-                #1 TX_use_mcu_external <= 1;
-                #1 TX_use_mcu_external <= 0;
+//                data_in_mcu_external <= 8'h44;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
                 
-                data_in_mcu_external <= 8'h55;
-                #1 TX_use_mcu_external <= 1;
-                #1 TX_use_mcu_external <= 0;
+//                data_in_mcu_external <= 8'h55;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
                 
-                data_in_mcu_external <= 8'h66;
-                #1 TX_use_mcu_external <= 1;
-                #1 TX_use_mcu_external <= 0;
+//                data_in_mcu_external <= 8'h66;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
                 
-                data_in_mcu_external <= 8'h77;
-                #1 TX_use_mcu_external <= 1;
-                #1 TX_use_mcu_external <= 0;
+//                data_in_mcu_external <= 8'h77;
+//                #1 TX_use_mcu_external <= 1;
+//                #1 TX_use_mcu_external <= 0;
                 
                 // receive testing
-                 #1000000;
-                 #1000;
-                data_in_node_external <= 8'hFF;
-                #1 TX_use_node_external <= 1;
-                #1 TX_use_node_external <= 0;
+                 #30000000;
+                 #10000;
+                 
+                for(integer i = 0; i < 512; i = i + 1) begin
+                    data_in_node_external <= i;
+                    #1 TX_use_node_external <= 1;
+                    #1 TX_use_node_external <= 0;
+                end
+//                data_in_node_external <= 8'hFF;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
                 
-                data_in_node_external <= 8'h11;
-                #1 TX_use_node_external <= 1;
-                #1 TX_use_node_external <= 0;
+//                data_in_node_external <= 8'h11;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
                 
-                data_in_node_external <= 8'h22;
-                #1 TX_use_node_external <= 1;
-                #1 TX_use_node_external <= 0;
+//                data_in_node_external <= 8'h22;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
                 
-                data_in_node_external <= 8'h33;
-                #1 TX_use_node_external <= 1;
-                #1 TX_use_node_external <= 0;
+//                data_in_node_external <= 8'h33;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
                 
-                data_in_node_external <= 8'h44;
-                #1 TX_use_node_external <= 1;
-                #1 TX_use_node_external <= 0;
+//                data_in_node_external <= 8'h44;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
                 
-                data_in_node_external <= 8'h55;
-                #1 TX_use_node_external <= 1;
-                #1 TX_use_node_external <= 0;
+//                data_in_node_external <= 8'h55;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
                 
-                data_in_node_external <= 8'h00;
-                #1 TX_use_node_external <= 1;
-                #1 TX_use_node_external <= 0;
+//                data_in_node_external <= 8'h00;
+//                #1 TX_use_node_external <= 1;
+//                #1 TX_use_node_external <= 0;
     end
 //    always @(posedge AUX) begin
 //        case(state_counter) 
