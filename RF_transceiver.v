@@ -1,11 +1,12 @@
 module RF_transceiver
     #(  // Device parameter
         parameter INTERNAL_CLK = 50000000,
+        parameter CLK_DIVIDER  = 8'd10,             // Use clock divider (prescaler) to reduce power consumption
         // CLOCK_DIVIDER_UART = INTERNAL_CLK / ((9600 * 256) * 2)
-        parameter CLOCK_DIVIDER_UART = 21,
-        parameter CLOCK_DIVIDER_UNIQUE_1 =  218,    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
-        parameter CLOCK_DIVIDER_UNIQUE_2 =  2605,   // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (9600)
-        // Sleep mode configutation (When you in sleep-mode, module will delay 1 clock cycle to wake-up module)
+        parameter CLOCK_DIVIDER_UART     =  8'd10,
+        parameter CLOCK_DIVIDER_UNIQUE_1 =  8'd55,    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
+        parameter CLOCK_DIVIDER_UNIQUE_2 =  10'd652,   // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (9600)
+        // Sleep mode configutation (When you are in sleep-mode, the module will delay 1 clock cycle to the wake-up module)
         parameter SLEEP_MODE_UART_MCU   = 1,  
         parameter SLEEP_MODE_UART_NODE  = 1,
         
@@ -48,17 +49,17 @@ module RF_transceiver
         //        <divider_name>  = <divider_value>
         // waiting_time = (<divider_value> * 2) / INTERNAL_CLK
 //        parameter END_COUNTER_RX_PACKET = 1627,        // 3 transaction time (for 115.200)
-        parameter END_COUNTER_RX_PACKET         = 6511, // 3 transaction time (for 115200)
+        parameter END_COUNTER_RX_PACKET         = 960, // 3 transaction time (for 115200)
         parameter START_COUNTER_RX_PACKET       = 0,
-        parameter END_WAITING_SEND_WLESS_DATA   = 125000, // 2-3ms	(Assume: 2.5)
+        parameter END_WAITING_SEND_WLESS_DATA   = 31250, // 2-3ms	(Assume: 2.5)
         parameter START_COUNTER_SEND_WLESS_DATA = 0,
-        parameter END_SELF_CHECKING             = 31250,  // No information (Assume: 12.5ms)
-        parameter END_MODE_SWITCH               = 31250,
+        parameter END_SELF_CHECKING             = 7813,  // No information (Assume: 12.5ms)
+        parameter END_MODE_SWITCH               = 7813,
         // Mode controller  
         parameter DEFAULT_MODE = 3
     )
     (
-    input   wire        internal_clk,
+    input   wire        device_clk,
     // MCU
     input   wire        M0,
     input   wire        M1,
@@ -84,7 +85,10 @@ module RF_transceiver
 //    ,output RX_flag_mcu_wire 
 //    ,output TX_use_node_wire
 //    ,output [DATA_WIDTH - 1:0] data_in_uart_node_wire
+//    ,output internal_clk_wire
     );
+    // Clock
+    wire internal_clk;
     // Mode controller 
     wire M1_sync;
     wire M0_sync;
@@ -110,10 +114,22 @@ module RF_transceiver
     // State of module
     wire [3:0] state_module;
     
+    // Add Prescaler_module to reduce power consumption
+//    assign internal_clk = device_clk;
+    prescaler_module#(
+                    .IDLE_CLK(1'b0),
+                    .REVERSE_CLK(1'b0),
+                    .MULTI_PRESCALER(1'b0),
+                    .HARDCONFIG_DIV(CLK_DIVIDER)
+                    )uut(
+                    .clk_in(device_clk),
+                    .prescaler_enable(1'b1),
+                    .clk_1(internal_clk),
+                    .rst_n(rst_n)
+                    );
+    
     // AUX controller
     assign AUX = AUX_mode_ctrl & AUX_state_ctrl;
-//    assign AUX = AUX_mode_ctrl;
-    
     // Mode controller
     mode_controller_RF_transceiver 
                 #(
@@ -270,4 +286,5 @@ module RF_transceiver
 //    assign TX_use_node_wire = TX_use_node;
 //    assign data_in_uart_node_wire = data_in_uart_node;
 //    assign state_module_wire = state_module;
+//    assign internal_clk_wire = internal_clk;
 endmodule
