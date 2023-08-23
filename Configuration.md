@@ -21,7 +21,7 @@ Example: parameter END_COUNTER_RX_PACKET = 26041
 
 ### 2.Equation: 
 #### a. Waiting time: 
-_waiting_time = <divider_value> / INTERNAL_CLK_
+_waiting_time = <divider_value> / INTERNAL_CLK (Clock Use) 
 
 Example: Assume internal clock is 50MHz, waiting time of END_WAITING_SEND_WLESS_DATA is 2-3ms (assume 2.5ms), so divider_value of END_WAITING_SEND_WLESS_DATA is 26041
 #### b. Divider of UART: 
@@ -30,25 +30,22 @@ _CLOCK_DIVIDER_UNIQUE_1 = INTERNAL_CLK / (115200 * 2)_
 _CLOCK_DIVIDER_UNIQUE_2 = INTERNAL_CLK / (9600 * 2)_
 
 ### 3. Table of divider_value:
-- _Arty-Z7 (INTERNAL_CLK == 125MHz) -> Prescaler_10 (INTERNAL_CLK == 12.5MHz)_
-         
-| divider_name | divider_value |
-|-------|-------|
-| CLOCK_DIVIDER_UART | 5 |
-| CLOCK_DIVIDER_UNIQUE_1 | 55 |
-| CLOCK_DIVIDER_UNIQUE_2 | 652 | 
-| END_COUNTER_RX_PACKET | 960 |
-| END_WAITING_SEND_WLESS_DATA | 31250 |
-| END_SELF_CHECKING | 7813 |
+- _Arty-Z7 (DEVICE_CLK == 125MHz)_
+  + Prescaler_UART_10          (INTERNAL_CLK_UART == 12.5MHz)
+  + Prescaker_CTRL_50          (INTERNAL_CLK_CTRL == 1.25Mhz)
+  
+| divider_name | divider_value | Clock Use  |
+|-------|-------|-------|
+| CLOCK_DIVIDER_UART | 5 | Use INTERNAL_CLK_UART |
+| CLOCK_DIVIDER_UNIQUE_1 | 55 | Use INTERNAL_CLK_UART |
+| CLOCK_DIVIDER_UNIQUE_2 | 652 | Use INTERNAL_CLK_UART |
+| END_COUNTER_RX_PACKET | 192 | Use INTERNAL_CLK_CTRL |
+| END_WAITING_SEND_WLESS_DATA | 6250 | Use INTERNAL_CLK_CTRL |
+| END_SELF_CHECKING | 1562 | Use INTERNAL_CLK_CTRL |
 
 
 - _DE10-Nano (INTERNAL_CLK == 50MHz)_
-         
-| divider_name | divider_value |
-|-------|-------|
-| CLOCK_DIVIDER_UART | 21 |
-| CLOCK_DIVIDER_UNIQUE_1 | 218 |
-| CLOCK_DIVIDER_UNIQUE_2 | 2605 | 
-| END_COUNTER_RX_PACKET | 3840 |
-| END_WAITING_SEND_WLESS_DATA | 125000 |
-| END_SELF_CHECKING | 31250 |
+  + Prescaler_UART_4              (INTERNAL_CLK_UART == 12.5Mhz)
+  + Prescaler_CTRL_20             (INTERNAL_CLK_UART == 1.25Mhz) 
+
+  * Same as Arty's parameter 
