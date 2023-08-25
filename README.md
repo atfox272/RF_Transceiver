@@ -153,20 +153,14 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
   + Second: + When data in buffer512 is up to 58bytes, the wireless transmission (RFIC) is start, during which the user can input data continously for transmission. + When data in buffer512 is less than 58bytes and no more transaction for 3-frame time, the wireless transmission (RFIC) is start
 
 ## To-do:
-- Implement✖️: Wake-up mode
-- Implement✔️: Seprerate 512bytes buffer to 2 more pages
-  + Problem: Power comsumption of FIFO is very high (pointer and queue)
-  + Solution: when you use almost over 1 page, next page will enable -> reduce power of module
-- Implement✖️: Baudrate 115200 | Re-calculate waiting_value (waiting for start wireless_transmission)  
+
 ## Check-List:
 - Mode3               ✔️
 - Mode0_trans         ✔️
 - Mode0_recei         ✔️
 - Self_checking       ✔️ 
 - Combine mode        ✔️
-- Mode1_wakeup        ✖️  (preamble code?)
-- Mode2_powersaving   ✖️  (preamble code?)
-- On FPGA             ✖️
+- On FPGA             ✔️
 ## Debugging:
 - Modify FIFO_DEPTH of UART from 7 -> 15
 - Modify END_COUNTER_RX_PACKET to debug state_module
