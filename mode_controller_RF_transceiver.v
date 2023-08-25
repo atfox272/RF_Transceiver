@@ -9,6 +9,7 @@ module mode_controller_RF_transceiver
     input   wire    M1,
     input   wire    AUX_state_ctrl,
     output  reg     AUX_mode_ctrl,
+    input   wire    UART_mcu_complete,
     
     output  reg     M0_sync,
     output  reg     M1_sync,
@@ -58,7 +59,7 @@ module mode_controller_RF_transceiver
                 end
                 IDLE_STATE: begin
                     // Mode is switching and Module is free now
-                    if(AUX_state_ctrl) begin
+                    if(AUX_state_ctrl & UART_mcu_complete) begin
                         // Recommand: "e mode changes from stand-by mode to others, the module will reset its parameters, during which the AUX keeps low level and then outputs high level after reset completed"
 //                        if((cur_mode == MODE_3) & (new_mode != MODE_3)) begin
 //                            state_counter_mode_ctrl <= MODE_SWITCH_STATE;
