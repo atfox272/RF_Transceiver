@@ -1,9 +1,10 @@
 module RF_transceiver
     #(  // Device parameter
-        parameter INTERNAL_CLK = 50000000,
-        parameter CLK_DIVIDER  = 8'd10,             // Use clock divider (prescaler) to reduce power consumption
+        parameter INTERNAL_CLK      = 50000000,
+        parameter PRESCALER_UART    = 8'd10,             // Use clock divider (prescaler) to reduce power consumption
+        parameter PRESCALER_CTRL    = 8'd50,             // Use clock divider (prescaler) to reduce power consumption
         // CLOCK_DIVIDER_UART = INTERNAL_CLK / ((9600 * 256) * 2)
-        parameter CLOCK_DIVIDER_UART     =  8'd10,
+        parameter CLOCK_DIVIDER_UART     =  8'd5,
         parameter CLOCK_DIVIDER_UNIQUE_1 =  8'd55,    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
         parameter CLOCK_DIVIDER_UNIQUE_2 =  10'd652,   // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (9600)
         // Sleep mode configutation (When you are in sleep-mode, the module will delay 1 clock cycle to the wake-up module)
@@ -86,9 +87,11 @@ module RF_transceiver
 //    ,output TX_use_node_wire
 //    ,output [DATA_WIDTH - 1:0] data_in_uart_node_wire
 //    ,output internal_clk_wire
+//    ,output [1:0] mode_controller_wire
     );
     // Clock
-    wire internal_clk;
+    wire internal_clk_uart;
+    wire internal_clk_ctrl;
     // Mode controller 
     wire M1_sync;
     wire M0_sync;
@@ -111,23 +114,43 @@ module RF_transceiver
     wire RX_use_node;
     wire RX_flag_node;
     wire TX_flag_node;
+    // UART_node 
+    wire RX_node_enable;
+    wire TX_node_enable;
+    wire TX_complete_mcu;   // Send all packet in fifo
+    // UART to MCU
+    wire TX_mcu_complete;
+    wire TX_mcu_enable;
+    wire RX_mcu_enable;
     // State of module
     wire [3:0] state_module;
     
     // Add Prescaler_module to reduce power consumption
 //    assign internal_clk = device_clk;
+    // Prescaler for UART 
     prescaler_module#(
                     .IDLE_CLK(1'b0),
                     .REVERSE_CLK(1'b0),
                     .MULTI_PRESCALER(1'b0),
-                    .HARDCONFIG_DIV(CLK_DIVIDER)
-                    )uut(
+                    .HARDCONFIG_DIV(PRESCALER_UART)
+                    )UART_prescaler(
                     .clk_in(device_clk),
                     .prescaler_enable(1'b1),
-                    .clk_1(internal_clk),
+                    .clk_1(internal_clk_uart),
                     .rst_n(rst_n)
                     );
-    
+    // Prescaler for Controller
+    prescaler_module#(
+                    .IDLE_CLK(1'b0),
+                    .REVERSE_CLK(1'b0),
+                    .MULTI_PRESCALER(1'b0),
+                    .HARDCONFIG_DIV(PRESCALER_CTRL)
+                    )Controller_prescaler(
+                    .clk_in(device_clk),
+                    .prescaler_enable(1'b1),
+                    .clk_1(internal_clk_ctrl),
+                    .rst_n(rst_n)
+                    );
     // AUX controller
     assign AUX = AUX_mode_ctrl & AUX_state_ctrl;
     // Mode controller
@@ -136,9 +159,10 @@ module RF_transceiver
                 .DEFAULT_MODE(DEFAULT_MODE),
                 .END_MODE_SWITCH(END_MODE_SWITCH)               
                 )mode_controller(
-                .internal_clk(internal_clk),
+                .internal_clk(internal_clk_ctrl),
                 .AUX_state_ctrl(AUX_state_ctrl),
                 .AUX_mode_ctrl(AUX_mode_ctrl),
+                .UART_mcu_complete(TX_mcu_complete),
                 .M0(M0),
                 .M1(M1),
                 .M1_sync(M1_sync),
@@ -163,9 +187,6 @@ module RF_transceiver
     //////////////////////////////////////////////////////////////////////////////
     assign uart_mcu_config_reg = (M1_sync == 1 & M0_sync == 1) ? UART_MCU_MODE3_CONFIG : uart_mcu_my_config_reg;
     
-    // UART to MCU
-    wire TX_mcu_enable;
-    wire RX_mcu_enable;
     
     assign RX_mcu_enable = (state_module[MODULE_IDLE_STATE] | state_module[MODULE_WTRANS_STATE] | state_module[MODULE_PROGRAM_STATE]);
     assign TX_mcu_enable = (state_module[MODULE_WRECEIVE_STATE] | state_module[MODULE_PROGRAM_STATE]);
@@ -176,11 +197,12 @@ module RF_transceiver
               .FIFO_DEPTH(FIFO_DEPTH),
               .SLEEP_MODE(SLEEP_MODE_UART_MCU)
               )uart_to_mcu(
-              .clk(internal_clk),
+              .clk(internal_clk_uart),
               .TX(TX_mcu),
               .RX(RX_mcu),
               .TX_use(TX_use_mcu),
               .TX_flag(TX_flag_mcu),
+              .TX_complete(TX_mcu_complete),
               .RX_use(RX_use_mcu),
               .RX_flag(RX_flag_mcu),
               .TX_config_register(uart_mcu_config_reg),
@@ -193,10 +215,6 @@ module RF_transceiver
               );
     
     
-    // UART_node 
-    wire RX_node_enable;
-    wire TX_node_enable;
-    wire TX_complete_mcu;   // Send all packet in fifo
     
     assign RX_node_enable = (state_module[MODULE_IDLE_STATE] | state_module[MODULE_WRECEIVE_STATE]);
     assign TX_node_enable = (state_module[MODULE_WTRANS_STATE] | !TX_complete_mcu);
@@ -209,7 +227,7 @@ module RF_transceiver
               .FIFO_DEPTH(FIFO_DEPTH),
               .SLEEP_MODE(SLEEP_MODE_UART_NODE)
               )uart_to_node(
-              .clk(internal_clk),
+              .clk(internal_clk_uart),
               .TX(TX_node),
               .RX(RX_node),
               .TX_use(TX_use_node),
@@ -249,7 +267,7 @@ module RF_transceiver
                                 .END_WAITING_SEND_WLESS_DATA(END_WAITING_SEND_WLESS_DATA),
                                 .END_SELF_CHECKING(END_SELF_CHECKING)
                                 )controller(
-                                .internal_clk(internal_clk),
+                                .internal_clk(internal_clk_ctrl),
                                 .AUX(AUX_state_ctrl),
                                 // UART_mcu
                                 .data_from_uart_mcu(data_out_uart_mcu),
@@ -287,4 +305,5 @@ module RF_transceiver
 //    assign data_in_uart_node_wire = data_in_uart_node;
 //    assign state_module_wire = state_module;
 //    assign internal_clk_wire = internal_clk;
+//    assign mode_controller_wire = {M1_sync, M0_sync};
 endmodule
