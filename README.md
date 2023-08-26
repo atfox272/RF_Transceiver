@@ -1,4 +1,4 @@
-![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/0a02d22a-a602-4b4e-b81f-c141a4a741ab)# Clone of E32
+# Clone of E32
 _e32-ttl-1w v1.3_
 ## Requirement
 - Same interface of real transceiver
@@ -161,6 +161,9 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
 
 - When the module receives setParameter instruction (C0/C2 + 5 params), the module will send all parameters (which have just been set) after 5ms
   ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/16868bfe-a38c-4284-92ee-cff41f5eda6c)
+
+- When the module receives requestParams instruction (C1 C1 C1), the module will send all parameters after 5ms
+  ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/c9153b7a-e01e-45de-a096-10ef245a9fa6)
 
 
 ## Check-List:
