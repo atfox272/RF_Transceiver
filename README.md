@@ -1,4 +1,4 @@
-# Clone of E32
+![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/0a02d22a-a602-4b4e-b81f-c141a4a741ab)# Clone of E32
 _e32-ttl-1w v1.3_
 ## Requirement
 - Same interface of real transceiver
@@ -153,6 +153,15 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
   + Second: + When data in buffer512 is up to 58bytes, the wireless transmission (RFIC) is start, during which the user can input data continously for transmission. + When data in buffer512 is less than 58bytes and no more transaction for 3-frame time, the wireless transmission (RFIC) is start
 
 ## To-do:
+- AUX is also LOW when the module receives the first data in **MODE_3** (Configuration mode)
+  ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/4bbdc7ca-97e7-46bf-b9e4-166f9dfe3ba2)
+
+- When the module receives reset instruction (C4 C4 C4), the module will be in self-checking for ~1 second. Then AUX will be LOW for 180ms
+  ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/6f2b1381-db9b-46f3-8620-0558bfe55724)
+
+- When the module receives setParameter instruction (C0/C2 + 5 params), the module will send all parameters (which have just been set) after 5ms
+  ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/16868bfe-a38c-4284-92ee-cff41f5eda6c)
+
 
 ## Check-List:
 - Mode3               ✔️
