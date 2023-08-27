@@ -54,8 +54,10 @@ module RF_transceiver
         parameter START_COUNTER_RX_PACKET       = 0,
         parameter END_WAITING_SEND_WLESS_DATA   = 31250, // 2-3ms	(Assume: 2.5)
         parameter START_COUNTER_SEND_WLESS_DATA = 0,
-        parameter END_SELF_CHECKING             = 7813,  // No information (Assume: 12.5ms)
+        parameter END_SELF_CHECKING             = 1000000,  // No information (Following real E32: 180ms)
         parameter END_MODE_SWITCH               = 7813,
+        parameter END_PROCESS_COMMAND           = 62500,
+        parameter END_PROCESS_RESET             = 12500000,
         // Mode controller  
         parameter DEFAULT_MODE = 3
     )
@@ -87,7 +89,7 @@ module RF_transceiver
 //    ,output TX_use_node_wire
 //    ,output [DATA_WIDTH - 1:0] data_in_uart_node_wire
 //    ,output internal_clk_wire
-//    ,output [1:0] mode_controller_wire
+    ,output [1:0] mode_controller_wire
     );
     // Clock
     wire internal_clk_uart;
@@ -97,6 +99,7 @@ module RF_transceiver
     wire M0_sync;
     wire AUX_mode_ctrl;
     wire AUX_state_ctrl;
+    wire AUX_uart_ctrl;
     // Controller to UART_mcu interface
     wire TX_use_mcu;
     wire TX_flag_mcu;
@@ -152,7 +155,7 @@ module RF_transceiver
                     .rst_n(rst_n)
                     );
     // AUX controller
-    assign AUX = AUX_mode_ctrl & AUX_state_ctrl;
+    assign AUX = AUX_mode_ctrl & AUX_state_ctrl & AUX_uart_ctrl;
     // Mode controller
     mode_controller_RF_transceiver 
                 #(
@@ -162,6 +165,7 @@ module RF_transceiver
                 .internal_clk(internal_clk_ctrl),
                 .AUX_state_ctrl(AUX_state_ctrl),
                 .AUX_mode_ctrl(AUX_mode_ctrl),
+                .AUX_uart_ctrl(AUX_uart_ctrl),
                 .UART_mcu_complete(TX_mcu_complete),
                 .M0(M0),
                 .M1(M1),
@@ -190,6 +194,9 @@ module RF_transceiver
     
     assign RX_mcu_enable = (state_module[MODULE_IDLE_STATE] | state_module[MODULE_WTRANS_STATE] | state_module[MODULE_PROGRAM_STATE]);
     assign TX_mcu_enable = (state_module[MODULE_WRECEIVE_STATE] | state_module[MODULE_PROGRAM_STATE]);
+        
+    assign AUX_uart_ctrl = TX_mcu_complete;
+    
     com_uart #(
               .CLOCK_DIVIDER(CLOCK_DIVIDER_UART),
               .CLOCK_DIVIDER_UNIQUE_1(CLOCK_DIVIDER_UNIQUE_1),
@@ -265,7 +272,9 @@ module RF_transceiver
                                 .START_WIRELESS_TRANS_VALUE(START_WIRELESS_TRANS_VALUE),
                                 .END_COUNTER_RX_PACKET(END_COUNTER_RX_PACKET),
                                 .END_WAITING_SEND_WLESS_DATA(END_WAITING_SEND_WLESS_DATA),
-                                .END_SELF_CHECKING(END_SELF_CHECKING)
+                                .END_SELF_CHECKING(END_SELF_CHECKING),
+                                .END_PROCESS_COMMAND(END_PROCESS_COMMAND),
+                                .END_PROCESS_RESET(END_PROCESS_RESET)
                                 )controller(
                                 .internal_clk(internal_clk_ctrl),
                                 .AUX(AUX_state_ctrl),
@@ -295,7 +304,7 @@ module RF_transceiver
 //    assign data_bus_out_node = data_out_uart_node;
 //    assign RX_flag_node_wire = RX_flag_node;
 //    assign data_in_uart_mcu_wire = data_in_uart_mcu;
-//    assign TX_use_mcu_wire = TX_use_mcu;
+    assign TX_use_mcu_wire = TX_use_mcu;
     
     // New debugger
 //    assign data_out_uart_mcu_wire = data_out_uart_mcu;
@@ -305,5 +314,5 @@ module RF_transceiver
 //    assign data_in_uart_node_wire = data_in_uart_node;
 //    assign state_module_wire = state_module;
 //    assign internal_clk_wire = internal_clk;
-//    assign mode_controller_wire = {M1_sync, M0_sync};
+    assign mode_controller_wire = {M1_sync, M0_sync};
 endmodule
