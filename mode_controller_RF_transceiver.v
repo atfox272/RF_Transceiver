@@ -2,7 +2,7 @@ module mode_controller_RF_transceiver
     #(
         parameter DEFAULT_MODE      = 2'd3,
         parameter END_MODE_SWITCH   = 10000,
-        parameter AUX_POWER_ON      = 1'b1      // State of AUX in power-on state (In Real module, Its HIGH)
+        parameter AUX_POWER_ON      = 1'b0      // State of AUX in power-on state (In Real module, Its HIGH)
     )
     (
     input   wire    internal_clk,
@@ -45,7 +45,7 @@ module mode_controller_RF_transceiver
         if(!rst_n) begin
             M1_sync <= DEFAULT_MODE[1];
             M0_sync <= DEFAULT_MODE[0];
-            state_counter_mode_ctrl <= IDLE_STATE;
+            state_counter_mode_ctrl <= INIT_STATE;
             // Repair for self-checking when module is reset
             // In real module, AUX of E32 is not LOW when module is opening
             AUX_mode_ctrl <= AUX_POWER_ON;
