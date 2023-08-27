@@ -4,7 +4,7 @@ module RF_transceiver_general_tb;
     parameter START_WIRELESS_TRANS_VALUE = 8'd58;
     
     // UART configuration
-    parameter CLK_DIVIDER  = 8'd10;             // Use clock divider (prescaler) to reduce power consumption
+    parameter PRESCALER_UART  = 8'd4;             // Use clock divider (prescaler) to reduce power consumption
     // CLOCK_DIVIDER_UART = INTERNAL_CLK / ((9600 * 256) * 2)
     parameter CLOCK_DIVIDER_UART     =  8'd5;
     parameter CLOCK_DIVIDER_UNIQUE_1 =  8'd55;    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
@@ -19,7 +19,7 @@ module RF_transceiver_general_tb;
         parameter END_MODE_SWITCH               = 7813;
 //        parameter END_PROCESS_COMMAND           = 62500,
         parameter END_PROCESS_COMMAND           = 6250;
-        parameter END_PROCESS_RESET             = 125000;
+        parameter END_PROCESS_RESET             = 12500;
 
     // Common            
     reg M0;
@@ -66,7 +66,7 @@ module RF_transceiver_general_tb;
                     .IDLE_CLK(1'b0),
                     .REVERSE_CLK(1'b0),
                     .MULTI_PRESCALER(1'b0),
-                    .HARDCONFIG_DIV(CLK_DIVIDER)
+                    .HARDCONFIG_DIV(PRESCALER_UART)
                     )uut(
                     .clk_in(device_clk),
                     .prescaler_enable(1'b1),
@@ -109,15 +109,15 @@ module RF_transceiver_general_tb;
                     .rst_n(rst_n)
                     );
     RF_transceiver  #(
-                    .CLK_DIVIDER(CLK_DIVIDER),
+                    .PRESCALER_UART(PRESCALER_UART),
                     .START_WIRELESS_TRANS_VALUE(START_WIRELESS_TRANS_VALUE)
-                    ,.END_COUNTER_RX_PACKET (END_COUNTER_RX_PACKET)
-                    ,.START_COUNTER_RX_PACKET(START_COUNTER_RX_PACKET)
-                    ,.END_WAITING_SEND_WLESS_DATA(END_WAITING_SEND_WLESS_DATA)
-                    ,.START_COUNTER_SEND_WLESS_DATA(START_COUNTER_SEND_WLESS_DATA)
+//                    ,.END_COUNTER_RX_PACKET (END_COUNTER_RX_PACKET)
+//                    ,.START_COUNTER_RX_PACKET(START_COUNTER_RX_PACKET)
+//                    ,.END_WAITING_SEND_WLESS_DATA(END_WAITING_SEND_WLESS_DATA)
+//                    ,.START_COUNTER_SEND_WLESS_DATA(START_COUNTER_SEND_WLESS_DATA)
                     ,.END_SELF_CHECKING(END_SELF_CHECKING)
-                    ,.END_MODE_SWITCH(END_MODE_SWITCH)
-                    ,.END_PROCESS_COMMAND(END_PROCESS_COMMAND)
+//                    ,.END_MODE_SWITCH(END_MODE_SWITCH)
+//                    ,.END_PROCESS_COMMAND(END_PROCESS_COMMAND)
                     ,.END_PROCESS_RESET(END_PROCESS_RESET)
                     )rf_transceiver(
                     .device_clk(device_clk),
@@ -188,7 +188,7 @@ module RF_transceiver_general_tb;
                 #1 TX_use_mcu_external <= 1;
                 #1 TX_use_mcu_external <= 0;
                 #15000000;
-                #15000000;
+//                #15000000;
 //                #15000000;
 //                #15000000;
 //                $stop;
@@ -309,337 +309,8 @@ module RF_transceiver_general_tb;
                     #1 TX_use_node_external <= 0;
                 end
                 
-                
-//                data_in_node_external <= 8'hFF;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h11;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h22;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h33;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h44;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h55;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h00;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-    end
-//    always @(posedge AUX) begin
-//        case(state_counter) 
-//            // XXX/----
-//            IDLE_STATE: begin
-//                state_counter <= INIT_STATE;
-//            end
-//            // XXX/----\______/---
-//            INIT_STATE: begin
-//                state_counter <= TRANS_STATE;
-//                // Transmission test
-////                state_counter <= RECEIVE_STATE;
-//                #1000;
-                
-//                data_in_mcu_external <= 8'h27;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h11;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h22;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h33;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h44;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h55;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h66;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h77;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-//            end
-//            // XXX/----\______/--------\____WIRELESS_TRANS____/---
-//            TRANS_STATE: begin
-//                state_counter <= RECEIVE_STATE;
-                
-//                #1000;
-//                data_in_node_external <= 8'hFF;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h11;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h22;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h33;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h44;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h55;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h00;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//            end
-//            RECEIVE_STATE: begin
-//                state_counter <= MODE_SWITCHING_STATE;
-                
-//                #10000;
-//                M0 <= 1;
-//                M1 <= 1;
-                
-//            end
-//            MODE_SWITCHING_STATE: begin
-//                state_counter <= CONFIG_STATE;
-//                #10000;
-//                data_in_mcu_external <= 8'hC0;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h27;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h02;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'hFF;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h00;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'hAA;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                // Ask transceiver
-//                data_in_mcu_external <= 8'hC1;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'hC1;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'hC1;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-//            end
-//            CONFIG_STATE: begin
-            
-//            end
-//        endcase 
-//    end
-
-//        always @(posedge AUX) begin
-//        case(state_counter) 
-//            // XXX/----
-//            IDLE_STATE: begin
-//                state_counter <= INIT_STATE;
-//            end
-//            INIT_STATE: begin
-//                state_counter <= CONFIG_STATE;
-                
-//                #1000;
-//                data_in_mcu_external <= 8'hC0;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h27;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h02;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'hFF;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h00;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'hAA;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-////                // Ask transceiver
-////                data_in_mcu_external <= 8'hC1;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-                
-////                data_in_mcu_external <= 8'hC1;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-                
-////                data_in_mcu_external <= 8'hC1;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-                
-                
-//                // Ask transceiver
-//                data_in_mcu_external <= 8'hC4;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'hC4;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'hC4;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-//            end
-//            CONFIG_STATE: begin
-//                state_counter <= READY_STATE;
-//                #1000;
-//                M1 <= 0;
-//                M0 <= 0;
-//            end
-//            READY_STATE: begin
-//                state_counter <= RECEIVE_STATE;
-//                #1000;    
-//                data_in_node_external <= 8'hFF;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h11;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h22;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h33;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h44;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h55;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-//                data_in_node_external <= 8'h00;
-//                #1 TX_use_node_external <= 1;
-//                #1 TX_use_node_external <= 0;
-                
-                
-////                data_in_mcu_external <= 8'h27;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-                
-////                data_in_mcu_external <= 8'h11;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-                
-////                data_in_mcu_external <= 8'h22;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-                
-////                data_in_mcu_external <= 8'h33;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-                
-////                data_in_mcu_external <= 8'h44;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-                
-////                data_in_mcu_external <= 8'h55;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-                
-////                data_in_mcu_external <= 8'h66;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-                
-////                data_in_mcu_external <= 8'h77;
-////                #1 TX_use_mcu_external <= 1;
-////                #1 TX_use_mcu_external <= 0;
-//            end
-//            RECEIVE_STATE: begin
-//                state_counter <= END_STATE;
-//                #100000;
-//                data_in_mcu_external <= 8'h27;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h11;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h22;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h33;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h44;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h55;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h66;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-                
-//                data_in_mcu_external <= 8'h77;
-//                #1 TX_use_mcu_external <= 1;
-//                #1 TX_use_mcu_external <= 0;
-//            end
-//            END_STATE: begin
-            
-//            end
-//        endcase 
-//    end
+                #15000000;
+                #15000000;
+                $stop;
+    end               
 endmodule
