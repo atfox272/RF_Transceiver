@@ -46,7 +46,9 @@ module controller_RF_transceiver
         parameter START_COUNTER_RX_PACKET       = 0,
         parameter END_WAITING_SEND_WLESS_DATA   = 20000,
         parameter START_COUNTER_SEND_WLESS_DATA = 0,
-        parameter END_SELF_CHECKING             = 10000
+        parameter END_SELF_CHECKING             = 10000,
+        parameter END_PROCESS_COMMAND           = 62500,       // 5ms
+        parameter END_PROCESS_RESET             = 12500000     // ~1s
     )
     (
     input   wire internal_clk,
@@ -96,6 +98,7 @@ module controller_RF_transceiver
     reg AUX_controller_1;
     wire AUX_controller_2;
     wire AUX_controller_3;
+    wire AUX_controller_4;
     // Mode 3 state-machine 
     reg [3:0] state_counter_mode3;
     reg [1:0] return_case;        
@@ -137,16 +140,19 @@ module controller_RF_transceiver
     localparam RETURN_NOTHING_CASE = 2;       // Reset command case
     
     // AUX controller
-    assign AUX = AUX_controller_1 & AUX_controller_2 & AUX_controller_3;                
+    assign AUX = AUX_controller_1 & AUX_controller_2 & AUX_controller_3 & AUX_controller_4;                
     
     // Mode3 enable 
     wire mode3_clk;
     wire mode3_receive_clk;
     wire mode3_en;
+    reg AUX_controller_4_start;
+    reg AUX_controller_4_stop;
     
     assign mode3_en = (mode_controller == MODE_3);
     assign mode3_clk = (mode3_en) ? internal_clk : 1'b0;
     assign mode3_receive_clk = (mode3_en) ? RX_flag_mcu : 1'b1;
+    assign AUX_controller_4 = AUX_controller_4_start ^ AUX_controller_4_stop;
     
     always @(posedge mode3_receive_clk, negedge rst_n) begin
         if(!rst_n) begin
@@ -162,6 +168,8 @@ module controller_RF_transceiver
             return_start_asyn <= 0;
             return_version_start <= 0;
             return_case <= RETURN_NOTHING_CASE;
+            // AUX controller 
+            AUX_controller_4_start <= 1;
         end
         else begin
             case(state_counter_mode3) 
@@ -170,19 +178,29 @@ module controller_RF_transceiver
                         HEAD_DETECT_1: begin
                             state_counter_mode3 <= READ_HEAD_STATE;
                             HEAD <= data_from_uart_mcu;
+                            // AUX controller   (AUX is LOW now)
+                            AUX_controller_4_start <= AUX_controller_4_stop;
                         end
                         HEAD_DETECT_2: begin
                             state_counter_mode3 <= READ_HEAD_STATE;
                             HEAD <= data_from_uart_mcu;
+                            // AUX controller   (AUX is LOW now)
+                            AUX_controller_4_start <= AUX_controller_4_stop;
                         end
                         RET_CONFIG_DETECT: begin
                             state_counter_mode3 <= INS_CONFIG_STATE_2;
+                            // AUX controller   (AUX is LOW now)
+                            AUX_controller_4_start <= AUX_controller_4_stop;
                         end
                         RET_VERSION_DETECT: begin
                             state_counter_mode3 <= INS_VERSION_STATE_2;
+                            // AUX controller   (AUX is LOW now)
+                            AUX_controller_4_start <= AUX_controller_4_stop;
                         end
                         RESET_DETECT: begin
                             state_counter_mode3 <= INS_RESET_STATE_2;
+                            // AUX controller   (AUX is LOW now)
+                            AUX_controller_4_start <= AUX_controller_4_stop;
                         end
                         default: state_counter_mode3 <= IDLE_STATE;
                     endcase
@@ -206,6 +224,9 @@ module controller_RF_transceiver
                 READ_CHAN_STATE: begin
                     state_counter_mode3 <= IDLE_STATE;
                     OPTION <= data_from_uart_mcu;
+                    // Return configuration parameters
+                    return_start_asyn <= ~return_stop_asyn;
+                    return_case <= RETURN_CONFIG_CASE;
                 end
                 INS_CONFIG_STATE_2: begin
                     if(data_from_uart_mcu == RET_CONFIG_DETECT) state_counter_mode3 <= INS_CONFIG_STATE_3;
@@ -241,6 +262,7 @@ module controller_RF_transceiver
                         return_start_asyn <= ~return_stop_asyn;
                         return_case <= RETURN_NOTHING_CASE;
                     end
+                    
                 end
                 default: state_counter_mode3 <= IDLE_STATE;
             endcase 
@@ -294,10 +316,13 @@ module controller_RF_transceiver
     localparam RET_VERSION_STATE_4 = 10;  
     localparam SEND_RET_VERSION_STATE_4 = 20;
     localparam SELF_CHECK_STATE = 21;
+    localparam PROCESS_RST_CMD_STATE = 24;
     localparam WAITING_UART_TRANS_STATE = 22;
+    localparam STOP_STATE = 23;
     reg TX_use_mcu_mode3;
     reg [DATA_WIDTH - 1:0] data_to_uart_mcu_mode3;
     wire stop_self_check_signal;
+    
     waiting_module #(
                     .END_COUNTER(END_SELF_CHECKING),
                     .WAITING_TYPE(0),
@@ -308,6 +333,36 @@ module controller_RF_transceiver
                     .reach_limit(stop_self_check_signal),
                     .rst_n(rst_n)
                     );
+    wire start_waiting_cond;                
+    wire start_waiting_process_cmd_cond;
+    
+    assign start_waiting_process_cmd_cond = return_clk_enable & (state_counter_mode3_return == IDLE_STATE);
+    waiting_module #(
+                    .END_COUNTER(END_PROCESS_COMMAND),
+                    .WAITING_TYPE(0),
+                    .LEVEL_PULSE(1)
+                    )waiting_process_command(
+                    .clk(mode3_clk),
+                    .start_counting(start_waiting_process_cmd_cond),
+                    .reach_limit(stop_process_command_signal),
+                    .rst_n(rst_n)
+                    );
+                    
+    wire start_waiting_process_rst_cond;
+    wire stop_waiting_process_rst_signal;
+    
+    assign start_waiting_process_rst_cond = state_counter_mode3_return == PROCESS_RST_CMD_STATE;
+    // Waiting for 1 second
+    waiting_module #(
+                    .END_COUNTER(END_PROCESS_RESET),
+                    .WAITING_TYPE(0),
+                    .LEVEL_PULSE(1)
+                    )waiting_process_rst(
+                    .clk(mode3_clk),
+                    .start_counting(start_waiting_process_rst_cond),
+                    .reach_limit(stop_waiting_process_rst_signal),
+                    .rst_n(rst_n)
+                    );                
     always @(posedge return_clk, negedge rst_n) begin
         if(!rst_n) begin
             state_counter_mode3_return <= IDLE_STATE;
@@ -318,6 +373,7 @@ module controller_RF_transceiver
             TX_use_mcu_mode3 <= 0;
             // AUX controller 
              AUX_controller_1 <= 1;
+             AUX_controller_4_stop <= 0;
         end
         else begin
             case(state_counter_mode3_return) 
@@ -325,19 +381,33 @@ module controller_RF_transceiver
                     TX_use_mcu_mode3 <= 0;
                     case(return_case) 
                         RETURN_CONFIG_CASE: begin
-                            state_counter_mode3_return <= SEND_RET_HEAD_STATE; 
-                            data_to_uart_mcu_mode3 <= HEAD;
+                            if(stop_process_command_signal) begin
+                                state_counter_mode3_return <= SEND_RET_HEAD_STATE; 
+                                data_to_uart_mcu_mode3 <= HEAD;
+                            end
                         end
                         RETURN_VERSION_CASE: begin
-                            state_counter_mode3_return <= SEND_RET_VERSION_STATE_1;
-                            data_to_uart_mcu_mode3 <= VERSION_PACKET_1;
+                            if(stop_process_command_signal) begin
+                                state_counter_mode3_return <= SEND_RET_VERSION_STATE_1;
+                                data_to_uart_mcu_mode3 <= VERSION_PACKET_1;
+                            end
                         end
                         RETURN_NOTHING_CASE: begin
-                            state_counter_mode3_return <= SELF_CHECK_STATE;
-                            AUX_controller_1 <= 0;
+                            if(stop_process_command_signal) begin
+                                state_counter_mode3_return <= PROCESS_RST_CMD_STATE;
+                                // AUX controller
+                                AUX_controller_4_stop <= ~AUX_controller_4_start;
+                            end
                         end
                         default: state_counter_mode3_return <= IDLE_STATE;
                     endcase
+                end
+                PROCESS_RST_CMD_STATE: begin
+                    AUX_controller_1 <= 1;
+                    if(stop_waiting_process_rst_signal) begin
+                        state_counter_mode3_return <= SELF_CHECK_STATE;
+                        AUX_controller_1 <= 0;
+                    end
                 end
                 SELF_CHECK_STATE: begin
                     if(stop_self_check_signal) begin
@@ -407,10 +477,20 @@ module controller_RF_transceiver
                     TX_use_mcu_mode3 <= 1;
                 end
                 SEND_RET_OPTION_STATE: begin
-                    state_counter_mode3_return <= IDLE_STATE; 
+//                    TX_use_mcu_mode3 <= 1;
+//                    if(stop_process_command_signal) begin
+//                        state_counter_mode3_return <= IDLE_STATE; 
+//                        // Stop return clock
+//                        return_stop_asyn <= return_start_asyn;
+//                        // AUX controller
+//                        AUX_controller_4_stop <= ~AUX_controller_4_start;
+//                    end
+                    state_counter_mode3_return <= STOP_STATE; 
                     TX_use_mcu_mode3 <= 1;
                     // Stop return clock
-                    return_stop_asyn <= return_start_asyn;
+//                    return_stop_asyn <= return_start_asyn;
+                    // AUX controller
+                    AUX_controller_4_stop <= ~AUX_controller_4_start;
                 end
                 SEND_RET_VERSION_STATE_1: begin
                     state_counter_mode3_return <= RET_VERSION_STATE_1;
@@ -425,14 +505,30 @@ module controller_RF_transceiver
                     TX_use_mcu_mode3 <= 1;
                 end        
                 SEND_RET_VERSION_STATE_4: begin
-                    state_counter_mode3_return <= IDLE_STATE; 
+//                    TX_use_mcu_mode3 <= 1;
+//                    if(stop_process_command_signal) begin
+//                        state_counter_mode3_return <= IDLE_STATE;
+//                        // Stop return clock
+//                        return_stop_asyn <= return_start_asyn;
+//                        // AUX controller
+//                        AUX_controller_4_stop <= ~AUX_controller_4_start;
+//                    end
+                    state_counter_mode3_return <= STOP_STATE; 
                     TX_use_mcu_mode3 <= 1;
+                    // Stop return clock
+//                    return_stop_asyn <= return_start_asyn;
+                    // AUX controller
+                    AUX_controller_4_stop <= ~AUX_controller_4_start;
+                end
+                STOP_STATE: begin
+                    state_counter_mode3_return <= IDLE_STATE; 
+                    TX_use_mcu_mode3 <= 0;
                     // Stop return clock
                     return_stop_asyn <= return_start_asyn;
                 end
-                WAITING_UART_TRANS_STATE : begin
-                    if(TX_complete_mcu) state_counter_mode3_return <= IDLE_STATE;
-                end
+//                WAITING_UART_TRANS_STATE : begin
+//                    if(TX_complete_mcu) state_counter_mode3_return <= IDLE_STATE;
+//                end
                 default: state_counter_mode3_return <= IDLE_STATE;
             endcase 
         end
