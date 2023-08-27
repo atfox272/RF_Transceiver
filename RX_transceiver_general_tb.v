@@ -10,12 +10,16 @@ module RF_transceiver_general_tb;
     parameter CLOCK_DIVIDER_UNIQUE_1 =  8'd55;    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
     parameter CLOCK_DIVIDER_UNIQUE_2 =  10'd652;   // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (9600)
     
-    // Waiting module for 3 times empty transaction
-//        parameter END_COUNTER_RX_PACKET = 50000;    // count (END_COUNTER - START_COUNTER) clock cycle
-//        parameter START_COUNTER_RX_PACKET = 0;
-//        parameter END_WAITING_SEND_WLESS_DATA = 50000;
-//        parameter START_COUNTER_SEND_WLESS_DATA = 0;
-//        parameter END_SELF_CHECKING = 100000;
+    // Modify parameter of waiting module to simulation
+        parameter END_COUNTER_RX_PACKET         = 960; // 3 transaction time (for 115200)
+        parameter START_COUNTER_RX_PACKET       = 0;
+        parameter END_WAITING_SEND_WLESS_DATA   = 31250; // 2-3ms	(Assume: 2.5)
+        parameter START_COUNTER_SEND_WLESS_DATA = 0;
+        parameter END_SELF_CHECKING             = 10000;  // No information (Following real E32: 180ms)
+        parameter END_MODE_SWITCH               = 7813;
+//        parameter END_PROCESS_COMMAND           = 62500,
+        parameter END_PROCESS_COMMAND           = 6250;
+        parameter END_PROCESS_RESET             = 125000;
 
     // Common            
     reg M0;
@@ -50,7 +54,7 @@ module RF_transceiver_general_tb;
     wire RX_flag_mcu_wire;
 //    wire [1:0] state_counter_mode0_receive_wire;
     wire [DATA_WIDTH - 1:0] data_out_uart_mcu_wire;
-    wire TX_use_mcu_wire;
+//    wire TX_use_mcu_wire;
     
     wire TX_use_node_wire;
     wire [DATA_WIDTH - 1:0] data_in_uart_node_wire;
@@ -107,11 +111,14 @@ module RF_transceiver_general_tb;
     RF_transceiver  #(
                     .CLK_DIVIDER(CLK_DIVIDER),
                     .START_WIRELESS_TRANS_VALUE(START_WIRELESS_TRANS_VALUE)
-//                    ,.END_COUNTER_RX_PACKET (END_COUNTER_RX_PACKET)
-//                    ,.START_COUNTER_RX_PACKET(START_COUNTER_RX_PACKET)
-//                    ,.END_WAITING_SEND_WLESS_DATA(END_WAITING_SEND_WLESS_DATA)
-//                    ,.START_COUNTER_SEND_WLESS_DATA(START_COUNTER_SEND_WLESS_DATA)
-//                    ,.END_SELF_CHECKING(END_SELF_CHECKING)
+                    ,.END_COUNTER_RX_PACKET (END_COUNTER_RX_PACKET)
+                    ,.START_COUNTER_RX_PACKET(START_COUNTER_RX_PACKET)
+                    ,.END_WAITING_SEND_WLESS_DATA(END_WAITING_SEND_WLESS_DATA)
+                    ,.START_COUNTER_SEND_WLESS_DATA(START_COUNTER_SEND_WLESS_DATA)
+                    ,.END_SELF_CHECKING(END_SELF_CHECKING)
+                    ,.END_MODE_SWITCH(END_MODE_SWITCH)
+                    ,.END_PROCESS_COMMAND(END_PROCESS_COMMAND)
+                    ,.END_PROCESS_RESET(END_PROCESS_RESET)
                     )rf_transceiver(
                     .device_clk(device_clk),
                     .TX_mcu(TX_to_mcu),
@@ -167,6 +174,27 @@ module RF_transceiver_general_tb;
     
     // Prescaler case
     initial begin
+        //////////// Reset command (C4 C4 C4) testcase
+                #1000000;
+                data_in_mcu_external <= 8'hC4;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hC4;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hC4;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                #15000000;
+                #15000000;
+//                #15000000;
+//                #15000000;
+//                $stop;
+                ////////////////////////////////////////////
+                
+                
         state_counter <= IDLE_STATE;
         #100000;
         M0 <= 0;
@@ -226,6 +254,28 @@ module RF_transceiver_general_tb;
                 
                 // Send testing
                 
+                #15000000;
+                //////////// Reset command (C4 C4 C4) testcase
+                #1000000;
+                data_in_mcu_external <= 8'hC4;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hC4;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hC4;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                #15000000;
+                #15000000;
+//                #15000000;
+//                #15000000;
+//                $stop;
+                ////////////////////////////////////////////
+                
+                   
                 #1500000;
                
                 M1 <= 0;
