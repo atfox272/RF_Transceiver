@@ -1,10 +1,15 @@
 module RF_transceiver
     #(  // Device parameter
         parameter INTERNAL_CLK      = 50000000,
-        parameter PRESCALER_UART    = 8'd10,             // Use clock divider (prescaler) to reduce power consumption
-        parameter PRESCALER_CTRL    = 8'd50,             // Use clock divider (prescaler) to reduce power consumption
-        // CLOCK_DIVIDER_UART = INTERNAL_CLK / ((9600 * 256) * 2)
-        parameter CLOCK_DIVIDER_UART     =  8'd5,
+		  
+		  // Use for Arty-Z7
+//        parameter PRESCALER_UART    = 8'd10,             // Use clock divider (prescaler) to reduce power consumption
+//        parameter PRESCALER_CTRL    = 8'd50,             // Use clock divider (prescaler) to reduce power consumption
+        // Use for DE10 Nano
+        parameter PRESCALER_UART    = 8'd4,             // Use clock divider (prescaler) to reduce power consumption
+        parameter PRESCALER_CTRL    = 8'd20,             // Use clock divider (prescaler) to reduce power consumption
+        
+		  parameter CLOCK_DIVIDER_UART     =  8'd5,
         parameter CLOCK_DIVIDER_UNIQUE_1 =  8'd55,    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
         parameter CLOCK_DIVIDER_UNIQUE_2 =  10'd652,   // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (9600)
         // Sleep mode configutation (When you are in sleep-mode, the module will delay 1 clock cycle to the wake-up module)
@@ -50,16 +55,14 @@ module RF_transceiver
         //        <divider_name>  = <divider_value>
         // waiting_time = (<divider_value> * 2) / INTERNAL_CLK
 //        parameter END_COUNTER_RX_PACKET = 1627,        // 3 transaction time (for 115.200)
-        parameter END_COUNTER_RX_PACKET         = 960, // 3 transaction time (for 115200)
-        parameter START_COUNTER_RX_PACKET       = 0,
-        parameter END_WAITING_SEND_WLESS_DATA   = 31250, // 2-3ms	(Assume: 2.5)
-        parameter START_COUNTER_SEND_WLESS_DATA = 0,
-        parameter END_SELF_CHECKING             = 1000000,  // No information (Following real E32: 180ms)
-        parameter END_MODE_SWITCH               = 7813,
-        parameter END_PROCESS_COMMAND           = 62500,
-        parameter END_PROCESS_RESET             = 12500000,
+        parameter END_COUNTER_RX_PACKET         = 651, // 3 transaction time (for 115200)
+        parameter END_WAITING_SEND_WLESS_DATA   = 6250, // 2-3ms	(Assume: 2.5)
+        parameter END_SELF_CHECKING             = 450000,  // No information (Following real E32: 180ms)
+        parameter END_MODE_SWITCH               = 15000,  // Average: 6ms
+        parameter END_PROCESS_COMMAND           = 12500,  // 5ms
+        parameter END_PROCESS_RESET             = 2500000,// 1s
         // Mode controller  
-        parameter DEFAULT_MODE = 3
+        parameter DEFAULT_MODE = 0
     )
     (
     input   wire        device_clk,
@@ -304,7 +307,7 @@ module RF_transceiver
 //    assign data_bus_out_node = data_out_uart_node;
 //    assign RX_flag_node_wire = RX_flag_node;
 //    assign data_in_uart_mcu_wire = data_in_uart_mcu;
-    assign TX_use_mcu_wire = TX_use_mcu;
+//    assign TX_use_mcu_wire = TX_use_mcu;
     
     // New debugger
 //    assign data_out_uart_mcu_wire = data_out_uart_mcu;
