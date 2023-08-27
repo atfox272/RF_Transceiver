@@ -154,18 +154,24 @@ recommended to check AUX pin out status and wait 2ms after AUX outputs high leve
 
 ## To-do:
 - AUX is also LOW when the module receives the first data in **MODE_3** (Configuration mode)
+  **✔️**
   ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/4bbdc7ca-97e7-46bf-b9e4-166f9dfe3ba2)
 
 - When the module receives reset instruction (C4 C4 C4), the module will be in self-checking for ~1 second. Then AUX will be LOW for 180ms
+  **✔️**
   ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/6f2b1381-db9b-46f3-8620-0558bfe55724)
 
 - When the module receives setParameter instruction (C0/C2 + 5 params), the module will send all parameters (which have just been set) after 5ms
+  **✔️**
   ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/16868bfe-a38c-4284-92ee-cff41f5eda6c)
 
 - When the module receives requestParams instruction (C1 C1 C1), the module will send all parameters after 5ms
+  **✔️**
   ![image](https://github.com/atfox272/RF_Transceiver/assets/99324602/c9153b7a-e01e-45de-a096-10ef245a9fa6)
 
-
+- Check all timing parameters in real time (check in FPGA)
+  **✖️**
+  
 ## Check-List:
 - Mode3               ✔️
 - Mode0_trans         ✔️
