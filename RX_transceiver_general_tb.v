@@ -11,11 +11,12 @@ module RF_transceiver_general_tb;
     parameter CLOCK_DIVIDER_UNIQUE_2 =  10'd652;   // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (9600)
     
     // Modify parameter of waiting module to simulation
-        parameter END_COUNTER_RX_PACKET         = 960; // 3 transaction time (for 115200)
+        parameter END_COUNTER_RX_PACKET         = 960;    // 3 transaction time (for 115200)
         parameter START_COUNTER_RX_PACKET       = 0;
-        parameter END_WAITING_SEND_WLESS_DATA   = 31250; // 2-3ms	(Assume: 2.5)
+        parameter END_WAITING_SEND_WLESS_DATA   = 31250;  // 2-3ms	(Assume: 2.5)
         parameter START_COUNTER_SEND_WLESS_DATA = 0;
-        parameter END_SELF_CHECKING             = 10000;  // No information (Following real E32: 180ms)
+        parameter END_SELF_CHECKING             = 10000;  // No information (Following real E32: 180ms)      
+        parameter END_POWER_ON_CHECK            = 75000; // Asume: 500ms
         parameter END_MODE_SWITCH               = 7813;
 //        parameter END_PROCESS_COMMAND           = 62500,
         parameter END_PROCESS_COMMAND           = 6250;
@@ -116,6 +117,7 @@ module RF_transceiver_general_tb;
 //                    ,.END_WAITING_SEND_WLESS_DATA(END_WAITING_SEND_WLESS_DATA)
 //                    ,.START_COUNTER_SEND_WLESS_DATA(START_COUNTER_SEND_WLESS_DATA)
                     ,.END_SELF_CHECKING(END_SELF_CHECKING)
+                    ,.END_POWER_ON_CHECK(END_POWER_ON_CHECK)
 //                    ,.END_MODE_SWITCH(END_MODE_SWITCH)
 //                    ,.END_PROCESS_COMMAND(END_PROCESS_COMMAND)
                     ,.END_PROCESS_RESET(END_PROCESS_RESET)
@@ -175,7 +177,7 @@ module RF_transceiver_general_tb;
     // Prescaler case
     initial begin
         //////////// Reset command (C4 C4 C4) testcase
-                #1000000;
+                #10000000;
                 data_in_mcu_external <= 8'hC4;
                 #1 TX_use_mcu_external <= 1;
                 #1 TX_use_mcu_external <= 0;
@@ -309,6 +311,38 @@ module RF_transceiver_general_tb;
                     #1 TX_use_node_external <= 0;
                 end
                 
+                #15000000;
+//                #15000000;
+//                $stop;
+                
+                //
+                M1 <= 1;
+                M0 <= 1;
+                #1000000;
+                data_in_mcu_external <= 8'hC1;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hC1;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hC1;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                #10000000;
+                data_in_mcu_external <= 8'hC4;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hC4;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
+                
+                data_in_mcu_external <= 8'hC4;
+                #1 TX_use_mcu_external <= 1;
+                #1 TX_use_mcu_external <= 0;
                 #15000000;
                 #15000000;
                 $stop;
