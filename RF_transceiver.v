@@ -54,10 +54,11 @@ module RF_transceiver
         // Waiting module for 3 times empty transaction
         //        <divider_name>  = <divider_value>
         // waiting_time = (<divider_value> * 2) / INTERNAL_CLK
-//        parameter END_COUNTER_RX_PACKET = 1627,        // 3 transaction time (for 115.200)
-        parameter END_COUNTER_RX_PACKET         = 651, // 3 transaction time (for 115200)
-        parameter END_WAITING_SEND_WLESS_DATA   = 6250, // 2-3ms	(Assume: 2.5)
-        parameter END_SELF_CHECKING             = 450000,  // No information (Following real E32: 180ms)
+//        parameter END_COUNTER_RX_PACKET = 1627,         // 3 transaction time (for 115.200)
+        parameter END_COUNTER_RX_PACKET         = 651,    // 3 transaction time (for 115200)
+        parameter END_WAITING_SEND_WLESS_DATA   = 6250,   // 2-3ms	(Assume: 2.5)
+        parameter END_SELF_CHECKING             = 450000, // No information (Following real E32: 180ms)
+        parameter END_POWER_ON_CHECK            = 750000, // Asume: 500ms
         parameter END_MODE_SWITCH               = 15000,  // Average: 6ms
         parameter END_PROCESS_COMMAND           = 12500,  // 5ms
         parameter END_PROCESS_RESET             = 2500000,// 1s
@@ -103,6 +104,7 @@ module RF_transceiver
     wire AUX_mode_ctrl;
     wire AUX_state_ctrl;
     wire AUX_uart_ctrl;
+    wire AUX_power_on_ctrl;
     // Controller to UART_mcu interface
     wire TX_use_mcu;
     wire TX_flag_mcu;
@@ -158,17 +160,19 @@ module RF_transceiver
                     .rst_n(rst_n)
                     );
     // AUX controller
-    assign AUX = AUX_mode_ctrl & AUX_state_ctrl & AUX_uart_ctrl;
+    assign AUX = AUX_mode_ctrl & AUX_state_ctrl & AUX_uart_ctrl & AUX_power_on_ctrl;
     // Mode controller
     mode_controller_RF_transceiver 
                 #(
                 .DEFAULT_MODE(DEFAULT_MODE),
+                .END_POWER_ON_CHECK(END_POWER_ON_CHECK),               
                 .END_MODE_SWITCH(END_MODE_SWITCH)               
                 )mode_controller(
                 .internal_clk(internal_clk_ctrl),
                 .AUX_state_ctrl(AUX_state_ctrl),
                 .AUX_mode_ctrl(AUX_mode_ctrl),
                 .AUX_uart_ctrl(AUX_uart_ctrl),
+                .AUX_power_on_ctrl(AUX_power_on_ctrl),
                 .UART_mcu_complete(TX_mcu_complete),
                 .M0(M0),
                 .M1(M1),
