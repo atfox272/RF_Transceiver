@@ -77,7 +77,7 @@ module fifo_ram_module
             assign reach_limit = full;
         end          
         else begin
-            assign reach_limit = (rear_addr - front_addr) == (LIMIT_COUNTER - 1);
+            assign reach_limit = ((rear_addr - front_addr) > (LIMIT_COUNTER - 1)) & (!empty);
         end
     endgenerate
     
