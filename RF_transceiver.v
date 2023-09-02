@@ -86,7 +86,8 @@ module RF_transceiver
 //    ,output [DATA_WIDTH - 1:0] data_bus_out_node
 ////    ,output RX_flag_node_wire
 //    ,output TX_use_mcu_wire
-////    ,output [1:0] state_counter_mode0_receive_wire
+    ,output [1:0] state_counter_mode0_receive_wire
+    ,output [0:0] debug_ctrl_1
     // New debugger
 //    ,output [DATA_WIDTH - 1:0] data_out_uart_mcu_wire
 //    ,output RX_flag_mcu_wire 
@@ -305,7 +306,8 @@ module RF_transceiver
                                 .state_module(state_module),
                                 .rst_n(rst_n)
                                 // debug 
-//                                ,.state_counter_mode0_receive_wire(state_counter_mode0_receive_wire)
+                                ,.state_counter_mode0_receive_wire(state_counter_mode0_receive_wire)
+                                ,.debug_ctrl_1(debug_ctrl_1)
                                 );
     // Debug 
 //    assign data_bus_out_node = data_out_uart_node;
