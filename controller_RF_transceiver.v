@@ -76,7 +76,8 @@ module controller_RF_transceiver
     input   wire rst_n
     
     // debug 
-//    ,output [1:0] state_counter_mode0_receive_wire
+    ,output [1:0] state_counter_mode0_receive_wire
+    ,output [0:0] debug_ctrl_1
     );
     // Configuartion register 
     reg [TRANSACTION_WIDTH - 1:0] HEAD;
@@ -592,6 +593,7 @@ module controller_RF_transceiver
     localparam START_READ_STATE = 2; 
     localparam STOP_RX_STATE = 3; 
     assign AUX_controller_2 = (state_counter_wireless_trans == IDLE_STATE);    // Just free in IDLE_STATE
+//    assign waiting_pulse = (state_counter_wireless_trans == START_READ_STATE);
     assign waiting_pulse = RX_flag_mcu & (state_counter_wireless_trans == START_READ_STATE);
     
     waiting_module #(
@@ -822,4 +824,7 @@ module controller_RF_transceiver
         // Power checking (programmed state)
 //        assign state_module = 4'b1000;
 
+    // Debug
+    assign state_counter_mode0_receive_wire = state_counter_wireless_trans;
+    assign debug_ctrl_1 = start_wireless_trans_cond;
 endmodule
