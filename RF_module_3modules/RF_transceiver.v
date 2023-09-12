@@ -43,7 +43,7 @@ module RF_transceiver
         parameter BUFFER_512_DEPTH           = 10'd512,   
         parameter START_WIRELESS_TRANS_VALUE = 8'd58,   // If data in buffer is up to <58> bytes, wireless transmission will start
         // UART FIFO 
-        parameter FIFO_DEPTH = 3'd7,
+        parameter FIFO_DEPTH = 3'd8,
         // State of module ENCODER (One-hot state-machine encoding)
         parameter MODULE_IDLE_STATE     = 3,    // (wireless_trans and wireless_recei is not woking 
         parameter MODULE_WTRANS_STATE   = 2,    // (wireless_trans is working )
