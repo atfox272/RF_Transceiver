@@ -11,8 +11,6 @@ module fifo_module
         parameter COUNTER_WIDTH    = $clog2(DEPTH + 1),
         parameter DEPTH_ALIGN      = DEPTH + 1
      )(
-    // Clock for synchronous fifo
-    input   wire                clk,
     // Data
     input   wire    [WIDTH - 1:0]   data_bus_in,
     output  wire    [WIDTH - 1:0]   data_bus_out,
@@ -21,13 +19,20 @@ module fifo_module
     input   wire                    read_ins,
     // State 
     output  wire                    full,
+    output  wire                    almost_full,
     output  wire                    empty,
+    output  wire                    almost_empty,
     // Option feature
     output  wire                    reach_limit,
     // Enable pin
     input   wire                    enable,
     // Reset 
     input   wire                    rst_n
+    
+    // DEBUG
+//    ,output  wire [COUNTER_WIDTH - 1:0] front_queue_wire
+//    ,output  wire [COUNTER_WIDTH - 1:0] rear_queue_wire
+//    ,output  wire [COUNTER_WIDTH - 2:0] counter_elem_wire
     );
     
     localparam init_buffer = 8'h00;
@@ -36,9 +41,12 @@ module fifo_module
     
     reg [COUNTER_WIDTH - 1:0] front_queue;
     reg [COUNTER_WIDTH - 1:0] rear_queue;
+    wire[COUNTER_WIDTH - 2:0] counter_elem;
+    
     reg [WIDTH - 1:0] queue [0: DEPTH_ALIGN - 1];
     wire read_ins_sleepmode;
     wire write_ins_sleepmode;
+    
     
 	generate
         if(SLEEP_MODE) begin
@@ -53,11 +61,21 @@ module fifo_module
     //Data 
     assign data_bus_out = queue[front_queue];
     // State 
-    assign full = (rear_queue + 1 == front_queue);
+    assign counter_elem = rear_queue - front_queue;
+    
+    assign full = (rear_queue + 1 == front_queue) | 
+                  ((rear_queue == DEPTH_ALIGN - 1) & (front_queue == 0));
+    assign almost_full = (rear_queue + 2 == front_queue) |
+                         ((rear_queue == DEPTH_ALIGN - 2) & (front_queue == 0)) |
+                         ((rear_queue == DEPTH_ALIGN - 1) & (front_queue == 1));
+    
     assign empty = (rear_queue == front_queue);
-    assign reach_limit = ((rear_queue - front_queue) >= LIMIT_COUNTER);
+    assign almost_empty = (rear_queue == front_queue + 1) | 
+                          ((rear_queue == 0) & (front_queue == DEPTH_ALIGN - 1));
+                          
+    assign reach_limit = counter_elem > (LIMIT_COUNTER - 1);
     // Write instruction
-    always @(posedge write_ins, negedge rst_n) begin
+    always @(posedge write_ins_sleepmode, negedge rst_n) begin
         if(!rst_n) begin
             rear_queue <= init_index_rear;
     //            for(i = 0; i < capacity; i = i + 1) begin
@@ -68,19 +86,24 @@ module fifo_module
         else begin
             if(!full) begin
                 queue[rear_queue] <= data_bus_in;
-                rear_queue <= rear_queue + 1;
+                rear_queue <= (rear_queue == DEPTH_ALIGN - 1) ? 0 : rear_queue + 1;
             end
         end
     end 
     // Read instruction
-    always @(posedge read_ins, negedge rst_n) begin
+    always @(posedge read_ins_sleepmode, negedge rst_n) begin
         if(!rst_n) begin
             front_queue <= init_index_front;
         end
         else begin
             if(!empty) begin
-                front_queue <= front_queue + 1;
+                front_queue <= (front_queue == DEPTH_ALIGN - 1) ? 0 : front_queue + 1;
             end
         end 
     end
+    
+    // Debug
+//    assign front_queue_wire = front_queue;
+//    assign rear_queue_wire = rear_queue;
+//    assign counter_elem_wire = counter_elem;
 endmodule
