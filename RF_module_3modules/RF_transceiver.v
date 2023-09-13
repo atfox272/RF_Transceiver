@@ -9,7 +9,7 @@ module RF_transceiver
 //        parameter PRESCALER_UART    = 8'd4,             // Use clock divider (prescaler) to reduce power consumption
 //        parameter PRESCALER_CTRL    = 8'd20,             // Use clock divider (prescaler) to reduce power consumption
         
-		  parameter CLOCK_DIVIDER_UART     =  8'd5,
+	parameter CLOCK_DIVIDER_UART     =  8'd5,
         parameter CLOCK_DIVIDER_UNIQUE_1 =  8'd55,    // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (115200)
         parameter CLOCK_DIVIDER_UNIQUE_2 =  10'd652,   // <value> = ceil(Internal clock / (<BAUDRATE_SPEED> * 2))  (9600)
         // Sleep mode configutation (When you are in sleep-mode, the module will delay 1 clock cycle to the wake-up module)
@@ -43,7 +43,7 @@ module RF_transceiver
         parameter BUFFER_512_DEPTH           = 10'd512,   
         parameter START_WIRELESS_TRANS_VALUE = 8'd58,   // If data in buffer is up to <58> bytes, wireless transmission will start
         // UART FIFO 
-        parameter FIFO_DEPTH = 3'd8,
+        parameter FIFO_DEPTH = 10'd64,
         // State of module ENCODER (One-hot state-machine encoding)
         parameter MODULE_IDLE_STATE     = 3,    // (wireless_trans and wireless_recei is not woking 
         parameter MODULE_WTRANS_STATE   = 2,    // (wireless_trans is working )
@@ -94,7 +94,7 @@ module RF_transceiver
 //    ,output TX_use_node_wire
 //    ,output [DATA_WIDTH - 1:0] data_in_uart_node_wire
 //    ,output internal_clk_wire
-    ,output [1:0] mode_controller_wire
+//     ,output [1:0] mode_controller_wire
     );
     wire rst_n = ~rst;
     // Clock
