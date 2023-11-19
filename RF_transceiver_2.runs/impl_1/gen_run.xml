@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7z020clg400-1" LaunchTime="1700418576">
+  <File Type="BITSTR-BMM" Name="RF_transceiver_3module_bd.bmm"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="RF_transceiver_3module_methodology_drc_opted.rpt"/>
+  <File Type="INIT-TIMING" Name="RF_transceiver_3module_timing_summary_init.rpt"/>
+  <File Type="ROUTE-PWR" Name="RF_transceiver_3module_power_routed.rpt"/>
+  <File Type="PA-TCL" Name="RF_transceiver_3module.tcl"/>
+  <File Type="OPT-TIMING" Name="RF_transceiver_3module_timing_summary_opted.rpt"/>
+  <File Type="OPT-DCP" Name="RF_transceiver_3module_opt.dcp"/>
+  <File Type="ROUTE-PWR-SUM" Name="RF_transceiver_3module_power_summary_routed.pb"/>
+  <File Type="REPORTS-TCL" Name="RF_transceiver_3module_reports.tcl"/>
+  <File Type="OPT-DRC" Name="RF_transceiver_3module_drc_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="RF_transceiver_3module.hwdef"/>
+  <File Type="PWROPT-DCP" Name="RF_transceiver_3module_pwropt.dcp"/>
+  <File Type="PWROPT-DRC" Name="RF_transceiver_3module_drc_pwropted.rpt"/>
+  <File Type="PWROPT-TIMING" Name="RF_transceiver_3module_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="RF_transceiver_3module_placed.dcp"/>
+  <File Type="PLACE-IO" Name="RF_transceiver_3module_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="RF_transceiver_3module_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL" Name="RF_transceiver_3module_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="RF_transceiver_3module_utilization_placed.pb"/>
+  <File Type="PLACE-CTRL" Name="RF_transceiver_3module_control_sets_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="RF_transceiver_3module_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="RF_transceiver_3module_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PLACE-TIMING" Name="RF_transceiver_3module_timing_summary_placed.rpt"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="RF_transceiver_3module_postplace_pwropt.dcp"/>
+  <File Type="BG-BIN" Name="RF_transceiver_3module.bin"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="RF_transceiver_3module_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="RF_transceiver_3module_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="RF_transceiver_3module_drc_physopted.rpt"/>
+  <File Type="BITSTR-MSK" Name="RF_transceiver_3module.msk"/>
+  <File Type="PHYSOPT-TIMING" Name="RF_transceiver_3module_timing_summary_physopted.rpt"/>
+  <File Type="ROUTE-ERROR-DCP" Name="RF_transceiver_3module_routed_error.dcp"/>
+  <File Type="ROUTE-DCP" Name="RF_transceiver_3module_routed.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="RF_transceiver_3module_routed_bb.dcp"/>
+  <File Type="ROUTE-DRC" Name="RF_transceiver_3module_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="RF_transceiver_3module_drc_routed.pb"/>
+  <File Type="ROUTE-DRC-RPX" Name="RF_transceiver_3module_drc_routed.rpx"/>
+  <File Type="BITSTR-MMI" Name="RF_transceiver_3module.mmi"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="RF_transceiver_3module_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="RF_transceiver_3module_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="RF_transceiver_3module_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-PWR-RPX" Name="RF_transceiver_3module_power_routed.rpx"/>
+  <File Type="ROUTE-STATUS" Name="RF_transceiver_3module_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="RF_transceiver_3module_route_status.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="RF_transceiver_3module_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-TIMING-PB" Name="RF_transceiver_3module_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="RF_transceiver_3module_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="RF_transceiver_3module_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="RF_transceiver_3module_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW" Name="RF_transceiver_3module_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="RF_transceiver_3module_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="RF_transceiver_3module_bus_skew_routed.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="RF_transceiver_3module_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="RF_transceiver_3module_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="RF_transceiver_3module_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="RF_transceiver_3module_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="RF_transceiver_3module_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="RF_transceiver_3module_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="RF_transceiver_3module_bus_skew_postroute_physopted.pb"/>
+  <File Type="BG-BIT" Name="RF_transceiver_3module.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="RF_transceiver_3module_bus_skew_postroute_physopted.rpx"/>
+  <File Type="BITSTR-RBT" Name="RF_transceiver_3module.rbt"/>
+  <File Type="BITSTR-NKY" Name="RF_transceiver_3module.nky"/>
+  <File Type="PDI-FILE" Name="RF_transceiver_3module.pdi"/>
+  <File Type="RCFI_FILE" Name="RF_transceiver_3module.rcfi"/>
+  <File Type="CFI_FILE" Name="RF_transceiver_3module.cfi"/>
+  <File Type="RNPI_FILE" Name="RF_transceiver_3module.rnpi"/>
+  <File Type="NPI_FILE" Name="RF_transceiver_3module.npi"/>
+  <File Type="RBD_FILE" Name="RF_transceiver_3module.rbd"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="RF_transceiver_3module.ltx"/>
+  <File Type="BITSTR-SYSDEF" Name="RF_transceiver_3module.sysdef"/>
+  <File Type="BG-BGN" Name="RF_transceiver_3module.bgn"/>
+  <File Type="BG-DRC" Name="RF_transceiver_3module.drc"/>
+  <File Type="RDI-RDI" Name="RF_transceiver_3module.vdi"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/new/RF_transceiver.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../peripheral_uart/peripheral_uart.srcs/sources_1/new/RX_controller.v">
+      <FileInfo SFType="SVerilog">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v">
+      <FileInfo SFType="SVerilog">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../peripheral_uart/peripheral_uart.srcs/sources_1/new/baudrate_generator.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/controller.v">
+      <FileInfo SFType="SVerilog">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/real_time.v">
+      <FileInfo SFType="SVerilog">
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/new/sync_fifo.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../fifo_sync/fifo_sync.srcs/sources_1/new/sync_fifo.sv"/>
+        <Attr Name="ImportTime" Val="1700214569"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/RF_transceiver_3module.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/new/Baurate_clk.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../uart_clone/uart_clone.srcs/sources_1/imports/new/Baurate_clk.v"/>
+        <Attr Name="ImportTime" Val="1700239648"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/new/Baurate_clk_Rx.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../uart_clone/uart_clone.srcs/sources_1/imports/new/Baurate_clk_Rx.v"/>
+        <Attr Name="ImportTime" Val="1700239619"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/new/FIFO.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../uart_clone/uart_clone.srcs/sources_1/imports/new/FIFO.v"/>
+        <Attr Name="ImportTime" Val="1700233307"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/new/Rx.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../uart_clone/uart_clone.srcs/sources_1/imports/new/Rx.v"/>
+        <Attr Name="ImportTime" Val="1700227629"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/new/Tx.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../uart_clone/uart_clone.srcs/sources_1/imports/new/Tx.v"/>
+        <Attr Name="ImportTime" Val="1700227629"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/new/UART.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../uart_clone/uart_clone.srcs/sources_1/imports/new/UART.v"/>
+        <Attr Name="ImportTime" Val="1700240050"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../fifo_sync/fifo_sync.srcs/sources_1/new/fifo_sync.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/RF_Transceiver-main/fifo_module.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../UART_module/UART_module.srcs/sources_1/imports/RF_Transceiver-main/fifo_module.v"/>
+        <Attr Name="ImportTime" Val="1694872436"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/RF_Transceiver-main/com_uart_receiver.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../UART_module/UART_module.srcs/sources_1/imports/RF_Transceiver-main/com_uart_receiver.v"/>
+        <Attr Name="ImportTime" Val="1697971346"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/RF_Transceiver-main/com_uart_receiver_timer.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../UART_module/UART_module.srcs/sources_1/imports/RF_Transceiver-main/com_uart_receiver_timer.v"/>
+        <Attr Name="ImportTime" Val="1692719328"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/RF_Transceiver-main/com_uart_trans.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../UART_module/UART_module.srcs/sources_1/imports/RF_Transceiver-main/com_uart_trans.v"/>
+        <Attr Name="ImportTime" Val="1692382960"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/RF_Transceiver-main/com_uart_trans_timer.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../UART_module/UART_module.srcs/sources_1/imports/RF_Transceiver-main/com_uart_trans_timer.v"/>
+        <Attr Name="ImportTime" Val="1692719384"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/RF_Transceiver-main/com_uart.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../UART_module/UART_module.srcs/sources_1/imports/RF_Transceiver-main/com_uart.v"/>
+        <Attr Name="ImportTime" Val="1697796783"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/RF_module_3modules/waiting_module.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../Dual_core_Microcontroller/Dual_core_Microcontroller.srcs/sources_1/imports/RF_module_3modules/waiting_module.v"/>
+        <Attr Name="ImportTime" Val="1694606230"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="RF_transceiver_3module"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/imports/RF_module_3modules/Arty-Z7-20-Master.xdc">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../Downloads/RF_module_3modules/Arty-Z7-20-Master.xdc"/>
+        <Attr Name="ImportTime" Val="1694606230"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
+    <Filter Type="Utils"/>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020">
+      <Desc>Default settings for Implementation.</Desc>
+    </StratHandle>
+    <Step Id="init_design"/>
+    <Step Id="opt_design" EnableStepBool="0"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+</GenRun>

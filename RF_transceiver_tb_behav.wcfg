@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="RF_transceiver_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="RF_transceiver_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="241000001fs"></ZoomEndTime>
+      <Cursor1Time time="36045000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="236"></NameColumnWidth>
+      <ValueColumnWidth column_width="72"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="41" />
+   <wvobject fp_name="/RF_transceiver_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/rst_n" type="logic">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/RX_node" type="logic">
+      <obj_property name="ElementShortName">RX_node</obj_property>
+      <obj_property name="ObjectShortName">RX_node</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/TX_node" type="logic">
+      <obj_property name="ElementShortName">TX_node</obj_property>
+      <obj_property name="ObjectShortName">TX_node</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/RX_mcu" type="logic">
+      <obj_property name="ElementShortName">RX_mcu</obj_property>
+      <obj_property name="ObjectShortName">RX_mcu</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/TX_mcu" type="logic">
+      <obj_property name="ElementShortName">TX_mcu</obj_property>
+      <obj_property name="ObjectShortName">TX_mcu</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/M1" type="logic">
+      <obj_property name="ElementShortName">M1</obj_property>
+      <obj_property name="ObjectShortName">M1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/M0" type="logic">
+      <obj_property name="ElementShortName">M0</obj_property>
+      <obj_property name="ObjectShortName">M0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/AUX" type="logic">
+      <obj_property name="ElementShortName">AUX</obj_property>
+      <obj_property name="ObjectShortName">AUX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/M1_sync_out" type="logic">
+      <obj_property name="ElementShortName">M1_sync_out</obj_property>
+      <obj_property name="ObjectShortName">M1_sync_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/M0_sync_out" type="logic">
+      <obj_property name="ElementShortName">M0_sync_out</obj_property>
+      <obj_property name="ObjectShortName">M0_sync_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/RX_exmcu" type="logic">
+      <obj_property name="ElementShortName">RX_exmcu</obj_property>
+      <obj_property name="ObjectShortName">RX_exmcu</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/TX_exmcu" type="logic">
+      <obj_property name="ElementShortName">TX_exmcu</obj_property>
+      <obj_property name="ObjectShortName">TX_exmcu</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/data_in_uart_exmcu" type="array">
+      <obj_property name="ElementShortName">data_in_uart_exmcu[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in_uart_exmcu[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/data_out_uart_exmcu" type="array">
+      <obj_property name="ElementShortName">data_out_uart_exmcu[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out_uart_exmcu[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/config_register_exmcu" type="array">
+      <obj_property name="ElementShortName">config_register_exmcu[7:0]</obj_property>
+      <obj_property name="ObjectShortName">config_register_exmcu[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/TX_use_exmcu" type="logic">
+      <obj_property name="ElementShortName">TX_use_exmcu</obj_property>
+      <obj_property name="ObjectShortName">TX_use_exmcu</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/RX_flag_exmcu" type="logic">
+      <obj_property name="ElementShortName">RX_flag_exmcu</obj_property>
+      <obj_property name="ObjectShortName">RX_flag_exmcu</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/RX_exnode" type="logic">
+      <obj_property name="ElementShortName">RX_exnode</obj_property>
+      <obj_property name="ObjectShortName">RX_exnode</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/TX_exnode" type="logic">
+      <obj_property name="ElementShortName">TX_exnode</obj_property>
+      <obj_property name="ObjectShortName">TX_exnode</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/data_in_uart_exnode" type="array">
+      <obj_property name="ElementShortName">data_in_uart_exnode[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in_uart_exnode[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/data_out_uart_exnode" type="array">
+      <obj_property name="ElementShortName">data_out_uart_exnode[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out_uart_exnode[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/config_register_exnode" type="array">
+      <obj_property name="ElementShortName">config_register_exnode[7:0]</obj_property>
+      <obj_property name="ObjectShortName">config_register_exnode[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/TX_use_exnode" type="logic">
+      <obj_property name="ElementShortName">TX_use_exnode</obj_property>
+      <obj_property name="ObjectShortName">TX_use_exnode</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/RX_flag_exnode" type="logic">
+      <obj_property name="ElementShortName">RX_flag_exnode</obj_property>
+      <obj_property name="ObjectShortName">RX_flag_exnode</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/mode_switch_state" type="array">
+      <obj_property name="ElementShortName">mode_switch_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">mode_switch_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/real_time_flag" type="logic">
+      <obj_property name="ElementShortName">real_time_flag</obj_property>
+      <obj_property name="ObjectShortName">real_time_flag</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/waiting_module/counter" type="array">
+      <obj_property name="ElementShortName">counter[16:0]</obj_property>
+      <obj_property name="ObjectShortName">counter[16:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/mode_3_state" type="array">
+      <obj_property name="ElementShortName">mode_3_state[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mode_3_state[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/buffer_mcu_empty" type="logic">
+      <obj_property name="ElementShortName">buffer_mcu_empty</obj_property>
+      <obj_property name="ObjectShortName">buffer_mcu_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/RX_flag_mcu" type="logic">
+      <obj_property name="ElementShortName">RX_flag_mcu</obj_property>
+      <obj_property name="ObjectShortName">RX_flag_mcu</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/data_from_uart_mcu" type="array">
+      <obj_property name="ElementShortName">data_from_uart_mcu[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_from_uart_mcu[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/ADDH" type="array">
+      <obj_property name="ElementShortName">ADDH[7:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDH[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/ADDL" type="array">
+      <obj_property name="ElementShortName">ADDL[7:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDL[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/SPED" type="array">
+      <obj_property name="ElementShortName">SPED[7:0]</obj_property>
+      <obj_property name="ObjectShortName">SPED[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/CHAN" type="array">
+      <obj_property name="ElementShortName">CHAN[7:0]</obj_property>
+      <obj_property name="ObjectShortName">CHAN[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/OPTION" type="array">
+      <obj_property name="ElementShortName">OPTION[7:0]</obj_property>
+      <obj_property name="ObjectShortName">OPTION[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/real_time_enable" type="logic">
+      <obj_property name="ElementShortName">real_time_enable</obj_property>
+      <obj_property name="ObjectShortName">real_time_enable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/rd_buffer_mcu" type="logic">
+      <obj_property name="ElementShortName">rd_buffer_mcu</obj_property>
+      <obj_property name="ObjectShortName">rd_buffer_mcu</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/mode_0_state" type="array">
+      <obj_property name="ElementShortName">mode_0_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">mode_0_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/mode_3_state" type="array">
+      <obj_property name="ElementShortName">mode_3_state[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mode_3_state[3:0]</obj_property>
+   </wvobject>
+</wave_config>

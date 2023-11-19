@@ -1,0 +1,62 @@
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
+| Date         : Mon Nov 20 01:34:16 2023
+| Host         : LAPTOP-UGQ0I2VJ running 64-bit major release  (build 9200)
+| Command      : report_drc -file RF_transceiver_3module_drc_routed.rpt -pb RF_transceiver_3module_drc_routed.pb -rpx RF_transceiver_3module_drc_routed.rpx
+| Design       : RF_transceiver_3module
+| Device       : xc7z020clg400-1
+| Speed File   : -1
+| Design State : Fully Routed
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max violations: <unlimited>
+             Violations found: 2
++-----------+----------+--------------------+------------+
+| Rule      | Severity | Description        | Violations |
++-----------+----------+--------------------+------------+
+| RTSTAT-10 | Warning  | No routable loads  | 1          |
+| ZPS7-1    | Warning  | PS7 block required | 1          |
++-----------+----------+--------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+RTSTAT-10#1 Warning
+No routable loads  
+285 net(s) have no routable loads. The problem bus(es) and/or net(s) are rf_transceiver_1/controller/buffer_mcu/almost_empty,
+rf_transceiver_1/controller/buffer_mcu/almost_full,
+rf_transceiver_1/uart_mcu/fifo_tx/almost_empty,
+rf_transceiver_1/uart_node/fifo_rx/almost_empty,
+rf_transceiver_1/uart_node/fifo_tx/almost_empty,
+rf_transceiver_2/controller/buffer_mcu/almost_empty,
+rf_transceiver_2/uart_mcu/fifo_tx/almost_empty,
+rf_transceiver_2/uart_node/fifo_rx/almost_empty,
+rf_transceiver_2/uart_node/fifo_tx/almost_empty,
+rf_transceiver_3/controller/buffer_mcu/almost_empty,
+rf_transceiver_3/controller/buffer_mcu/almost_full,
+rf_transceiver_3/uart_mcu/fifo_tx/almost_empty,
+rf_transceiver_3/uart_mcu/fifo_tx/almost_full,
+rf_transceiver_3/uart_node/fifo_rx/almost_empty,
+rf_transceiver_3/uart_node/fifo_tx/almost_empty
+ (the first 15 of 285 listed).
+Related violations: <none>
+
+ZPS7-1#1 Warning
+PS7 block required  
+The PS7 cell must be used in this Zynq design in order to enable correct default configuration.
+Related violations: <none>
+
+

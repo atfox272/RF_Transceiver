@@ -1,0 +1,20 @@
+0.7
+2020.2
+Nov 18 2020
+09:47:47
+L:/Projects/RF_transceiver_2/RF_transceiver_2.sim/sim_1/behav/xsim/glbl.v,1605673889,verilog,,,,glbl,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sim_1/new/RF_transceiver_tb.sv,1700280464,systemVerilog,,,,RF_transceiver_tb,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/com_uart.v,1697796783,verilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/com_uart_receiver.v,,com_uart,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/com_uart_receiver.v,1697971346,verilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/com_uart_receiver_timer.v,,com_uart_receiver,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/com_uart_receiver_timer.v,1692719328,verilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/com_uart_trans.v,,com_uart_receiver_timer,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/com_uart_trans.v,1692382960,verilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/com_uart_trans_timer.v,,com_uart_trans,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/com_uart_trans_timer.v,1692719384,verilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/fifo_module.v,,com_uart_trans_timer,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/fifo_module.v,1694872436,verilog,,,,fifo_module,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv,1700214569,systemVerilog,,L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv,,sync_fifo,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/RF_transceiver.v,1700280763,verilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/RF_Transceiver-main/fifo_module.v,,RF_transceiver,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v,1700281518,systemVerilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/real_time.v,,controller,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/real_time.v,1699196992,systemVerilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv,,real_time,,uvm,,,,,,
+L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/RX_controller.v,1700279018,systemVerilog,,L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v,,RX_controller,,uvm,,,,,,
+L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v,1700232900,systemVerilog,,L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/baudrate_generator.sv,,TX_controller,,uvm,,,,,,
+L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/baudrate_generator.sv,1700253956,systemVerilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v,,baudrate_generator,,uvm,,,,,,
+L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv,1700279099,systemVerilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sim_1/new/RF_transceiver_tb.sv,,uart_peripheral,,uvm,,,,,,

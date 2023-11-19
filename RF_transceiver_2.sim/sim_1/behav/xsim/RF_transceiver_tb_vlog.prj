@@ -1,0 +1,19 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../RF_transceiver_2.srcs/sources_1/new/RF_transceiver.v" \
+
+sv xil_defaultlib  \
+"../../../../../peripheral_uart/peripheral_uart.srcs/sources_1/new/RX_controller.v" \
+"../../../../../peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v" \
+"../../../../../peripheral_uart/peripheral_uart.srcs/sources_1/new/baudrate_generator.sv" \
+"../../../../RF_transceiver_2.srcs/sources_1/new/controller.v" \
+"../../../../RF_transceiver_2.srcs/sources_1/new/real_time.v" \
+"../../../../RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv" \
+"../../../../../peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv" \
+"../../../../RF_transceiver_2.srcs/sim_1/new/RF_transceiver_tb.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
