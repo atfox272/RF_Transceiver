@@ -51,6 +51,7 @@ module RF_transceiver
     // UART NODE
     wire                    TX_use_node;
     wire                    TX_flag_node;
+    wire                    TX_available_node;
     wire                    TX_complete_node;
     wire                    RX_use_node;
     wire                    RX_flag_node;
@@ -111,7 +112,7 @@ module RF_transceiver
         .TX_use(TX_use_node),
         .TX_flag(TX_flag_node),
         .TX_complete(TX_complete_node),
-        .TX_available(),
+        .TX_available(TX_available_node),
         .rst_n(rst_n)
         );    
             
@@ -149,7 +150,7 @@ module RF_transceiver
         .TX_use_node(TX_use_node),
         .TX_flag_node(TX_flag_node),
         .TX_complete_node(TX_complete_node),
-        
+        .TX_available_node(TX_available_node),
         .rst_n(rst_n)
         );   
             

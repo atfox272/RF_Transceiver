@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="1343000fs"></ZoomStartTime>
-      <ZoomEndTime time="7496343001fs"></ZoomEndTime>
-      <Cursor1Time time="2400000000fs"></Cursor1Time>
+      <ZoomStartTime time="1566627550fs"></ZoomStartTime>
+      <ZoomEndTime time="1566672701fs"></ZoomEndTime>
+      <Cursor1Time time="1566453000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="105"></NameColumnWidth>
+      <NameColumnWidth column_width="95"></NameColumnWidth>
       <ValueColumnWidth column_width="72"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="38" />
+   <WVObjectSize size="43" />
    <wvobject fp_name="/RF_transceiver_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -171,5 +171,30 @@
    <wvobject fp_name="/RF_transceiver_tb/fake_e32/uart_mcu/fifo_tx/buffer" type="array">
       <obj_property name="ElementShortName">buffer[0:31][7:0]</obj_property>
       <obj_property name="ObjectShortName">buffer[0:31][7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/buffer_mcu/counter_threshold" type="array">
+      <obj_property name="ElementShortName">counter_threshold[6:0]</obj_property>
+      <obj_property name="ObjectShortName">counter_threshold[6:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/buffer_mcu/counter" type="array">
+      <obj_property name="ElementShortName">counter[6:0]</obj_property>
+      <obj_property name="ObjectShortName">counter[6:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/buffer_mcu/buffer" type="array">
+      <obj_property name="ElementShortName">buffer[0:63][7:0]</obj_property>
+      <obj_property name="ObjectShortName">buffer[0:63][7:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/buffer_mcu/wr_addr" type="array">
+      <obj_property name="ElementShortName">wr_addr[6:0]</obj_property>
+      <obj_property name="ObjectShortName">wr_addr[6:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RF_transceiver_tb/fake_e32/controller/buffer_mcu/rd_addr" type="array">
+      <obj_property name="ElementShortName">rd_addr[6:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_addr[6:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>

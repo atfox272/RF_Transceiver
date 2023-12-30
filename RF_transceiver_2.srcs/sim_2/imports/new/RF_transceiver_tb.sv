@@ -4,7 +4,7 @@
 `define CASE_3
 `define CASE_4
 `define CASE_5
-//`define CASE_6
+`define CASE_6
 
 module RF_transceiver_tb;
     localparam DATA_WIDTH       = 8;
@@ -54,7 +54,7 @@ module RF_transceiver_tb;
     
     uart_peripheral
         #(
-        .FIFO_DEPTH(32)
+        .FIFO_DEPTH(512)
         ,.INTERNAL_CLOCK(INTERNAL_CLOCK)
         ,.RX_FLAG_TYPE(1'b0)
         ) uart_exmcu (
@@ -72,7 +72,7 @@ module RF_transceiver_tb;
         );
     uart_peripheral
         #(
-        .FIFO_DEPTH(32)
+        .FIFO_DEPTH(512)
         ,.INTERNAL_CLOCK(INTERNAL_CLOCK)
         ,.RX_FLAG_TYPE(1'b0)
         ) uart_exnode (
@@ -270,6 +270,8 @@ module RF_transceiver_tb;
     initial begin
         #800000;
         #100; 
+        {M1,M0} <= 2;
+        #100; 
         {M1,M0} <= 3;
         #MODE_SWITCH_DELAY;
         
@@ -283,6 +285,20 @@ module RF_transceiver_tb;
         #320000;
         for(int i = 0; i < 3; i = i + 1) begin
         data_in_uart_exmcu <= 8'hC3;    // RETURN INFORMATION
+        #1 TX_use_exmcu <= 1;
+        #2 TX_use_exmcu <= 0;
+        end 
+    `endif 
+    
+    `ifdef CASE_5
+        #1000;
+        #100; 
+        {M1,M0} <= 1;
+        #100; 
+        {M1,M0} <= 0;
+        #320000;
+        for(int i = 0; i < 60; i = i + 1) begin
+        data_in_uart_exmcu <= 8'hff - i;    
         #1 TX_use_exmcu <= 1;
         #2 TX_use_exmcu <= 0;
         end 

@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date             : Sat Dec 30 16:22:49 2023
+| Date             : Sat Dec 30 17:14:17 2023
 | Host             : LAPTOP-UGQ0I2VJ running 64-bit major release  (build 9200)
 | Command          : report_power -file RF_transceiver_3module_power_routed.rpt -pb RF_transceiver_3module_power_summary_routed.pb -rpx RF_transceiver_3module_power_routed.rpx
 | Design           : RF_transceiver_3module
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.152        |
+| Total On-Chip Power (W)  | 0.155        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.045        |
+| Dynamic (W)              | 0.049        |
 | Device Static (W)        | 0.107        |
 | Effective TJA (C/W)      | 11.5         |
 | Max Ambient (C)          | 83.2         |
@@ -53,16 +53,16 @@ Table of Contents
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |     0.014 |        3 |       --- |             --- |
-| Slice Logic    |     0.014 |     8534 |       --- |             --- |
-|   LUT as Logic |     0.013 |     2596 |     53200 |            4.88 |
-|   F7/F8 Muxes  |    <0.001 |      556 |     53200 |            1.05 |
+| Slice Logic    |     0.015 |     8537 |       --- |             --- |
+|   LUT as Logic |     0.013 |     2558 |     53200 |            4.81 |
+|   F7/F8 Muxes  |    <0.001 |      612 |     53200 |            1.15 |
 |   CARRY4       |    <0.001 |       84 |     13300 |            0.63 |
 |   Register     |    <0.001 |     4719 |    106400 |            4.44 |
 |   Others       |     0.000 |       72 |       --- |             --- |
-| Signals        |     0.014 |     6674 |       --- |             --- |
-| I/O            |     0.004 |       23 |       125 |           18.40 |
+| Signals        |     0.014 |     6575 |       --- |             --- |
+| I/O            |     0.006 |       23 |       125 |           18.40 |
 | Static Power   |     0.107 |          |           |                 |
-| Total          |     0.152 |          |           |                 |
+| Total          |     0.155 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -72,9 +72,9 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.050 |       0.042 |      0.008 |       NA    | Unspecified | NA         |
-| Vccaux    |       1.800 |     0.010 |       0.000 |      0.010 |       NA    | Unspecified | NA         |
-| Vcco33    |       3.300 |     0.002 |       0.001 |      0.001 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.050 |       0.043 |      0.008 |       NA    | Unspecified | NA         |
+| Vccaux    |       1.800 |     0.011 |       0.000 |      0.010 |       NA    | Unspecified | NA         |
+| Vcco33    |       3.300 |     0.003 |       0.002 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -148,7 +148,7 @@ Table of Contents
 +-----------------------------+-----------+
 | Name                        | Power (W) |
 +-----------------------------+-----------+
-| RF_transceiver_3module      |     0.045 |
+| RF_transceiver_3module      |     0.049 |
 |   rf_transceiver_1          |     0.014 |
 |     controller              |     0.006 |
 |       buffer_mcu            |     0.005 |

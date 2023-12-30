@@ -3,10 +3,10 @@
 Nov 18 2020
 09:47:47
 L:/Projects/RF_transceiver_2/RF_transceiver_2.sim/sim_2/behav/xsim/glbl.v,1605673889,verilog,,,,glbl,,uvm,,,,,,
-L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sim_2/imports/new/RF_transceiver_tb.sv,1703924066,systemVerilog,,,,RF_transceiver_tb,,uvm,,,,,,
-L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv,1703680403,systemVerilog,,L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv,,sync_fifo,,uvm,,,,,,
-L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/RF_transceiver.v,1703920892,verilog,,,,RF_transceiver,,uvm,,,,,,
-L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v,1703927677,systemVerilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/real_time.v,,controller,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sim_2/imports/new/RF_transceiver_tb.sv,1703929925,systemVerilog,,,,RF_transceiver_tb,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv,1703929343,systemVerilog,,L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv,,sync_fifo,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/RF_transceiver.v,1703930679,verilog,,,,RF_transceiver,,uvm,,,,,,
+L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v,1703930763,systemVerilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/real_time.v,,controller,,uvm,,,,,,
 L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/real_time.v,1703680631,systemVerilog,,L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv,,real_time,,uvm,,,,,,
 L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/RX_controller.v,1701247346,systemVerilog,,L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v,,RX_controller,,uvm,,,,,,
 L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v,1701266255,systemVerilog,,L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/baudrate_generator.sv,,TX_controller,,uvm,,,,,,

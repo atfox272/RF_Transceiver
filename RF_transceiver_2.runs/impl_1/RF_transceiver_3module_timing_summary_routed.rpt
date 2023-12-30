@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Sat Dec 30 16:22:50 2023
+| Date         : Sat Dec 30 17:14:17 2023
 | Host         : LAPTOP-UGQ0I2VJ running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -max_paths 10 -file RF_transceiver_3module_timing_summary_routed.rpt -pb RF_transceiver_3module_timing_summary_routed.pb -rpx RF_transceiver_3module_timing_summary_routed.rpx -warn_on_violation
 | Design       : RF_transceiver_3module
@@ -128,7 +128,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-      1.131        0.000                      0                 9000        0.040        0.000                      0                 9000        3.500        0.000                       0                  4720  
+      1.412        0.000                      0                 9000        0.093        0.000                      0                 9000        3.500        0.000                       0                  4720  
 
 
 All user specified timing constraints are met.
@@ -151,7 +151,7 @@ sys_clk_pin  {0.000 4.000}        8.000           125.000
 
 Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----             -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-sys_clk_pin         1.131        0.000                      0                 9000        0.040        0.000                      0                 9000        3.500        0.000                       0                  4720  
+sys_clk_pin         1.412        0.000                      0                 9000        0.093        0.000                      0                 9000        3.500        0.000                       0                  4720  
 
 
 ------------------------------------------------------------------------------------------------
@@ -182,28 +182,28 @@ Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing 
 From Clock:  sys_clk_pin
   To Clock:  sys_clk_pin
 
-Setup :            0  Failing Endpoints,  Worst Slack        1.131ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.040ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        1.412ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.093ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        3.500ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             1.131ns  (required time - arrival time)
-  Source:                 rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+Slack (MET) :             1.412ns  (required time - arrival time)
+  Source:                 rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_3/controller/instruction_match_counter_reg[1]/D
+  Destination:            rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[1]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        6.732ns  (logic 1.681ns (24.970%)  route 5.051ns (75.030%))
-  Logic Levels:           6  (LUT2=1 LUT6=3 MUXF7=1 MUXF8=1)
-  Clock Path Skew:        -0.133ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.230ns = ( 13.230 - 8.000 ) 
-    Source Clock Delay      (SCD):    5.787ns
-    Clock Pessimism Removal (CPR):    0.423ns
+  Data Path Delay:        6.532ns  (logic 1.778ns (27.220%)  route 4.754ns (72.780%))
+  Logic Levels:           6  (LUT5=1 LUT6=3 MUXF7=2)
+  Clock Path Skew:        -0.050ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.256ns = ( 13.256 - 8.000 ) 
+    Source Clock Delay      (SCD):    5.730ns
+    Clock Pessimism Removal (CPR):    0.424ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -219,24 +219,24 @@ Slack (MET) :             1.131ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.522     3.973    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.713     5.787    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X56Y50         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+                         net (fo=4719, routed)        1.656     5.730    rf_transceiver_2/controller/buffer_mcu/clk_IBUF_BUFG
+    SLICE_X34Y20         FDRE                                         r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X56Y50         FDRE (Prop_fdre_C_Q)         0.456     6.243 r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/Q
-                         net (fo=137, routed)         1.744     7.986    rf_transceiver_3/controller/buffer_mcu/rd_addr_reg__0[1]
-    SLICE_X77Y46         LUT6 (Prop_lut6_I2_O)        0.124     8.110 r  rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_28__1/O
-                         net (fo=1, routed)           0.000     8.110    rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_28__1_n_0
-    SLICE_X77Y46         MUXF7 (Prop_muxf7_I1_O)      0.217     8.327 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_14__1/O
-                         net (fo=1, routed)           0.000     8.327    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_14__1_n_0
-    SLICE_X77Y46         MUXF8 (Prop_muxf8_I1_O)      0.094     8.421 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_6/O
-                         net (fo=1, routed)           1.020     9.441    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_6_n_0
-    SLICE_X62Y47         LUT6 (Prop_lut6_I3_O)        0.316     9.757 r  rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_2__1/O
-                         net (fo=8, routed)           1.574    11.331    rf_transceiver_3/controller/buffer_mcu/data_from_buffer_mcu[7]
-    SLICE_X50Y56         LUT2 (Prop_lut2_I1_O)        0.146    11.477 f  rf_transceiver_3/controller/buffer_mcu/instruction_match_counter[2]_i_3__1/O
-                         net (fo=3, routed)           0.713    12.191    rf_transceiver_3/controller/buffer_mcu/instruction_match_counter[2]_i_3__1_n_0
-    SLICE_X51Y56         LUT6 (Prop_lut6_I1_O)        0.328    12.519 r  rf_transceiver_3/controller/buffer_mcu/instruction_match_counter[1]_i_1__1/O
-                         net (fo=1, routed)           0.000    12.519    rf_transceiver_3/controller/buffer_mcu_n_31
-    SLICE_X51Y56         FDRE                                         r  rf_transceiver_3/controller/instruction_match_counter_reg[1]/D
+    SLICE_X34Y20         FDRE (Prop_fdre_C_Q)         0.518     6.248 r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/Q
+                         net (fo=136, routed)         1.365     7.612    rf_transceiver_2/controller/buffer_mcu/rd_addr_reg__0[1]
+    SLICE_X32Y26         LUT6 (Prop_lut6_I2_O)        0.124     7.736 f  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_16__0/O
+                         net (fo=1, routed)           0.000     7.736    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_16__0_n_0
+    SLICE_X32Y26         MUXF7 (Prop_muxf7_I0_O)      0.209     7.945 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_8__0/O
+                         net (fo=1, routed)           1.230     9.175    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_8__0_n_0
+    SLICE_X30Y23         LUT6 (Prop_lut6_I0_O)        0.297     9.472 r  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0/O
+                         net (fo=1, routed)           0.000     9.472    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0_n_0
+    SLICE_X30Y23         MUXF7 (Prop_muxf7_I0_O)      0.209     9.681 r  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_5__0/O
+                         net (fo=4, routed)           1.400    11.081    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_5__0_n_0
+    SLICE_X33Y14         LUT5 (Prop_lut5_I0_O)        0.297    11.378 r  rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__0/O
+                         net (fo=5, routed)           0.760    12.138    rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__0_n_0
+    SLICE_X33Y12         LUT6 (Prop_lut6_I3_O)        0.124    12.262 r  rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[1]_i_1__0/O
+                         net (fo=1, routed)           0.000    12.262    rf_transceiver_2/controller/buffer_mcu_n_17
+    SLICE_X33Y12         FDRE                                         r  rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[1]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -246,31 +246,31 @@ Slack (MET) :             1.131ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.293    11.673    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.466    13.230    rf_transceiver_3/controller/clk_IBUF_BUFG
-    SLICE_X51Y56         FDRE                                         r  rf_transceiver_3/controller/instruction_match_counter_reg[1]/C
-                         clock pessimism              0.423    13.654    
-                         clock uncertainty           -0.035    13.618    
-    SLICE_X51Y56         FDRE (Setup_fdre_C_D)        0.031    13.649    rf_transceiver_3/controller/instruction_match_counter_reg[1]
+                         net (fo=4719, routed)        1.491    13.256    rf_transceiver_2/controller/clk_IBUF_BUFG
+    SLICE_X33Y12         FDRE                                         r  rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[1]/C
+                         clock pessimism              0.424    13.680    
+                         clock uncertainty           -0.035    13.644    
+    SLICE_X33Y12         FDRE (Setup_fdre_C_D)        0.029    13.673    rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[1]
   -------------------------------------------------------------------
-                         required time                         13.649    
-                         arrival time                         -12.519    
+                         required time                         13.673    
+                         arrival time                         -12.262    
   -------------------------------------------------------------------
-                         slack                                  1.131    
+                         slack                                  1.412    
 
-Slack (MET) :             1.194ns  (required time - arrival time)
-  Source:                 rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+Slack (MET) :             1.433ns  (required time - arrival time)
+  Source:                 rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_3/controller/instruction_match_counter_reg[0]/D
+  Destination:            rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[2]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        6.667ns  (logic 1.681ns (25.213%)  route 4.986ns (74.787%))
-  Logic Levels:           6  (LUT2=1 LUT6=3 MUXF7=1 MUXF8=1)
-  Clock Path Skew:        -0.133ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.230ns = ( 13.230 - 8.000 ) 
-    Source Clock Delay      (SCD):    5.787ns
-    Clock Pessimism Removal (CPR):    0.423ns
+  Data Path Delay:        6.512ns  (logic 1.778ns (27.303%)  route 4.734ns (72.697%))
+  Logic Levels:           6  (LUT5=1 LUT6=3 MUXF7=2)
+  Clock Path Skew:        -0.051ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.255ns = ( 13.255 - 8.000 ) 
+    Source Clock Delay      (SCD):    5.730ns
+    Clock Pessimism Removal (CPR):    0.424ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -286,24 +286,24 @@ Slack (MET) :             1.194ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.522     3.973    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.713     5.787    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X56Y50         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+                         net (fo=4719, routed)        1.656     5.730    rf_transceiver_2/controller/buffer_mcu/clk_IBUF_BUFG
+    SLICE_X34Y20         FDRE                                         r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X56Y50         FDRE (Prop_fdre_C_Q)         0.456     6.243 r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/Q
-                         net (fo=137, routed)         1.744     7.986    rf_transceiver_3/controller/buffer_mcu/rd_addr_reg__0[1]
-    SLICE_X77Y46         LUT6 (Prop_lut6_I2_O)        0.124     8.110 r  rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_28__1/O
-                         net (fo=1, routed)           0.000     8.110    rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_28__1_n_0
-    SLICE_X77Y46         MUXF7 (Prop_muxf7_I1_O)      0.217     8.327 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_14__1/O
-                         net (fo=1, routed)           0.000     8.327    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_14__1_n_0
-    SLICE_X77Y46         MUXF8 (Prop_muxf8_I1_O)      0.094     8.421 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_6/O
-                         net (fo=1, routed)           1.020     9.441    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_6_n_0
-    SLICE_X62Y47         LUT6 (Prop_lut6_I3_O)        0.316     9.757 r  rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_2__1/O
-                         net (fo=8, routed)           1.574    11.331    rf_transceiver_3/controller/buffer_mcu/data_from_buffer_mcu[7]
-    SLICE_X50Y56         LUT2 (Prop_lut2_I1_O)        0.146    11.477 f  rf_transceiver_3/controller/buffer_mcu/instruction_match_counter[2]_i_3__1/O
-                         net (fo=3, routed)           0.648    12.126    rf_transceiver_3/controller/buffer_mcu/instruction_match_counter[2]_i_3__1_n_0
-    SLICE_X51Y56         LUT6 (Prop_lut6_I1_O)        0.328    12.454 r  rf_transceiver_3/controller/buffer_mcu/instruction_match_counter[0]_i_1__1/O
-                         net (fo=1, routed)           0.000    12.454    rf_transceiver_3/controller/buffer_mcu_n_32
-    SLICE_X51Y56         FDRE                                         r  rf_transceiver_3/controller/instruction_match_counter_reg[0]/D
+    SLICE_X34Y20         FDRE (Prop_fdre_C_Q)         0.518     6.248 r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/Q
+                         net (fo=136, routed)         1.365     7.612    rf_transceiver_2/controller/buffer_mcu/rd_addr_reg__0[1]
+    SLICE_X32Y26         LUT6 (Prop_lut6_I2_O)        0.124     7.736 f  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_16__0/O
+                         net (fo=1, routed)           0.000     7.736    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_16__0_n_0
+    SLICE_X32Y26         MUXF7 (Prop_muxf7_I0_O)      0.209     7.945 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_8__0/O
+                         net (fo=1, routed)           1.230     9.175    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_8__0_n_0
+    SLICE_X30Y23         LUT6 (Prop_lut6_I0_O)        0.297     9.472 r  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0/O
+                         net (fo=1, routed)           0.000     9.472    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0_n_0
+    SLICE_X30Y23         MUXF7 (Prop_muxf7_I0_O)      0.209     9.681 r  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_5__0/O
+                         net (fo=4, routed)           1.400    11.081    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_5__0_n_0
+    SLICE_X33Y14         LUT5 (Prop_lut5_I0_O)        0.297    11.378 r  rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__0/O
+                         net (fo=5, routed)           0.740    12.118    rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__0_n_0
+    SLICE_X33Y13         LUT6 (Prop_lut6_I3_O)        0.124    12.242 r  rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_1__0/O
+                         net (fo=1, routed)           0.000    12.242    rf_transceiver_2/controller/buffer_mcu_n_16
+    SLICE_X33Y13         FDRE                                         r  rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[2]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -313,31 +313,31 @@ Slack (MET) :             1.194ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.293    11.673    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.466    13.230    rf_transceiver_3/controller/clk_IBUF_BUFG
-    SLICE_X51Y56         FDRE                                         r  rf_transceiver_3/controller/instruction_match_counter_reg[0]/C
-                         clock pessimism              0.423    13.654    
-                         clock uncertainty           -0.035    13.618    
-    SLICE_X51Y56         FDRE (Setup_fdre_C_D)        0.029    13.647    rf_transceiver_3/controller/instruction_match_counter_reg[0]
+                         net (fo=4719, routed)        1.490    13.255    rf_transceiver_2/controller/clk_IBUF_BUFG
+    SLICE_X33Y13         FDRE                                         r  rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[2]/C
+                         clock pessimism              0.424    13.679    
+                         clock uncertainty           -0.035    13.643    
+    SLICE_X33Y13         FDRE (Setup_fdre_C_D)        0.031    13.674    rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[2]
   -------------------------------------------------------------------
-                         required time                         13.647    
-                         arrival time                         -12.454    
+                         required time                         13.674    
+                         arrival time                         -12.242    
   -------------------------------------------------------------------
-                         slack                                  1.194    
+                         slack                                  1.433    
 
-Slack (MET) :             1.265ns  (required time - arrival time)
-  Source:                 rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+Slack (MET) :             1.442ns  (required time - arrival time)
+  Source:                 rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[0]/D
+  Destination:            rf_transceiver_2/controller/HEAD_reg[1]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        6.505ns  (logic 1.450ns (22.290%)  route 5.055ns (77.710%))
-  Logic Levels:           6  (LUT4=1 LUT6=3 MUXF7=1 MUXF8=1)
-  Clock Path Skew:        -0.223ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.240ns = ( 13.240 - 8.000 ) 
-    Source Clock Delay      (SCD):    5.787ns
-    Clock Pessimism Removal (CPR):    0.323ns
+  Data Path Delay:        6.550ns  (logic 1.778ns (27.145%)  route 4.772ns (72.855%))
+  Logic Levels:           6  (LUT5=1 LUT6=3 MUXF7=2)
+  Clock Path Skew:        -0.050ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.256ns = ( 13.256 - 8.000 ) 
+    Source Clock Delay      (SCD):    5.730ns
+    Clock Pessimism Removal (CPR):    0.424ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -353,24 +353,24 @@ Slack (MET) :             1.265ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.522     3.973    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.713     5.787    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X56Y50         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+                         net (fo=4719, routed)        1.656     5.730    rf_transceiver_2/controller/buffer_mcu/clk_IBUF_BUFG
+    SLICE_X34Y20         FDRE                                         r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X56Y50         FDRE (Prop_fdre_C_Q)         0.456     6.243 r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/Q
-                         net (fo=137, routed)         1.883     8.126    rf_transceiver_3/controller/buffer_mcu/rd_addr_reg__0[1]
-    SLICE_X79Y44         LUT6 (Prop_lut6_I2_O)        0.124     8.250 r  rf_transceiver_3/controller/buffer_mcu/ADDH[1]_i_24__1/O
-                         net (fo=1, routed)           0.000     8.250    rf_transceiver_3/controller/buffer_mcu/ADDH[1]_i_24__1_n_0
-    SLICE_X79Y44         MUXF7 (Prop_muxf7_I0_O)      0.212     8.462 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_11__1/O
-                         net (fo=1, routed)           0.000     8.462    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_11__1_n_0
-    SLICE_X79Y44         MUXF8 (Prop_muxf8_I1_O)      0.094     8.556 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_4__1/O
-                         net (fo=1, routed)           0.951     9.507    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_4__1_n_0
-    SLICE_X62Y48         LUT6 (Prop_lut6_I3_O)        0.316     9.823 r  rf_transceiver_3/controller/buffer_mcu/ADDH[1]_i_1__1/O
-                         net (fo=11, routed)          1.475    11.298    rf_transceiver_3/controller/buffer_mcu/data_from_buffer_mcu[1]
-    SLICE_X50Y56         LUT4 (Prop_lut4_I1_O)        0.124    11.422 r  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_6__1/O
-                         net (fo=3, routed)           0.746    12.168    rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_6__1_n_0
-    SLICE_X49Y57         LUT6 (Prop_lut6_I4_O)        0.124    12.292 r  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[0]_i_1__1/O
-                         net (fo=1, routed)           0.000    12.292    rf_transceiver_3/controller/buffer_mcu_n_22
-    SLICE_X49Y57         FDRE                                         r  rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[0]/D
+    SLICE_X34Y20         FDRE (Prop_fdre_C_Q)         0.518     6.248 r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/Q
+                         net (fo=136, routed)         1.365     7.612    rf_transceiver_2/controller/buffer_mcu/rd_addr_reg__0[1]
+    SLICE_X32Y26         LUT6 (Prop_lut6_I2_O)        0.124     7.736 f  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_16__0/O
+                         net (fo=1, routed)           0.000     7.736    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_16__0_n_0
+    SLICE_X32Y26         MUXF7 (Prop_muxf7_I0_O)      0.209     7.945 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_8__0/O
+                         net (fo=1, routed)           1.230     9.175    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_8__0_n_0
+    SLICE_X30Y23         LUT6 (Prop_lut6_I0_O)        0.297     9.472 r  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0/O
+                         net (fo=1, routed)           0.000     9.472    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0_n_0
+    SLICE_X30Y23         MUXF7 (Prop_muxf7_I0_O)      0.209     9.681 r  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_5__0/O
+                         net (fo=4, routed)           1.400    11.081    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_5__0_n_0
+    SLICE_X33Y14         LUT5 (Prop_lut5_I0_O)        0.297    11.378 r  rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__0/O
+                         net (fo=5, routed)           0.778    12.156    rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__0_n_0
+    SLICE_X36Y12         LUT6 (Prop_lut6_I4_O)        0.124    12.280 r  rf_transceiver_2/controller/buffer_mcu/HEAD[1]_i_1__0/O
+                         net (fo=1, routed)           0.000    12.280    rf_transceiver_2/controller/buffer_mcu_n_11
+    SLICE_X36Y12         FDRE                                         r  rf_transceiver_2/controller/HEAD_reg[1]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -380,18 +380,152 @@ Slack (MET) :             1.265ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.293    11.673    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.476    13.240    rf_transceiver_3/controller/clk_IBUF_BUFG
-    SLICE_X49Y57         FDRE                                         r  rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[0]/C
-                         clock pessimism              0.323    13.563    
-                         clock uncertainty           -0.035    13.528    
-    SLICE_X49Y57         FDRE (Setup_fdre_C_D)        0.029    13.557    rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[0]
+                         net (fo=4719, routed)        1.491    13.256    rf_transceiver_2/controller/clk_IBUF_BUFG
+    SLICE_X36Y12         FDRE                                         r  rf_transceiver_2/controller/HEAD_reg[1]/C
+                         clock pessimism              0.424    13.680    
+                         clock uncertainty           -0.035    13.644    
+    SLICE_X36Y12         FDRE (Setup_fdre_C_D)        0.077    13.721    rf_transceiver_2/controller/HEAD_reg[1]
   -------------------------------------------------------------------
-                         required time                         13.557    
-                         arrival time                         -12.292    
+                         required time                         13.721    
+                         arrival time                         -12.280    
   -------------------------------------------------------------------
-                         slack                                  1.265    
+                         slack                                  1.442    
 
-Slack (MET) :             1.269ns  (required time - arrival time)
+Slack (MET) :             1.555ns  (required time - arrival time)
+  Source:                 rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[0]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        6.390ns  (logic 1.778ns (27.825%)  route 4.612ns (72.175%))
+  Logic Levels:           6  (LUT5=1 LUT6=3 MUXF7=2)
+  Clock Path Skew:        -0.051ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.255ns = ( 13.255 - 8.000 ) 
+    Source Clock Delay      (SCD):    5.730ns
+    Clock Pessimism Removal (CPR):    0.424ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    H16                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.522     3.973    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        1.656     5.730    rf_transceiver_2/controller/buffer_mcu/clk_IBUF_BUFG
+    SLICE_X34Y20         FDRE                                         r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X34Y20         FDRE (Prop_fdre_C_Q)         0.518     6.248 r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/Q
+                         net (fo=136, routed)         1.365     7.612    rf_transceiver_2/controller/buffer_mcu/rd_addr_reg__0[1]
+    SLICE_X32Y26         LUT6 (Prop_lut6_I2_O)        0.124     7.736 f  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_16__0/O
+                         net (fo=1, routed)           0.000     7.736    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_16__0_n_0
+    SLICE_X32Y26         MUXF7 (Prop_muxf7_I0_O)      0.209     7.945 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_8__0/O
+                         net (fo=1, routed)           1.230     9.175    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_8__0_n_0
+    SLICE_X30Y23         LUT6 (Prop_lut6_I0_O)        0.297     9.472 r  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0/O
+                         net (fo=1, routed)           0.000     9.472    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0_n_0
+    SLICE_X30Y23         MUXF7 (Prop_muxf7_I0_O)      0.209     9.681 r  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_5__0/O
+                         net (fo=4, routed)           1.400    11.081    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_5__0_n_0
+    SLICE_X33Y14         LUT5 (Prop_lut5_I0_O)        0.297    11.378 r  rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__0/O
+                         net (fo=5, routed)           0.618    11.996    rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__0_n_0
+    SLICE_X33Y13         LUT6 (Prop_lut6_I3_O)        0.124    12.120 r  rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[0]_i_1__0/O
+                         net (fo=1, routed)           0.000    12.120    rf_transceiver_2/controller/buffer_mcu_n_18
+    SLICE_X33Y13         FDRE                                         r  rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[0]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      8.000     8.000 r  
+    H16                                               0.000     8.000 r  clk (IN)
+                         net (fo=0)                   0.000     8.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.293    11.673    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        1.490    13.255    rf_transceiver_2/controller/clk_IBUF_BUFG
+    SLICE_X33Y13         FDRE                                         r  rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[0]/C
+                         clock pessimism              0.424    13.679    
+                         clock uncertainty           -0.035    13.643    
+    SLICE_X33Y13         FDRE (Setup_fdre_C_D)        0.031    13.674    rf_transceiver_2/controller/FSM_sequential_mode_3_state_reg[0]
+  -------------------------------------------------------------------
+                         required time                         13.674    
+                         arrival time                         -12.120    
+  -------------------------------------------------------------------
+                         slack                                  1.555    
+
+Slack (MET) :             1.578ns  (required time - arrival time)
+  Source:                 rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            rf_transceiver_2/controller/HEAD_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        6.418ns  (logic 1.778ns (27.704%)  route 4.640ns (72.296%))
+  Logic Levels:           6  (LUT5=2 LUT6=2 MUXF7=2)
+  Clock Path Skew:        -0.050ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.256ns = ( 13.256 - 8.000 ) 
+    Source Clock Delay      (SCD):    5.730ns
+    Clock Pessimism Removal (CPR):    0.424ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    H16                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.522     3.973    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        1.656     5.730    rf_transceiver_2/controller/buffer_mcu/clk_IBUF_BUFG
+    SLICE_X34Y20         FDRE                                         r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X34Y20         FDRE (Prop_fdre_C_Q)         0.518     6.248 r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/Q
+                         net (fo=136, routed)         1.365     7.612    rf_transceiver_2/controller/buffer_mcu/rd_addr_reg__0[1]
+    SLICE_X32Y26         LUT6 (Prop_lut6_I2_O)        0.124     7.736 r  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_16__0/O
+                         net (fo=1, routed)           0.000     7.736    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_16__0_n_0
+    SLICE_X32Y26         MUXF7 (Prop_muxf7_I0_O)      0.209     7.945 r  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_8__0/O
+                         net (fo=1, routed)           1.230     9.175    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_8__0_n_0
+    SLICE_X30Y23         LUT6 (Prop_lut6_I0_O)        0.297     9.472 f  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0/O
+                         net (fo=1, routed)           0.000     9.472    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0_n_0
+    SLICE_X30Y23         MUXF7 (Prop_muxf7_I0_O)      0.209     9.681 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_5__0/O
+                         net (fo=4, routed)           1.400    11.081    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_5__0_n_0
+    SLICE_X33Y14         LUT5 (Prop_lut5_I0_O)        0.297    11.378 f  rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__0/O
+                         net (fo=5, routed)           0.646    12.024    rf_transceiver_2/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__0_n_0
+    SLICE_X36Y12         LUT5 (Prop_lut5_I2_O)        0.124    12.148 r  rf_transceiver_2/controller/buffer_mcu/HEAD[6]_i_1__0/O
+                         net (fo=1, routed)           0.000    12.148    rf_transceiver_2/controller/buffer_mcu_n_2
+    SLICE_X36Y12         FDRE                                         r  rf_transceiver_2/controller/HEAD_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      8.000     8.000 r  
+    H16                                               0.000     8.000 r  clk (IN)
+                         net (fo=0)                   0.000     8.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.293    11.673    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        1.491    13.256    rf_transceiver_2/controller/clk_IBUF_BUFG
+    SLICE_X36Y12         FDRE                                         r  rf_transceiver_2/controller/HEAD_reg[6]/C
+                         clock pessimism              0.424    13.680    
+                         clock uncertainty           -0.035    13.644    
+    SLICE_X36Y12         FDRE (Setup_fdre_C_D)        0.081    13.725    rf_transceiver_2/controller/HEAD_reg[6]
+  -------------------------------------------------------------------
+                         required time                         13.725    
+                         arrival time                         -12.148    
+  -------------------------------------------------------------------
+                         slack                                  1.578    
+
+Slack (MET) :             1.599ns  (required time - arrival time)
   Source:                 rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Destination:            rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[2]/D
@@ -399,12 +533,12 @@ Slack (MET) :             1.269ns  (required time - arrival time)
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        6.503ns  (logic 1.450ns (22.296%)  route 5.053ns (77.704%))
-  Logic Levels:           6  (LUT4=1 LUT6=3 MUXF7=1 MUXF8=1)
-  Clock Path Skew:        -0.223ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.240ns = ( 13.240 - 8.000 ) 
-    Source Clock Delay      (SCD):    5.787ns
-    Clock Pessimism Removal (CPR):    0.323ns
+  Data Path Delay:        6.287ns  (logic 1.449ns (23.049%)  route 4.838ns (76.951%))
+  Logic Levels:           6  (LUT5=1 LUT6=3 MUXF7=1 MUXF8=1)
+  Clock Path Skew:        -0.156ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.260ns = ( 13.260 - 8.000 ) 
+    Source Clock Delay      (SCD):    5.725ns
+    Clock Pessimism Removal (CPR):    0.309ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -420,24 +554,24 @@ Slack (MET) :             1.269ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.522     3.973    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.713     5.787    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X56Y50         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+                         net (fo=4719, routed)        1.651     5.725    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
+    SLICE_X45Y55         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X56Y50         FDRE (Prop_fdre_C_Q)         0.456     6.243 r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/Q
-                         net (fo=137, routed)         1.883     8.126    rf_transceiver_3/controller/buffer_mcu/rd_addr_reg__0[1]
-    SLICE_X79Y44         LUT6 (Prop_lut6_I2_O)        0.124     8.250 r  rf_transceiver_3/controller/buffer_mcu/ADDH[1]_i_24__1/O
-                         net (fo=1, routed)           0.000     8.250    rf_transceiver_3/controller/buffer_mcu/ADDH[1]_i_24__1_n_0
-    SLICE_X79Y44         MUXF7 (Prop_muxf7_I0_O)      0.212     8.462 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_11__1/O
-                         net (fo=1, routed)           0.000     8.462    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_11__1_n_0
-    SLICE_X79Y44         MUXF8 (Prop_muxf8_I1_O)      0.094     8.556 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_4__1/O
-                         net (fo=1, routed)           0.951     9.507    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_4__1_n_0
-    SLICE_X62Y48         LUT6 (Prop_lut6_I3_O)        0.316     9.823 r  rf_transceiver_3/controller/buffer_mcu/ADDH[1]_i_1__1/O
-                         net (fo=11, routed)          1.475    11.298    rf_transceiver_3/controller/buffer_mcu/data_from_buffer_mcu[1]
-    SLICE_X50Y56         LUT4 (Prop_lut4_I1_O)        0.124    11.422 r  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_6__1/O
-                         net (fo=3, routed)           0.744    12.166    rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_6__1_n_0
-    SLICE_X49Y57         LUT6 (Prop_lut6_I4_O)        0.124    12.290 r  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_1__1/O
-                         net (fo=1, routed)           0.000    12.290    rf_transceiver_3/controller/buffer_mcu_n_20
-    SLICE_X49Y57         FDRE                                         r  rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[2]/D
+    SLICE_X45Y55         FDRE (Prop_fdre_C_Q)         0.456     6.181 r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/Q
+                         net (fo=137, routed)         1.643     7.823    rf_transceiver_3/controller/buffer_mcu/rd_addr_reg__0[1]
+    SLICE_X38Y67         LUT6 (Prop_lut6_I2_O)        0.124     7.947 r  rf_transceiver_3/controller/buffer_mcu/ADDH[5]_i_21__1/O
+                         net (fo=1, routed)           0.000     7.947    rf_transceiver_3/controller/buffer_mcu/ADDH[5]_i_21__1_n_0
+    SLICE_X38Y67         MUXF7 (Prop_muxf7_I1_O)      0.214     8.161 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[5]_i_9__1/O
+                         net (fo=1, routed)           0.000     8.161    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[5]_i_9__1_n_0
+    SLICE_X38Y67         MUXF8 (Prop_muxf8_I1_O)      0.088     8.249 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[5]_i_3__1/O
+                         net (fo=1, routed)           1.219     9.468    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[5]_i_3__1_n_0
+    SLICE_X44Y59         LUT6 (Prop_lut6_I1_O)        0.319     9.787 r  rf_transceiver_3/controller/buffer_mcu/ADDH[5]_i_1__1/O
+                         net (fo=9, routed)           1.379    11.166    rf_transceiver_3/controller/buffer_mcu/data_from_buffer_mcu[5]
+    SLICE_X46Y51         LUT5 (Prop_lut5_I0_O)        0.124    11.290 r  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__1/O
+                         net (fo=5, routed)           0.597    11.887    rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__1_n_0
+    SLICE_X46Y49         LUT6 (Prop_lut6_I3_O)        0.124    12.011 r  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_1__1/O
+                         net (fo=1, routed)           0.000    12.011    rf_transceiver_3/controller/buffer_mcu_n_16
+    SLICE_X46Y49         FDRE                                         r  rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[2]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -447,30 +581,30 @@ Slack (MET) :             1.269ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.293    11.673    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.476    13.240    rf_transceiver_3/controller/clk_IBUF_BUFG
-    SLICE_X49Y57         FDRE                                         r  rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[2]/C
-                         clock pessimism              0.323    13.563    
-                         clock uncertainty           -0.035    13.528    
-    SLICE_X49Y57         FDRE (Setup_fdre_C_D)        0.031    13.559    rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[2]
+                         net (fo=4719, routed)        1.495    13.260    rf_transceiver_3/controller/clk_IBUF_BUFG
+    SLICE_X46Y49         FDRE                                         r  rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[2]/C
+                         clock pessimism              0.309    13.569    
+                         clock uncertainty           -0.035    13.534    
+    SLICE_X46Y49         FDRE (Setup_fdre_C_D)        0.077    13.611    rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[2]
   -------------------------------------------------------------------
-                         required time                         13.559    
-                         arrival time                         -12.290    
+                         required time                         13.611    
+                         arrival time                         -12.011    
   -------------------------------------------------------------------
-                         slack                                  1.269    
+                         slack                                  1.599    
 
-Slack (MET) :             1.338ns  (required time - arrival time)
+Slack (MET) :             1.654ns  (required time - arrival time)
   Source:                 rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_2/controller/CHAN_reg[7]/D
+  Destination:            rf_transceiver_2/controller/instruction_match_counter_reg[2]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        6.199ns  (logic 1.636ns (26.392%)  route 4.563ns (73.608%))
-  Logic Levels:           5  (LUT1=1 LUT6=2 MUXF7=2)
-  Clock Path Skew:        -0.140ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.236ns = ( 13.236 - 8.000 ) 
-    Source Clock Delay      (SCD):    5.800ns
+  Data Path Delay:        6.341ns  (logic 1.791ns (28.244%)  route 4.550ns (71.756%))
+  Logic Levels:           6  (LUT4=1 LUT6=3 MUXF7=1 MUXF8=1)
+  Clock Path Skew:        -0.051ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.255ns = ( 13.255 - 8.000 ) 
+    Source Clock Delay      (SCD):    5.730ns
     Clock Pessimism Removal (CPR):    0.424ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -487,87 +621,24 @@ Slack (MET) :             1.338ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.522     3.973    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.726     5.800    rf_transceiver_2/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X61Y13         FDRE                                         r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
+                         net (fo=4719, routed)        1.656     5.730    rf_transceiver_2/controller/buffer_mcu/clk_IBUF_BUFG
+    SLICE_X34Y20         FDRE                                         r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X61Y13         FDRE (Prop_fdre_C_Q)         0.456     6.256 r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/Q
-                         net (fo=136, routed)         1.536     7.792    rf_transceiver_2/controller/buffer_mcu/rd_addr_reg__0[1]
-    SLICE_X61Y2          LUT6 (Prop_lut6_I2_O)        0.124     7.916 r  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_24__0/O
-                         net (fo=1, routed)           0.000     7.916    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_24__0_n_0
-    SLICE_X61Y2          MUXF7 (Prop_muxf7_I1_O)      0.217     8.133 r  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_11__0/O
-                         net (fo=1, routed)           0.957     9.090    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_11__0_n_0
-    SLICE_X62Y6          LUT6 (Prop_lut6_I0_O)        0.299     9.389 f  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0/O
-                         net (fo=1, routed)           0.000     9.389    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0_n_0
-    SLICE_X62Y6          MUXF7 (Prop_muxf7_I1_O)      0.214     9.603 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_4__0/O
-                         net (fo=3, routed)           1.094    10.696    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_4__0_n_0
-    SLICE_X62Y18         LUT1 (Prop_lut1_I0_O)        0.326    11.022 r  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_2__0/O
-                         net (fo=6, routed)           0.976    11.999    rf_transceiver_2/controller/data_from_buffer_mcu[7]
-    SLICE_X52Y20         FDRE                                         r  rf_transceiver_2/controller/CHAN_reg[7]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      8.000     8.000 r  
-    H16                                               0.000     8.000 r  clk (IN)
-                         net (fo=0)                   0.000     8.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           2.293    11.673    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.471    13.236    rf_transceiver_2/controller/clk_IBUF_BUFG
-    SLICE_X52Y20         FDRE                                         r  rf_transceiver_2/controller/CHAN_reg[7]/C
-                         clock pessimism              0.424    13.660    
-                         clock uncertainty           -0.035    13.624    
-    SLICE_X52Y20         FDRE (Setup_fdre_C_D)       -0.288    13.336    rf_transceiver_2/controller/CHAN_reg[7]
-  -------------------------------------------------------------------
-                         required time                         13.336    
-                         arrival time                         -11.999    
-  -------------------------------------------------------------------
-                         slack                                  1.338    
-
-Slack (MET) :             1.393ns  (required time - arrival time)
-  Source:                 rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_2/controller/OPTION_reg[7]/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        6.144ns  (logic 1.636ns (26.629%)  route 4.508ns (73.371%))
-  Logic Levels:           5  (LUT1=1 LUT6=2 MUXF7=2)
-  Clock Path Skew:        -0.140ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.236ns = ( 13.236 - 8.000 ) 
-    Source Clock Delay      (SCD):    5.800ns
-    Clock Pessimism Removal (CPR):    0.424ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    H16                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           2.522     3.973    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.726     5.800    rf_transceiver_2/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X61Y13         FDRE                                         r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X61Y13         FDRE (Prop_fdre_C_Q)         0.456     6.256 r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/Q
-                         net (fo=136, routed)         1.536     7.792    rf_transceiver_2/controller/buffer_mcu/rd_addr_reg__0[1]
-    SLICE_X61Y2          LUT6 (Prop_lut6_I2_O)        0.124     7.916 r  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_24__0/O
-                         net (fo=1, routed)           0.000     7.916    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_24__0_n_0
-    SLICE_X61Y2          MUXF7 (Prop_muxf7_I1_O)      0.217     8.133 r  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_11__0/O
-                         net (fo=1, routed)           0.957     9.090    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_11__0_n_0
-    SLICE_X62Y6          LUT6 (Prop_lut6_I0_O)        0.299     9.389 f  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0/O
-                         net (fo=1, routed)           0.000     9.389    rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_6__0_n_0
-    SLICE_X62Y6          MUXF7 (Prop_muxf7_I1_O)      0.214     9.603 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_4__0/O
-                         net (fo=3, routed)           1.094    10.696    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[7]_i_4__0_n_0
-    SLICE_X62Y18         LUT1 (Prop_lut1_I0_O)        0.326    11.022 r  rf_transceiver_2/controller/buffer_mcu/ADDH[7]_i_2__0/O
-                         net (fo=6, routed)           0.921    11.943    rf_transceiver_2/controller/data_from_buffer_mcu[7]
-    SLICE_X53Y20         FDRE                                         r  rf_transceiver_2/controller/OPTION_reg[7]/D
+    SLICE_X34Y20         FDRE (Prop_fdre_C_Q)         0.518     6.248 r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/Q
+                         net (fo=136, routed)         1.897     8.145    rf_transceiver_2/controller/buffer_mcu/rd_addr_reg__0[1]
+    SLICE_X28Y31         LUT6 (Prop_lut6_I2_O)        0.124     8.269 f  rf_transceiver_2/controller/buffer_mcu/ADDH[4]_i_19__0/O
+                         net (fo=1, routed)           0.000     8.269    rf_transceiver_2/controller/buffer_mcu/ADDH[4]_i_19__0_n_0
+    SLICE_X28Y31         MUXF7 (Prop_muxf7_I1_O)      0.245     8.514 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[4]_i_8__0/O
+                         net (fo=1, routed)           0.000     8.514    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[4]_i_8__0_n_0
+    SLICE_X28Y31         MUXF8 (Prop_muxf8_I0_O)      0.104     8.618 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[4]_i_3__0/O
+                         net (fo=1, routed)           1.031     9.649    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[4]_i_3__0_n_0
+    SLICE_X31Y22         LUT6 (Prop_lut6_I1_O)        0.316     9.965 f  rf_transceiver_2/controller/buffer_mcu/ADDH[4]_i_1__0/O
+                         net (fo=9, routed)           1.267    11.232    rf_transceiver_2/controller/buffer_mcu/data_from_buffer_mcu[4]
+    SLICE_X33Y14         LUT4 (Prop_lut4_I2_O)        0.152    11.384 f  rf_transceiver_2/controller/buffer_mcu/instruction_match_counter[2]_i_5__0/O
+                         net (fo=1, routed)           0.355    11.739    rf_transceiver_2/controller/buffer_mcu/instruction_match_counter[2]_i_5__0_n_0
+    SLICE_X32Y14         LUT6 (Prop_lut6_I3_O)        0.332    12.071 r  rf_transceiver_2/controller/buffer_mcu/instruction_match_counter[2]_i_1__0/O
+                         net (fo=1, routed)           0.000    12.071    rf_transceiver_2/controller/buffer_mcu_n_24
+    SLICE_X32Y14         FDRE                                         r  rf_transceiver_2/controller/instruction_match_counter_reg[2]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -577,85 +648,18 @@ Slack (MET) :             1.393ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.293    11.673    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.471    13.236    rf_transceiver_2/controller/clk_IBUF_BUFG
-    SLICE_X53Y20         FDRE                                         r  rf_transceiver_2/controller/OPTION_reg[7]/C
-                         clock pessimism              0.424    13.660    
-                         clock uncertainty           -0.035    13.624    
-    SLICE_X53Y20         FDRE (Setup_fdre_C_D)       -0.288    13.336    rf_transceiver_2/controller/OPTION_reg[7]
+                         net (fo=4719, routed)        1.490    13.255    rf_transceiver_2/controller/clk_IBUF_BUFG
+    SLICE_X32Y14         FDRE                                         r  rf_transceiver_2/controller/instruction_match_counter_reg[2]/C
+                         clock pessimism              0.424    13.679    
+                         clock uncertainty           -0.035    13.643    
+    SLICE_X32Y14         FDRE (Setup_fdre_C_D)        0.081    13.724    rf_transceiver_2/controller/instruction_match_counter_reg[2]
   -------------------------------------------------------------------
-                         required time                         13.336    
-                         arrival time                         -11.943    
+                         required time                         13.724    
+                         arrival time                         -12.071    
   -------------------------------------------------------------------
-                         slack                                  1.393    
+                         slack                                  1.654    
 
-Slack (MET) :             1.415ns  (required time - arrival time)
-  Source:                 rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[1]/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        6.358ns  (logic 1.450ns (22.804%)  route 4.908ns (77.196%))
-  Logic Levels:           6  (LUT4=1 LUT6=3 MUXF7=1 MUXF8=1)
-  Clock Path Skew:        -0.222ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.241ns = ( 13.241 - 8.000 ) 
-    Source Clock Delay      (SCD):    5.787ns
-    Clock Pessimism Removal (CPR):    0.323ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    H16                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           2.522     3.973    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.713     5.787    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X56Y50         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X56Y50         FDRE (Prop_fdre_C_Q)         0.456     6.243 r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/Q
-                         net (fo=137, routed)         1.883     8.126    rf_transceiver_3/controller/buffer_mcu/rd_addr_reg__0[1]
-    SLICE_X79Y44         LUT6 (Prop_lut6_I2_O)        0.124     8.250 r  rf_transceiver_3/controller/buffer_mcu/ADDH[1]_i_24__1/O
-                         net (fo=1, routed)           0.000     8.250    rf_transceiver_3/controller/buffer_mcu/ADDH[1]_i_24__1_n_0
-    SLICE_X79Y44         MUXF7 (Prop_muxf7_I0_O)      0.212     8.462 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_11__1/O
-                         net (fo=1, routed)           0.000     8.462    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_11__1_n_0
-    SLICE_X79Y44         MUXF8 (Prop_muxf8_I1_O)      0.094     8.556 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_4__1/O
-                         net (fo=1, routed)           0.951     9.507    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[1]_i_4__1_n_0
-    SLICE_X62Y48         LUT6 (Prop_lut6_I3_O)        0.316     9.823 r  rf_transceiver_3/controller/buffer_mcu/ADDH[1]_i_1__1/O
-                         net (fo=11, routed)          1.475    11.298    rf_transceiver_3/controller/buffer_mcu/data_from_buffer_mcu[1]
-    SLICE_X50Y56         LUT4 (Prop_lut4_I1_O)        0.124    11.422 r  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_6__1/O
-                         net (fo=3, routed)           0.599    12.021    rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_6__1_n_0
-    SLICE_X49Y56         LUT6 (Prop_lut6_I4_O)        0.124    12.145 r  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[1]_i_1__1/O
-                         net (fo=1, routed)           0.000    12.145    rf_transceiver_3/controller/buffer_mcu_n_21
-    SLICE_X49Y56         FDRE                                         r  rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[1]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      8.000     8.000 r  
-    H16                                               0.000     8.000 r  clk (IN)
-                         net (fo=0)                   0.000     8.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           2.293    11.673    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.477    13.241    rf_transceiver_3/controller/clk_IBUF_BUFG
-    SLICE_X49Y56         FDRE                                         r  rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[1]/C
-                         clock pessimism              0.323    13.564    
-                         clock uncertainty           -0.035    13.529    
-    SLICE_X49Y56         FDRE (Setup_fdre_C_D)        0.031    13.560    rf_transceiver_3/controller/FSM_sequential_mode_3_state_reg[1]
-  -------------------------------------------------------------------
-                         required time                         13.560    
-                         arrival time                         -12.145    
-  -------------------------------------------------------------------
-                         slack                                  1.415    
-
-Slack (MET) :             1.466ns  (required time - arrival time)
+Slack (MET) :             1.668ns  (required time - arrival time)
   Source:                 rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Destination:            rf_transceiver_3/controller/HEAD_reg[6]/D
@@ -663,12 +667,12 @@ Slack (MET) :             1.466ns  (required time - arrival time)
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        6.308ns  (logic 1.455ns (23.068%)  route 4.853ns (76.932%))
+  Data Path Delay:        6.220ns  (logic 1.449ns (23.296%)  route 4.771ns (76.704%))
   Logic Levels:           6  (LUT5=2 LUT6=2 MUXF7=1 MUXF8=1)
-  Clock Path Skew:        -0.222ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.241ns = ( 13.241 - 8.000 ) 
-    Source Clock Delay      (SCD):    5.787ns
-    Clock Pessimism Removal (CPR):    0.323ns
+  Clock Path Skew:        -0.156ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.260ns = ( 13.260 - 8.000 ) 
+    Source Clock Delay      (SCD):    5.725ns
+    Clock Pessimism Removal (CPR):    0.309ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -684,24 +688,24 @@ Slack (MET) :             1.466ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.522     3.973    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.713     5.787    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X56Y50         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+                         net (fo=4719, routed)        1.651     5.725    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
+    SLICE_X45Y55         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X56Y50         FDRE (Prop_fdre_C_Q)         0.456     6.243 r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/Q
-                         net (fo=137, routed)         1.744     7.986    rf_transceiver_3/controller/buffer_mcu/rd_addr_reg__0[1]
-    SLICE_X77Y46         LUT6 (Prop_lut6_I2_O)        0.124     8.110 r  rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_28__1/O
-                         net (fo=1, routed)           0.000     8.110    rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_28__1_n_0
-    SLICE_X77Y46         MUXF7 (Prop_muxf7_I1_O)      0.217     8.327 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_14__1/O
-                         net (fo=1, routed)           0.000     8.327    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_14__1_n_0
-    SLICE_X77Y46         MUXF8 (Prop_muxf8_I1_O)      0.094     8.421 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_6/O
-                         net (fo=1, routed)           1.020     9.441    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_6_n_0
-    SLICE_X62Y47         LUT6 (Prop_lut6_I3_O)        0.316     9.757 r  rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_2__1/O
-                         net (fo=8, routed)           1.230    10.987    rf_transceiver_3/controller/buffer_mcu/data_from_buffer_mcu[7]
-    SLICE_X54Y56         LUT5 (Prop_lut5_I4_O)        0.124    11.111 f  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__1/O
-                         net (fo=5, routed)           0.859    11.970    rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__1_n_0
-    SLICE_X47Y57         LUT5 (Prop_lut5_I2_O)        0.124    12.094 r  rf_transceiver_3/controller/buffer_mcu/HEAD[6]_i_1__1/O
-                         net (fo=1, routed)           0.000    12.094    rf_transceiver_3/controller/buffer_mcu_n_3
-    SLICE_X47Y57         FDRE                                         r  rf_transceiver_3/controller/HEAD_reg[6]/D
+    SLICE_X45Y55         FDRE (Prop_fdre_C_Q)         0.456     6.181 r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/Q
+                         net (fo=137, routed)         1.643     7.823    rf_transceiver_3/controller/buffer_mcu/rd_addr_reg__0[1]
+    SLICE_X38Y67         LUT6 (Prop_lut6_I2_O)        0.124     7.947 f  rf_transceiver_3/controller/buffer_mcu/ADDH[5]_i_21__1/O
+                         net (fo=1, routed)           0.000     7.947    rf_transceiver_3/controller/buffer_mcu/ADDH[5]_i_21__1_n_0
+    SLICE_X38Y67         MUXF7 (Prop_muxf7_I1_O)      0.214     8.161 f  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[5]_i_9__1/O
+                         net (fo=1, routed)           0.000     8.161    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[5]_i_9__1_n_0
+    SLICE_X38Y67         MUXF8 (Prop_muxf8_I1_O)      0.088     8.249 f  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[5]_i_3__1/O
+                         net (fo=1, routed)           1.219     9.468    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[5]_i_3__1_n_0
+    SLICE_X44Y59         LUT6 (Prop_lut6_I1_O)        0.319     9.787 f  rf_transceiver_3/controller/buffer_mcu/ADDH[5]_i_1__1/O
+                         net (fo=9, routed)           1.379    11.166    rf_transceiver_3/controller/buffer_mcu/data_from_buffer_mcu[5]
+    SLICE_X46Y51         LUT5 (Prop_lut5_I0_O)        0.124    11.290 f  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__1/O
+                         net (fo=5, routed)           0.530    11.821    rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__1_n_0
+    SLICE_X46Y49         LUT5 (Prop_lut5_I2_O)        0.124    11.945 r  rf_transceiver_3/controller/buffer_mcu/HEAD[6]_i_1__1/O
+                         net (fo=1, routed)           0.000    11.945    rf_transceiver_3/controller/buffer_mcu_n_1
+    SLICE_X46Y49         FDRE                                         r  rf_transceiver_3/controller/HEAD_reg[6]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -711,31 +715,31 @@ Slack (MET) :             1.466ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.293    11.673    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.477    13.241    rf_transceiver_3/controller/clk_IBUF_BUFG
-    SLICE_X47Y57         FDRE                                         r  rf_transceiver_3/controller/HEAD_reg[6]/C
-                         clock pessimism              0.323    13.564    
-                         clock uncertainty           -0.035    13.529    
-    SLICE_X47Y57         FDRE (Setup_fdre_C_D)        0.031    13.560    rf_transceiver_3/controller/HEAD_reg[6]
+                         net (fo=4719, routed)        1.495    13.260    rf_transceiver_3/controller/clk_IBUF_BUFG
+    SLICE_X46Y49         FDRE                                         r  rf_transceiver_3/controller/HEAD_reg[6]/C
+                         clock pessimism              0.309    13.569    
+                         clock uncertainty           -0.035    13.534    
+    SLICE_X46Y49         FDRE (Setup_fdre_C_D)        0.079    13.613    rf_transceiver_3/controller/HEAD_reg[6]
   -------------------------------------------------------------------
-                         required time                         13.560    
-                         arrival time                         -12.094    
+                         required time                         13.613    
+                         arrival time                         -11.945    
   -------------------------------------------------------------------
-                         slack                                  1.466    
+                         slack                                  1.668    
 
-Slack (MET) :             1.468ns  (required time - arrival time)
-  Source:                 rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+Slack (MET) :             1.683ns  (required time - arrival time)
+  Source:                 rf_transceiver_1/uart_node/fifo_tx/rd_addr_reg[0]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_3/controller/HEAD_reg[1]/D
+  Destination:            rf_transceiver_1/uart_node/fifo_tx/buffer_reg[22][1]/CE
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        6.304ns  (logic 1.455ns (23.082%)  route 4.849ns (76.918%))
-  Logic Levels:           6  (LUT5=1 LUT6=3 MUXF7=1 MUXF8=1)
-  Clock Path Skew:        -0.222ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.241ns = ( 13.241 - 8.000 ) 
-    Source Clock Delay      (SCD):    5.787ns
-    Clock Pessimism Removal (CPR):    0.323ns
+  Data Path Delay:        5.875ns  (logic 1.068ns (18.178%)  route 4.807ns (81.822%))
+  Logic Levels:           5  (LUT4=3 LUT5=1 LUT6=1)
+  Clock Path Skew:        0.003ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.375ns = ( 13.375 - 8.000 ) 
+    Source Clock Delay      (SCD):    5.796ns
+    Clock Pessimism Removal (CPR):    0.424ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -751,24 +755,22 @@ Slack (MET) :             1.468ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.522     3.973    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.713     5.787    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X56Y50         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+                         net (fo=4719, routed)        1.722     5.796    rf_transceiver_1/uart_node/fifo_tx/clk_IBUF_BUFG
+    SLICE_X75Y30         FDRE                                         r  rf_transceiver_1/uart_node/fifo_tx/rd_addr_reg[0]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X56Y50         FDRE (Prop_fdre_C_Q)         0.456     6.243 r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/Q
-                         net (fo=137, routed)         1.744     7.986    rf_transceiver_3/controller/buffer_mcu/rd_addr_reg__0[1]
-    SLICE_X77Y46         LUT6 (Prop_lut6_I2_O)        0.124     8.110 f  rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_28__1/O
-                         net (fo=1, routed)           0.000     8.110    rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_28__1_n_0
-    SLICE_X77Y46         MUXF7 (Prop_muxf7_I1_O)      0.217     8.327 f  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_14__1/O
-                         net (fo=1, routed)           0.000     8.327    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_14__1_n_0
-    SLICE_X77Y46         MUXF8 (Prop_muxf8_I1_O)      0.094     8.421 f  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_6/O
-                         net (fo=1, routed)           1.020     9.441    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_6_n_0
-    SLICE_X62Y47         LUT6 (Prop_lut6_I3_O)        0.316     9.757 f  rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_2__1/O
-                         net (fo=8, routed)           1.230    10.987    rf_transceiver_3/controller/buffer_mcu/data_from_buffer_mcu[7]
-    SLICE_X54Y56         LUT5 (Prop_lut5_I4_O)        0.124    11.111 r  rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__1/O
-                         net (fo=5, routed)           0.855    11.966    rf_transceiver_3/controller/buffer_mcu/FSM_sequential_mode_3_state[2]_i_5__1_n_0
-    SLICE_X47Y57         LUT6 (Prop_lut6_I4_O)        0.124    12.090 r  rf_transceiver_3/controller/buffer_mcu/HEAD[1]_i_1__1/O
-                         net (fo=1, routed)           0.000    12.090    rf_transceiver_3/controller/buffer_mcu_n_12
-    SLICE_X47Y57         FDRE                                         r  rf_transceiver_3/controller/HEAD_reg[1]/D
+    SLICE_X75Y30         FDRE (Prop_fdre_C_Q)         0.456     6.252 r  rf_transceiver_1/uart_node/fifo_tx/rd_addr_reg[0]/Q
+                         net (fo=71, routed)          1.310     7.562    rf_transceiver_1/uart_node/fifo_tx/rd_addr_reg__0[0]
+    SLICE_X80Y30         LUT6 (Prop_lut6_I1_O)        0.124     7.686 r  rf_transceiver_1/uart_node/fifo_tx/wr_addr[5]_i_4/O
+                         net (fo=1, routed)           0.433     8.119    rf_transceiver_1/uart_node/fifo_tx/wr_addr[5]_i_4_n_0
+    SLICE_X80Y30         LUT5 (Prop_lut5_I2_O)        0.124     8.243 r  rf_transceiver_1/uart_node/fifo_tx/wr_addr[5]_i_3__0/O
+                         net (fo=3, routed)           0.620     8.863    rf_transceiver_1/uart_node/fifo_tx/wr_addr[5]_i_3__0_n_0
+    SLICE_X75Y30         LUT4 (Prop_lut4_I1_O)        0.124     8.987 r  rf_transceiver_1/uart_node/fifo_tx/wr_addr[5]_i_1__1/O
+                         net (fo=12, routed)          0.794     9.781    rf_transceiver_1/uart_node/fifo_tx/wr_addr0__0
+    SLICE_X82Y30         LUT4 (Prop_lut4_I0_O)        0.124     9.905 f  rf_transceiver_1/uart_node/fifo_tx/buffer[16][7]_i_2__1/O
+                         net (fo=8, routed)           0.741    10.646    rf_transceiver_1/uart_node/fifo_tx/buffer[16][7]_i_2__1_n_0
+    SLICE_X86Y28         LUT4 (Prop_lut4_I3_O)        0.116    10.762 r  rf_transceiver_1/uart_node/fifo_tx/buffer[22][7]_i_1__2/O
+                         net (fo=8, routed)           0.909    11.671    rf_transceiver_1/uart_node/fifo_tx/buffer[22][7]_i_1__2_n_0
+    SLICE_X93Y28         FDRE                                         r  rf_transceiver_1/uart_node/fifo_tx/buffer_reg[22][1]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -778,31 +780,31 @@ Slack (MET) :             1.468ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.293    11.673    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.477    13.241    rf_transceiver_3/controller/clk_IBUF_BUFG
-    SLICE_X47Y57         FDRE                                         r  rf_transceiver_3/controller/HEAD_reg[1]/C
-                         clock pessimism              0.323    13.564    
-                         clock uncertainty           -0.035    13.529    
-    SLICE_X47Y57         FDRE (Setup_fdre_C_D)        0.029    13.558    rf_transceiver_3/controller/HEAD_reg[1]
+                         net (fo=4719, routed)        1.610    13.375    rf_transceiver_1/uart_node/fifo_tx/clk_IBUF_BUFG
+    SLICE_X93Y28         FDRE                                         r  rf_transceiver_1/uart_node/fifo_tx/buffer_reg[22][1]/C
+                         clock pessimism              0.424    13.799    
+                         clock uncertainty           -0.035    13.763    
+    SLICE_X93Y28         FDRE (Setup_fdre_C_CE)      -0.409    13.354    rf_transceiver_1/uart_node/fifo_tx/buffer_reg[22][1]
   -------------------------------------------------------------------
-                         required time                         13.558    
-                         arrival time                         -12.090    
+                         required time                         13.354    
+                         arrival time                         -11.671    
   -------------------------------------------------------------------
-                         slack                                  1.468    
+                         slack                                  1.683    
 
-Slack (MET) :             1.476ns  (required time - arrival time)
-  Source:                 rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+Slack (MET) :             1.726ns  (required time - arrival time)
+  Source:                 rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_3/controller/instruction_match_counter_reg[2]/D
+  Destination:            rf_transceiver_2/controller/instruction_match_counter_reg[0]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            8.000ns  (sys_clk_pin rise@8.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        6.388ns  (logic 1.681ns (26.315%)  route 4.707ns (73.685%))
-  Logic Levels:           6  (LUT2=1 LUT6=3 MUXF7=1 MUXF8=1)
-  Clock Path Skew:        -0.133ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.230ns = ( 13.230 - 8.000 ) 
-    Source Clock Delay      (SCD):    5.787ns
-    Clock Pessimism Removal (CPR):    0.423ns
+  Data Path Delay:        6.263ns  (logic 1.548ns (24.715%)  route 4.715ns (75.285%))
+  Logic Levels:           6  (LUT6=4 MUXF7=1 MUXF8=1)
+  Clock Path Skew:        -0.052ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.254ns = ( 13.254 - 8.000 ) 
+    Source Clock Delay      (SCD):    5.730ns
+    Clock Pessimism Removal (CPR):    0.424ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -818,24 +820,24 @@ Slack (MET) :             1.476ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.522     3.973    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     4.074 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.713     5.787    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X56Y50         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/C
+                         net (fo=4719, routed)        1.656     5.730    rf_transceiver_2/controller/buffer_mcu/clk_IBUF_BUFG
+    SLICE_X34Y20         FDRE                                         r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X56Y50         FDRE (Prop_fdre_C_Q)         0.456     6.243 r  rf_transceiver_3/controller/buffer_mcu/rd_addr_reg[1]/Q
-                         net (fo=137, routed)         1.744     7.986    rf_transceiver_3/controller/buffer_mcu/rd_addr_reg__0[1]
-    SLICE_X77Y46         LUT6 (Prop_lut6_I2_O)        0.124     8.110 r  rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_28__1/O
-                         net (fo=1, routed)           0.000     8.110    rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_28__1_n_0
-    SLICE_X77Y46         MUXF7 (Prop_muxf7_I1_O)      0.217     8.327 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_14__1/O
-                         net (fo=1, routed)           0.000     8.327    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_14__1_n_0
-    SLICE_X77Y46         MUXF8 (Prop_muxf8_I1_O)      0.094     8.421 r  rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_6/O
-                         net (fo=1, routed)           1.020     9.441    rf_transceiver_3/controller/buffer_mcu/ADDH_reg[7]_i_6_n_0
-    SLICE_X62Y47         LUT6 (Prop_lut6_I3_O)        0.316     9.757 r  rf_transceiver_3/controller/buffer_mcu/ADDH[7]_i_2__1/O
-                         net (fo=8, routed)           1.574    11.331    rf_transceiver_3/controller/buffer_mcu/data_from_buffer_mcu[7]
-    SLICE_X50Y56         LUT2 (Prop_lut2_I1_O)        0.146    11.477 f  rf_transceiver_3/controller/buffer_mcu/instruction_match_counter[2]_i_3__1/O
-                         net (fo=3, routed)           0.369    11.847    rf_transceiver_3/controller/buffer_mcu/instruction_match_counter[2]_i_3__1_n_0
-    SLICE_X51Y56         LUT6 (Prop_lut6_I1_O)        0.328    12.175 r  rf_transceiver_3/controller/buffer_mcu/instruction_match_counter[2]_i_1__1/O
-                         net (fo=1, routed)           0.000    12.175    rf_transceiver_3/controller/buffer_mcu_n_30
-    SLICE_X51Y56         FDRE                                         r  rf_transceiver_3/controller/instruction_match_counter_reg[2]/D
+    SLICE_X34Y20         FDRE (Prop_fdre_C_Q)         0.518     6.248 r  rf_transceiver_2/controller/buffer_mcu/rd_addr_reg[1]/Q
+                         net (fo=136, routed)         1.761     8.009    rf_transceiver_2/controller/buffer_mcu/rd_addr_reg__0[1]
+    SLICE_X25Y30         LUT6 (Prop_lut6_I2_O)        0.124     8.133 f  rf_transceiver_2/controller/buffer_mcu/ADDH[1]_i_18__0/O
+                         net (fo=1, routed)           0.000     8.133    rf_transceiver_2/controller/buffer_mcu/ADDH[1]_i_18__0_n_0
+    SLICE_X25Y30         MUXF7 (Prop_muxf7_I0_O)      0.238     8.371 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[1]_i_8__0/O
+                         net (fo=1, routed)           0.000     8.371    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[1]_i_8__0_n_0
+    SLICE_X25Y30         MUXF8 (Prop_muxf8_I0_O)      0.104     8.475 f  rf_transceiver_2/controller/buffer_mcu/ADDH_reg[1]_i_3__0/O
+                         net (fo=1, routed)           1.298     9.773    rf_transceiver_2/controller/buffer_mcu/ADDH_reg[1]_i_3__0_n_0
+    SLICE_X33Y22         LUT6 (Prop_lut6_I1_O)        0.316    10.089 f  rf_transceiver_2/controller/buffer_mcu/ADDH[1]_i_1__0/O
+                         net (fo=12, routed)          1.042    11.131    rf_transceiver_2/controller/buffer_mcu/data_from_buffer_mcu[1]
+    SLICE_X32Y14         LUT6 (Prop_lut6_I1_O)        0.124    11.255 r  rf_transceiver_2/controller/buffer_mcu/instruction_match_counter[2]_i_3__0/O
+                         net (fo=3, routed)           0.614    11.869    rf_transceiver_2/controller/buffer_mcu/instruction_match_counter[2]_i_3__0_n_0
+    SLICE_X32Y15         LUT6 (Prop_lut6_I1_O)        0.124    11.993 r  rf_transceiver_2/controller/buffer_mcu/instruction_match_counter[0]_i_1__0/O
+                         net (fo=1, routed)           0.000    11.993    rf_transceiver_2/controller/buffer_mcu_n_26
+    SLICE_X32Y15         FDRE                                         r  rf_transceiver_2/controller/instruction_match_counter_reg[0]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -845,16 +847,16 @@ Slack (MET) :             1.476ns  (required time - arrival time)
     H16                  IBUF (Prop_ibuf_I_O)         1.380     9.380 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.293    11.673    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    11.764 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        1.466    13.230    rf_transceiver_3/controller/clk_IBUF_BUFG
-    SLICE_X51Y56         FDRE                                         r  rf_transceiver_3/controller/instruction_match_counter_reg[2]/C
-                         clock pessimism              0.423    13.654    
-                         clock uncertainty           -0.035    13.618    
-    SLICE_X51Y56         FDRE (Setup_fdre_C_D)        0.032    13.650    rf_transceiver_3/controller/instruction_match_counter_reg[2]
+                         net (fo=4719, routed)        1.489    13.254    rf_transceiver_2/controller/clk_IBUF_BUFG
+    SLICE_X32Y15         FDRE                                         r  rf_transceiver_2/controller/instruction_match_counter_reg[0]/C
+                         clock pessimism              0.424    13.678    
+                         clock uncertainty           -0.035    13.642    
+    SLICE_X32Y15         FDRE (Setup_fdre_C_D)        0.077    13.719    rf_transceiver_2/controller/instruction_match_counter_reg[0]
   -------------------------------------------------------------------
-                         required time                         13.650    
-                         arrival time                         -12.175    
+                         required time                         13.719    
+                         arrival time                         -11.993    
   -------------------------------------------------------------------
-                         slack                                  1.476    
+                         slack                                  1.726    
 
 
 
@@ -862,19 +864,19 @@ Slack (MET) :             1.476ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.040ns  (arrival time - required time)
-  Source:                 rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[5]/C
+Slack (MET) :             0.093ns  (arrival time - required time)
+  Source:                 rf_transceiver_3/uart_node/rx_controller/rx_state_reg/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[3][5]/D
+  Destination:            rf_transceiver_3/uart_node/rx_controller/transaction_stop_toggle_reg/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.377ns  (logic 0.141ns (37.416%)  route 0.236ns (62.584%))
-  Logic Levels:           0  
+  Data Path Delay:        0.452ns  (logic 0.209ns (46.255%)  route 0.243ns (53.745%))
+  Logic Levels:           1  (LUT6=1)
   Clock Path Skew:        0.266ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.158ns
-    Source Clock Delay      (SCD):    1.631ns
+    Destination Clock Delay (DCD):    2.170ns
+    Source Clock Delay      (SCD):    1.643ns
     Clock Pessimism Removal (CPR):    0.261ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -886,12 +888,14 @@ Slack (MET) :             0.040ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.842     1.060    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.545     1.631    rf_transceiver_2/controller/clk_IBUF_BUFG
-    SLICE_X51Y24         FDRE                                         r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[5]/C
+                         net (fo=4719, routed)        0.557     1.643    rf_transceiver_3/uart_node/rx_controller/clk_IBUF_BUFG
+    SLICE_X50Y40         FDRE                                         r  rf_transceiver_3/uart_node/rx_controller/rx_state_reg/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X51Y24         FDRE (Prop_fdre_C_Q)         0.141     1.772 r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[5]/Q
-                         net (fo=32, routed)          0.236     2.008    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[31][7]_0[5]
-    SLICE_X47Y22         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[3][5]/D
+    SLICE_X50Y40         FDRE (Prop_fdre_C_Q)         0.164     1.807 r  rf_transceiver_3/uart_node/rx_controller/rx_state_reg/Q
+                         net (fo=9, routed)           0.243     2.050    rf_transceiver_3/uart_node/rx_controller/rx_state
+    SLICE_X49Y40         LUT6 (Prop_lut6_I2_O)        0.045     2.095 r  rf_transceiver_3/uart_node/rx_controller/transaction_stop_toggle_i_1__10/O
+                         net (fo=1, routed)           0.000     2.095    rf_transceiver_3/uart_node/rx_controller/transaction_stop_toggle_i_1__10_n_0
+    SLICE_X49Y40         FDRE                                         r  rf_transceiver_3/uart_node/rx_controller/transaction_stop_toggle_reg/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -901,29 +905,133 @@ Slack (MET) :             0.040ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.907     1.313    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.816     2.158    rf_transceiver_2/uart_mcu/fifo_tx/clk_IBUF_BUFG
-    SLICE_X47Y22         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[3][5]/C
-                         clock pessimism             -0.261     1.897    
-    SLICE_X47Y22         FDRE (Hold_fdre_C_D)         0.070     1.967    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[3][5]
+                         net (fo=4719, routed)        0.828     2.170    rf_transceiver_3/uart_node/rx_controller/clk_IBUF_BUFG
+    SLICE_X49Y40         FDRE                                         r  rf_transceiver_3/uart_node/rx_controller/transaction_stop_toggle_reg/C
+                         clock pessimism             -0.261     1.909    
+    SLICE_X49Y40         FDRE (Hold_fdre_C_D)         0.092     2.001    rf_transceiver_3/uart_node/rx_controller/transaction_stop_toggle_reg
   -------------------------------------------------------------------
-                         required time                         -1.967    
-                         arrival time                           2.008    
+                         required time                         -2.001    
+                         arrival time                           2.095    
   -------------------------------------------------------------------
-                         slack                                  0.040    
+                         slack                                  0.093    
 
-Slack (MET) :             0.056ns  (arrival time - required time)
-  Source:                 rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[2]/C
+Slack (MET) :             0.103ns  (arrival time - required time)
+  Source:                 rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[2]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[2][2]/D
+  Destination:            rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][2]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.397ns  (logic 0.164ns (41.281%)  route 0.233ns (58.719%))
+  Data Path Delay:        0.441ns  (logic 0.141ns (31.991%)  route 0.300ns (68.009%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.267ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.172ns
+    Source Clock Delay      (SCD):    1.644ns
+    Clock Pessimism Removal (CPR):    0.261ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    H16                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.842     1.060    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        0.558     1.644    rf_transceiver_2/uart_node/rx_controller/clk_IBUF_BUFG
+    SLICE_X53Y5          FDRE                                         r  rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X53Y5          FDRE (Prop_fdre_C_Q)         0.141     1.785 r  rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[2]/Q
+                         net (fo=33, routed)          0.300     2.085    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][7]_0[2]
+    SLICE_X49Y2          FDRE                                         r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][2]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    H16                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.907     1.313    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        0.830     2.172    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/clk_IBUF_BUFG
+    SLICE_X49Y2          FDRE                                         r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][2]/C
+                         clock pessimism             -0.261     1.911    
+    SLICE_X49Y2          FDRE (Hold_fdre_C_D)         0.070     1.981    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][2]
+  -------------------------------------------------------------------
+                         required time                         -1.981    
+                         arrival time                           2.085    
+  -------------------------------------------------------------------
+                         slack                                  0.103    
+
+Slack (MET) :             0.106ns  (arrival time - required time)
+  Source:                 rf_transceiver_3/controller/waiting_module/counter_reg[15]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            rf_transceiver_3/controller/waiting_module/counter_reg[16]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.473ns  (logic 0.355ns (75.068%)  route 0.118ns (24.932%))
+  Logic Levels:           2  (CARRY4=2)
+  Clock Path Skew:        0.262ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.167ns
+    Source Clock Delay      (SCD):    1.649ns
+    Clock Pessimism Removal (CPR):    0.256ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    H16                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.842     1.060    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        0.563     1.649    rf_transceiver_3/controller/waiting_module/clk_IBUF_BUFG
+    SLICE_X41Y49         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[15]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X41Y49         FDRE (Prop_fdre_C_Q)         0.141     1.790 r  rf_transceiver_3/controller/waiting_module/counter_reg[15]/Q
+                         net (fo=2, routed)           0.117     1.907    rf_transceiver_3/controller/waiting_module/counter_reg[15]
+    SLICE_X41Y49         CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.160     2.067 r  rf_transceiver_3/controller/waiting_module/counter_reg[12]_i_1__1/CO[3]
+                         net (fo=1, routed)           0.001     2.068    rf_transceiver_3/controller/waiting_module/counter_reg[12]_i_1__1_n_0
+    SLICE_X41Y50         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.054     2.122 r  rf_transceiver_3/controller/waiting_module/counter_reg[16]_i_1__1/O[0]
+                         net (fo=1, routed)           0.000     2.122    rf_transceiver_3/controller/waiting_module/counter_reg[16]_i_1__1_n_7
+    SLICE_X41Y50         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[16]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    H16                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.907     1.313    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        0.825     2.167    rf_transceiver_3/controller/waiting_module/clk_IBUF_BUFG
+    SLICE_X41Y50         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[16]/C
+                         clock pessimism             -0.256     1.911    
+    SLICE_X41Y50         FDRE (Hold_fdre_C_D)         0.105     2.016    rf_transceiver_3/controller/waiting_module/counter_reg[16]
+  -------------------------------------------------------------------
+                         required time                         -2.016    
+                         arrival time                           2.122    
+  -------------------------------------------------------------------
+                         slack                                  0.106    
+
+Slack (MET) :             0.109ns  (arrival time - required time)
+  Source:                 rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[1]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[14][1]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.422ns  (logic 0.141ns (33.448%)  route 0.281ns (66.552%))
   Logic Levels:           0  
   Clock Path Skew:        0.265ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.158ns
-    Source Clock Delay      (SCD):    1.632ns
+    Destination Clock Delay (DCD):    2.170ns
+    Source Clock Delay      (SCD):    1.644ns
     Clock Pessimism Removal (CPR):    0.261ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -935,61 +1043,12 @@ Slack (MET) :             0.056ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.842     1.060    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.546     1.632    rf_transceiver_2/controller/clk_IBUF_BUFG
-    SLICE_X50Y23         FDRE                                         r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[2]/C
+                         net (fo=4719, routed)        0.558     1.644    rf_transceiver_2/uart_node/rx_controller/clk_IBUF_BUFG
+    SLICE_X53Y5          FDRE                                         r  rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y23         FDRE (Prop_fdre_C_Q)         0.164     1.796 r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[2]/Q
-                         net (fo=32, routed)          0.233     2.029    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[31][7]_0[2]
-    SLICE_X46Y22         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[2][2]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    H16                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.907     1.313    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.816     2.158    rf_transceiver_2/uart_mcu/fifo_tx/clk_IBUF_BUFG
-    SLICE_X46Y22         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[2][2]/C
-                         clock pessimism             -0.261     1.897    
-    SLICE_X46Y22         FDRE (Hold_fdre_C_D)         0.076     1.973    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[2][2]
-  -------------------------------------------------------------------
-                         required time                         -1.973    
-                         arrival time                           2.029    
-  -------------------------------------------------------------------
-                         slack                                  0.056    
-
-Slack (MET) :             0.068ns  (arrival time - required time)
-  Source:                 rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[2]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[3][2]/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.399ns  (logic 0.164ns (41.074%)  route 0.235ns (58.926%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.265ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.158ns
-    Source Clock Delay      (SCD):    1.632ns
-    Clock Pessimism Removal (CPR):    0.261ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    H16                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.842     1.060    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.546     1.632    rf_transceiver_2/controller/clk_IBUF_BUFG
-    SLICE_X50Y23         FDRE                                         r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[2]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X50Y23         FDRE (Prop_fdre_C_Q)         0.164     1.796 r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[2]/Q
-                         net (fo=32, routed)          0.235     2.031    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[31][7]_0[2]
-    SLICE_X47Y22         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[3][2]/D
+    SLICE_X53Y5          FDRE (Prop_fdre_C_Q)         0.141     1.785 r  rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[1]/Q
+                         net (fo=33, routed)          0.281     2.066    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][7]_0[1]
+    SLICE_X48Y7          FDRE                                         r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[14][1]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -999,78 +1058,29 @@ Slack (MET) :             0.068ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.907     1.313    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.816     2.158    rf_transceiver_2/uart_mcu/fifo_tx/clk_IBUF_BUFG
-    SLICE_X47Y22         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[3][2]/C
-                         clock pessimism             -0.261     1.897    
-    SLICE_X47Y22         FDRE (Hold_fdre_C_D)         0.066     1.963    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[3][2]
+                         net (fo=4719, routed)        0.828     2.170    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/clk_IBUF_BUFG
+    SLICE_X48Y7          FDRE                                         r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[14][1]/C
+                         clock pessimism             -0.261     1.909    
+    SLICE_X48Y7          FDRE (Hold_fdre_C_D)         0.047     1.956    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[14][1]
   -------------------------------------------------------------------
-                         required time                         -1.963    
-                         arrival time                           2.031    
+                         required time                         -1.956    
+                         arrival time                           2.066    
   -------------------------------------------------------------------
-                         slack                                  0.068    
+                         slack                                  0.109    
 
-Slack (MET) :             0.072ns  (arrival time - required time)
-  Source:                 rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[3]/C
+Slack (MET) :             0.117ns  (arrival time - required time)
+  Source:                 rf_transceiver_3/controller/waiting_module/counter_reg[15]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[0][3]/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.383ns  (logic 0.141ns (36.825%)  route 0.242ns (63.175%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.263ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.156ns
-    Source Clock Delay      (SCD):    1.632ns
-    Clock Pessimism Removal (CPR):    0.261ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    H16                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.842     1.060    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.546     1.632    rf_transceiver_2/controller/clk_IBUF_BUFG
-    SLICE_X51Y23         FDRE                                         r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[3]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X51Y23         FDRE (Prop_fdre_C_Q)         0.141     1.773 r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[3]/Q
-                         net (fo=32, routed)          0.242     2.015    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[31][7]_0[3]
-    SLICE_X44Y23         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[0][3]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    H16                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.907     1.313    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.814     2.156    rf_transceiver_2/uart_mcu/fifo_tx/clk_IBUF_BUFG
-    SLICE_X44Y23         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[0][3]/C
-                         clock pessimism             -0.261     1.895    
-    SLICE_X44Y23         FDRE (Hold_fdre_C_D)         0.047     1.942    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[0][3]
-  -------------------------------------------------------------------
-                         required time                         -1.942    
-                         arrival time                           2.015    
-  -------------------------------------------------------------------
-                         slack                                  0.072    
-
-Slack (MET) :             0.086ns  (arrival time - required time)
-  Source:                 rf_transceiver_3/uart_mcu/rx_controller/rx_buffer_reg[1]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_3/controller/buffer_mcu/buffer_reg[41][1]/D
+  Destination:            rf_transceiver_3/controller/waiting_module/counter_reg[18]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.430ns  (logic 0.141ns (32.795%)  route 0.289ns (67.205%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.274ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.194ns
-    Source Clock Delay      (SCD):    1.664ns
+  Data Path Delay:        0.484ns  (logic 0.366ns (75.635%)  route 0.118ns (24.365%))
+  Logic Levels:           2  (CARRY4=2)
+  Clock Path Skew:        0.262ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.167ns
+    Source Clock Delay      (SCD):    1.649ns
     Clock Pessimism Removal (CPR):    0.256ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -1082,61 +1092,18 @@ Slack (MET) :             0.086ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.842     1.060    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.578     1.664    rf_transceiver_3/uart_mcu/rx_controller/clk_IBUF_BUFG
-    SLICE_X56Y52         FDRE                                         r  rf_transceiver_3/uart_mcu/rx_controller/rx_buffer_reg[1]/C
+                         net (fo=4719, routed)        0.563     1.649    rf_transceiver_3/controller/waiting_module/clk_IBUF_BUFG
+    SLICE_X41Y49         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[15]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X56Y52         FDRE (Prop_fdre_C_Q)         0.141     1.805 r  rf_transceiver_3/uart_mcu/rx_controller/rx_buffer_reg[1]/Q
-                         net (fo=65, routed)          0.289     2.094    rf_transceiver_3/controller/buffer_mcu/buffer_reg[63][7]_0[1]
-    SLICE_X59Y44         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/buffer_reg[41][1]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    H16                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.907     1.313    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.852     2.194    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X59Y44         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/buffer_reg[41][1]/C
-                         clock pessimism             -0.256     1.938    
-    SLICE_X59Y44         FDRE (Hold_fdre_C_D)         0.070     2.008    rf_transceiver_3/controller/buffer_mcu/buffer_reg[41][1]
-  -------------------------------------------------------------------
-                         required time                         -2.008    
-                         arrival time                           2.094    
-  -------------------------------------------------------------------
-                         slack                                  0.086    
-
-Slack (MET) :             0.087ns  (arrival time - required time)
-  Source:                 rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[4]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[4][4]/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.421ns  (logic 0.141ns (33.466%)  route 0.280ns (66.534%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.264ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.156ns
-    Source Clock Delay      (SCD):    1.631ns
-    Clock Pessimism Removal (CPR):    0.261ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    H16                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.842     1.060    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.545     1.631    rf_transceiver_2/controller/clk_IBUF_BUFG
-    SLICE_X51Y25         FDRE                                         r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[4]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X51Y25         FDRE (Prop_fdre_C_Q)         0.141     1.772 r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[4]/Q
-                         net (fo=32, routed)          0.280     2.052    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[31][7]_0[4]
-    SLICE_X45Y23         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[4][4]/D
+    SLICE_X41Y49         FDRE (Prop_fdre_C_Q)         0.141     1.790 r  rf_transceiver_3/controller/waiting_module/counter_reg[15]/Q
+                         net (fo=2, routed)           0.117     1.907    rf_transceiver_3/controller/waiting_module/counter_reg[15]
+    SLICE_X41Y49         CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.160     2.067 r  rf_transceiver_3/controller/waiting_module/counter_reg[12]_i_1__1/CO[3]
+                         net (fo=1, routed)           0.001     2.068    rf_transceiver_3/controller/waiting_module/counter_reg[12]_i_1__1_n_0
+    SLICE_X41Y50         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.065     2.133 r  rf_transceiver_3/controller/waiting_module/counter_reg[16]_i_1__1/O[2]
+                         net (fo=1, routed)           0.000     2.133    rf_transceiver_3/controller/waiting_module/counter_reg[16]_i_1__1_n_5
+    SLICE_X41Y50         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[18]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -1146,82 +1113,29 @@ Slack (MET) :             0.087ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.907     1.313    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.814     2.156    rf_transceiver_2/uart_mcu/fifo_tx/clk_IBUF_BUFG
-    SLICE_X45Y23         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[4][4]/C
-                         clock pessimism             -0.261     1.895    
-    SLICE_X45Y23         FDRE (Hold_fdre_C_D)         0.070     1.965    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[4][4]
+                         net (fo=4719, routed)        0.825     2.167    rf_transceiver_3/controller/waiting_module/clk_IBUF_BUFG
+    SLICE_X41Y50         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[18]/C
+                         clock pessimism             -0.256     1.911    
+    SLICE_X41Y50         FDRE (Hold_fdre_C_D)         0.105     2.016    rf_transceiver_3/controller/waiting_module/counter_reg[18]
   -------------------------------------------------------------------
-                         required time                         -1.965    
-                         arrival time                           2.052    
+                         required time                         -2.016    
+                         arrival time                           2.133    
   -------------------------------------------------------------------
-                         slack                                  0.087    
+                         slack                                  0.117    
 
-Slack (MET) :             0.091ns  (arrival time - required time)
-  Source:                 rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/rd_addr_reg[3]/C
+Slack (MET) :             0.121ns  (arrival time - required time)
+  Source:                 rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[4]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[6]/D
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Path Group:             sys_clk_pin
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.481ns  (logic 0.250ns (52.022%)  route 0.231ns (47.978%))
-  Logic Levels:           2  (LUT6=1 MUXF7=1)
-  Clock Path Skew:        0.255ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.151ns
-    Source Clock Delay      (SCD):    1.635ns
-    Clock Pessimism Removal (CPR):    0.261ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    H16                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.842     1.060    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.549     1.635    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/clk_IBUF_BUFG
-    SLICE_X48Y26         FDRE                                         r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/rd_addr_reg[3]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X48Y26         FDRE (Prop_fdre_C_Q)         0.141     1.776 r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/rd_addr_reg[3]/Q
-                         net (fo=16, routed)          0.231     2.007    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/rd_addr_reg__0[3]
-    SLICE_X50Y25         LUT6 (Prop_lut6_I4_O)        0.045     2.052 r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/data_to_uart_mcu_reg[6]_i_3__0/O
-                         net (fo=1, routed)           0.000     2.052    rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[6]_0
-    SLICE_X50Y25         MUXF7 (Prop_muxf7_I1_O)      0.064     2.116 r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[6]_i_1__0/O
-                         net (fo=1, routed)           0.000     2.116    rf_transceiver_2/controller/data_to_uart_mcu_reg_n1_in[6]
-    SLICE_X50Y25         FDRE                                         r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[6]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock sys_clk_pin rise edge)
-                                                      0.000     0.000 r  
-    H16                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.907     1.313    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.809     2.151    rf_transceiver_2/controller/clk_IBUF_BUFG
-    SLICE_X50Y25         FDRE                                         r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[6]/C
-                         clock pessimism             -0.261     1.890    
-    SLICE_X50Y25         FDRE (Hold_fdre_C_D)         0.134     2.024    rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[6]
-  -------------------------------------------------------------------
-                         required time                         -2.024    
-                         arrival time                           2.116    
-  -------------------------------------------------------------------
-                         slack                                  0.091    
-
-Slack (MET) :             0.099ns  (arrival time - required time)
-  Source:                 rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[7]/C
-                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[2][7]/D
+  Destination:            rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[1][4]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.429ns  (logic 0.164ns (38.236%)  route 0.265ns (61.764%))
+  Data Path Delay:        0.463ns  (logic 0.141ns (30.469%)  route 0.322ns (69.531%))
   Logic Levels:           0  
   Clock Path Skew:        0.266ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.158ns
-    Source Clock Delay      (SCD):    1.631ns
+    Destination Clock Delay (DCD):    2.171ns
+    Source Clock Delay      (SCD):    1.644ns
     Clock Pessimism Removal (CPR):    0.261ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -1233,12 +1147,12 @@ Slack (MET) :             0.099ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.842     1.060    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.545     1.631    rf_transceiver_2/controller/clk_IBUF_BUFG
-    SLICE_X50Y25         FDRE                                         r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[7]/C
+                         net (fo=4719, routed)        0.558     1.644    rf_transceiver_2/uart_node/rx_controller/clk_IBUF_BUFG
+    SLICE_X53Y6          FDRE                                         r  rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[4]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X50Y25         FDRE (Prop_fdre_C_Q)         0.164     1.795 r  rf_transceiver_2/controller/data_to_uart_mcu_reg_reg[7]/Q
-                         net (fo=32, routed)          0.265     2.060    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[31][7]_0[7]
-    SLICE_X46Y22         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[2][7]/D
+    SLICE_X53Y6          FDRE (Prop_fdre_C_Q)         0.141     1.785 r  rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[4]/Q
+                         net (fo=33, routed)          0.322     2.107    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][7]_0[4]
+    SLICE_X48Y4          FDRE                                         r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[1][4]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -1248,29 +1162,78 @@ Slack (MET) :             0.099ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.907     1.313    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.816     2.158    rf_transceiver_2/uart_mcu/fifo_tx/clk_IBUF_BUFG
-    SLICE_X46Y22         FDRE                                         r  rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[2][7]/C
-                         clock pessimism             -0.261     1.897    
-    SLICE_X46Y22         FDRE (Hold_fdre_C_D)         0.064     1.961    rf_transceiver_2/uart_mcu/fifo_tx/buffer_reg[2][7]
+                         net (fo=4719, routed)        0.829     2.171    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/clk_IBUF_BUFG
+    SLICE_X48Y4          FDRE                                         r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[1][4]/C
+                         clock pessimism             -0.261     1.910    
+    SLICE_X48Y4          FDRE (Hold_fdre_C_D)         0.075     1.985    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[1][4]
   -------------------------------------------------------------------
-                         required time                         -1.961    
-                         arrival time                           2.060    
+                         required time                         -1.985    
+                         arrival time                           2.107    
   -------------------------------------------------------------------
-                         slack                                  0.099    
+                         slack                                  0.121    
 
-Slack (MET) :             0.105ns  (arrival time - required time)
-  Source:                 rf_transceiver_3/uart_mcu/rx_controller/rx_buffer_reg[1]/C
+Slack (MET) :             0.140ns  (arrival time - required time)
+  Source:                 rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[2]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_3/controller/buffer_mcu/buffer_reg[44][1]/D
+  Destination:            rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[15][2]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.436ns  (logic 0.141ns (32.302%)  route 0.295ns (67.698%))
+  Data Path Delay:        0.477ns  (logic 0.141ns (29.585%)  route 0.336ns (70.415%))
   Logic Levels:           0  
-  Clock Path Skew:        0.272ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.192ns
-    Source Clock Delay      (SCD):    1.664ns
+  Clock Path Skew:        0.266ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.171ns
+    Source Clock Delay      (SCD):    1.644ns
+    Clock Pessimism Removal (CPR):    0.261ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    H16                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.842     1.060    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        0.558     1.644    rf_transceiver_2/uart_node/rx_controller/clk_IBUF_BUFG
+    SLICE_X53Y5          FDRE                                         r  rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X53Y5          FDRE (Prop_fdre_C_Q)         0.141     1.785 r  rf_transceiver_2/uart_node/rx_controller/rx_buffer_reg[2]/Q
+                         net (fo=33, routed)          0.336     2.121    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][7]_0[2]
+    SLICE_X44Y5          FDRE                                         r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[15][2]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    H16                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.907     1.313    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        0.829     2.171    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/clk_IBUF_BUFG
+    SLICE_X44Y5          FDRE                                         r  rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[15][2]/C
+                         clock pessimism             -0.261     1.910    
+    SLICE_X44Y5          FDRE (Hold_fdre_C_D)         0.070     1.980    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[15][2]
+  -------------------------------------------------------------------
+                         required time                         -1.980    
+                         arrival time                           2.121    
+  -------------------------------------------------------------------
+                         slack                                  0.140    
+
+Slack (MET) :             0.142ns  (arrival time - required time)
+  Source:                 rf_transceiver_3/controller/waiting_module/counter_reg[15]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            rf_transceiver_3/controller/waiting_module/counter_reg[17]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.509ns  (logic 0.391ns (76.832%)  route 0.118ns (23.168%))
+  Logic Levels:           2  (CARRY4=2)
+  Clock Path Skew:        0.262ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.167ns
+    Source Clock Delay      (SCD):    1.649ns
     Clock Pessimism Removal (CPR):    0.256ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -1282,12 +1245,18 @@ Slack (MET) :             0.105ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.842     1.060    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.578     1.664    rf_transceiver_3/uart_mcu/rx_controller/clk_IBUF_BUFG
-    SLICE_X56Y52         FDRE                                         r  rf_transceiver_3/uart_mcu/rx_controller/rx_buffer_reg[1]/C
+                         net (fo=4719, routed)        0.563     1.649    rf_transceiver_3/controller/waiting_module/clk_IBUF_BUFG
+    SLICE_X41Y49         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[15]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X56Y52         FDRE (Prop_fdre_C_Q)         0.141     1.805 r  rf_transceiver_3/uart_mcu/rx_controller/rx_buffer_reg[1]/Q
-                         net (fo=65, routed)          0.295     2.101    rf_transceiver_3/controller/buffer_mcu/buffer_reg[63][7]_0[1]
-    SLICE_X54Y46         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/buffer_reg[44][1]/D
+    SLICE_X41Y49         FDRE (Prop_fdre_C_Q)         0.141     1.790 r  rf_transceiver_3/controller/waiting_module/counter_reg[15]/Q
+                         net (fo=2, routed)           0.117     1.907    rf_transceiver_3/controller/waiting_module/counter_reg[15]
+    SLICE_X41Y49         CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.160     2.067 r  rf_transceiver_3/controller/waiting_module/counter_reg[12]_i_1__1/CO[3]
+                         net (fo=1, routed)           0.001     2.068    rf_transceiver_3/controller/waiting_module/counter_reg[12]_i_1__1_n_0
+    SLICE_X41Y50         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.090     2.158 r  rf_transceiver_3/controller/waiting_module/counter_reg[16]_i_1__1/O[1]
+                         net (fo=1, routed)           0.000     2.158    rf_transceiver_3/controller/waiting_module/counter_reg[16]_i_1__1_n_6
+    SLICE_X41Y50         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[17]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -1297,29 +1266,29 @@ Slack (MET) :             0.105ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.907     1.313    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.850     2.192    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X54Y46         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/buffer_reg[44][1]/C
-                         clock pessimism             -0.256     1.936    
-    SLICE_X54Y46         FDRE (Hold_fdre_C_D)         0.059     1.995    rf_transceiver_3/controller/buffer_mcu/buffer_reg[44][1]
+                         net (fo=4719, routed)        0.825     2.167    rf_transceiver_3/controller/waiting_module/clk_IBUF_BUFG
+    SLICE_X41Y50         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[17]/C
+                         clock pessimism             -0.256     1.911    
+    SLICE_X41Y50         FDRE (Hold_fdre_C_D)         0.105     2.016    rf_transceiver_3/controller/waiting_module/counter_reg[17]
   -------------------------------------------------------------------
-                         required time                         -1.995    
-                         arrival time                           2.101    
+                         required time                         -2.016    
+                         arrival time                           2.158    
   -------------------------------------------------------------------
-                         slack                                  0.105    
+                         slack                                  0.142    
 
-Slack (MET) :             0.107ns  (arrival time - required time)
-  Source:                 rf_transceiver_3/uart_mcu/rx_controller/rx_buffer_reg[6]/C
+Slack (MET) :             0.142ns  (arrival time - required time)
+  Source:                 rf_transceiver_3/controller/waiting_module/counter_reg[15]/C
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            rf_transceiver_3/controller/buffer_mcu/buffer_reg[32][6]/D
+  Destination:            rf_transceiver_3/controller/waiting_module/counter_reg[19]/D
                             (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             sys_clk_pin
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
-  Data Path Delay:        0.441ns  (logic 0.141ns (31.953%)  route 0.300ns (68.047%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.274ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.194ns
-    Source Clock Delay      (SCD):    1.664ns
+  Data Path Delay:        0.509ns  (logic 0.391ns (76.832%)  route 0.118ns (23.168%))
+  Logic Levels:           2  (CARRY4=2)
+  Clock Path Skew:        0.262ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.167ns
+    Source Clock Delay      (SCD):    1.649ns
     Clock Pessimism Removal (CPR):    0.256ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -1331,12 +1300,18 @@ Slack (MET) :             0.107ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.842     1.060    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.578     1.664    rf_transceiver_3/uart_mcu/rx_controller/clk_IBUF_BUFG
-    SLICE_X56Y52         FDRE                                         r  rf_transceiver_3/uart_mcu/rx_controller/rx_buffer_reg[6]/C
+                         net (fo=4719, routed)        0.563     1.649    rf_transceiver_3/controller/waiting_module/clk_IBUF_BUFG
+    SLICE_X41Y49         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[15]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X56Y52         FDRE (Prop_fdre_C_Q)         0.141     1.805 r  rf_transceiver_3/uart_mcu/rx_controller/rx_buffer_reg[6]/Q
-                         net (fo=65, routed)          0.300     2.105    rf_transceiver_3/controller/buffer_mcu/buffer_reg[63][7]_0[6]
-    SLICE_X58Y45         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/buffer_reg[32][6]/D
+    SLICE_X41Y49         FDRE (Prop_fdre_C_Q)         0.141     1.790 r  rf_transceiver_3/controller/waiting_module/counter_reg[15]/Q
+                         net (fo=2, routed)           0.117     1.907    rf_transceiver_3/controller/waiting_module/counter_reg[15]
+    SLICE_X41Y49         CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.160     2.067 r  rf_transceiver_3/controller/waiting_module/counter_reg[12]_i_1__1/CO[3]
+                         net (fo=1, routed)           0.001     2.068    rf_transceiver_3/controller/waiting_module/counter_reg[12]_i_1__1_n_0
+    SLICE_X41Y50         CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.090     2.158 r  rf_transceiver_3/controller/waiting_module/counter_reg[16]_i_1__1/O[3]
+                         net (fo=1, routed)           0.000     2.158    rf_transceiver_3/controller/waiting_module/counter_reg[16]_i_1__1_n_4
+    SLICE_X41Y50         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[19]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock sys_clk_pin rise edge)
@@ -1346,15 +1321,73 @@ Slack (MET) :             0.107ns  (arrival time - required time)
     H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
                          net (fo=1, routed)           0.907     1.313    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
-                         net (fo=4719, routed)        0.852     2.194    rf_transceiver_3/controller/buffer_mcu/clk_IBUF_BUFG
-    SLICE_X58Y45         FDRE                                         r  rf_transceiver_3/controller/buffer_mcu/buffer_reg[32][6]/C
-                         clock pessimism             -0.256     1.938    
-    SLICE_X58Y45         FDRE (Hold_fdre_C_D)         0.060     1.998    rf_transceiver_3/controller/buffer_mcu/buffer_reg[32][6]
+                         net (fo=4719, routed)        0.825     2.167    rf_transceiver_3/controller/waiting_module/clk_IBUF_BUFG
+    SLICE_X41Y50         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[19]/C
+                         clock pessimism             -0.256     1.911    
+    SLICE_X41Y50         FDRE (Hold_fdre_C_D)         0.105     2.016    rf_transceiver_3/controller/waiting_module/counter_reg[19]
   -------------------------------------------------------------------
-                         required time                         -1.998    
-                         arrival time                           2.105    
+                         required time                         -2.016    
+                         arrival time                           2.158    
   -------------------------------------------------------------------
-                         slack                                  0.107    
+                         slack                                  0.142    
+
+Slack (MET) :             0.145ns  (arrival time - required time)
+  Source:                 rf_transceiver_3/controller/waiting_module/counter_reg[15]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            rf_transceiver_3/controller/waiting_module/counter_reg[20]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.512ns  (logic 0.394ns (76.968%)  route 0.118ns (23.032%))
+  Logic Levels:           3  (CARRY4=3)
+  Clock Path Skew:        0.262ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.167ns
+    Source Clock Delay      (SCD):    1.649ns
+    Clock Pessimism Removal (CPR):    0.256ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    H16                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.842     1.060    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     1.086 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        0.563     1.649    rf_transceiver_3/controller/waiting_module/clk_IBUF_BUFG
+    SLICE_X41Y49         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[15]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X41Y49         FDRE (Prop_fdre_C_Q)         0.141     1.790 r  rf_transceiver_3/controller/waiting_module/counter_reg[15]/Q
+                         net (fo=2, routed)           0.117     1.907    rf_transceiver_3/controller/waiting_module/counter_reg[15]
+    SLICE_X41Y49         CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.160     2.067 r  rf_transceiver_3/controller/waiting_module/counter_reg[12]_i_1__1/CO[3]
+                         net (fo=1, routed)           0.001     2.068    rf_transceiver_3/controller/waiting_module/counter_reg[12]_i_1__1_n_0
+    SLICE_X41Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.039     2.107 r  rf_transceiver_3/controller/waiting_module/counter_reg[16]_i_1__1/CO[3]
+                         net (fo=1, routed)           0.000     2.107    rf_transceiver_3/controller/waiting_module/counter_reg[16]_i_1__1_n_0
+    SLICE_X41Y51         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.054     2.161 r  rf_transceiver_3/controller/waiting_module/counter_reg[20]_i_1__1/O[0]
+                         net (fo=1, routed)           0.000     2.161    rf_transceiver_3/controller/waiting_module/counter_reg[20]_i_1__1_n_7
+    SLICE_X41Y51         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[20]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    H16                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    H16                  IBUF (Prop_ibuf_I_O)         0.406     0.406 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.907     1.313    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     1.342 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4719, routed)        0.825     2.167    rf_transceiver_3/controller/waiting_module/clk_IBUF_BUFG
+    SLICE_X41Y51         FDRE                                         r  rf_transceiver_3/controller/waiting_module/counter_reg[20]/C
+                         clock pessimism             -0.256     1.911    
+    SLICE_X41Y51         FDRE (Hold_fdre_C_D)         0.105     2.016    rf_transceiver_3/controller/waiting_module/counter_reg[20]
+  -------------------------------------------------------------------
+                         required time                         -2.016    
+                         arrival time                           2.161    
+  -------------------------------------------------------------------
+                         slack                                  0.145    
 
 
 
@@ -1369,35 +1402,35 @@ Sources:            { clk }
 
 Check Type        Corner  Lib Pin  Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
 Min Period        n/a     BUFG/I   n/a            2.155         8.000       5.845      BUFGCTRL_X0Y16  clk_IBUF_BUFG_inst/I
-Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X62Y31    rf_transceiver_1/controller/ADDH_reg[0]/C
-Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X61Y32    rf_transceiver_1/controller/ADDH_reg[1]/C
-Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X62Y31    rf_transceiver_1/controller/ADDH_reg[2]/C
-Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X61Y32    rf_transceiver_1/controller/ADDH_reg[3]/C
-Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X62Y31    rf_transceiver_1/controller/ADDH_reg[4]/C
-Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X62Y31    rf_transceiver_1/controller/ADDH_reg[5]/C
-Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X61Y32    rf_transceiver_1/controller/ADDH_reg[6]/C
-Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X61Y32    rf_transceiver_1/controller/ADDH_reg[7]/C
-Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X60Y31    rf_transceiver_1/controller/ADDL_reg[0]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X51Y28    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[23][1]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X51Y28    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[23][2]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X50Y28    rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[25][2]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][0]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][1]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][4]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[0][6]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X42Y67    rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[11][0]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X42Y67    rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[11][1]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X42Y67    rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer_reg[11][2]/C
-High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X62Y31    rf_transceiver_1/controller/ADDH_reg[0]/C
-High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X61Y32    rf_transceiver_1/controller/ADDH_reg[1]/C
-High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X62Y31    rf_transceiver_1/controller/ADDH_reg[2]/C
-High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X61Y32    rf_transceiver_1/controller/ADDH_reg[3]/C
-High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X62Y31    rf_transceiver_1/controller/ADDH_reg[4]/C
-High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X62Y31    rf_transceiver_1/controller/ADDH_reg[5]/C
-High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X61Y32    rf_transceiver_1/controller/ADDH_reg[6]/C
-High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X61Y32    rf_transceiver_1/controller/ADDH_reg[7]/C
-High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X60Y31    rf_transceiver_1/controller/ADDL_reg[0]/C
-High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X60Y31    rf_transceiver_1/controller/ADDL_reg[1]/C
+Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X66Y28    rf_transceiver_1/controller/ADDH_reg[0]/C
+Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X63Y28    rf_transceiver_1/controller/ADDH_reg[1]/C
+Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X66Y28    rf_transceiver_1/controller/ADDH_reg[2]/C
+Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X65Y27    rf_transceiver_1/controller/ADDH_reg[3]/C
+Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X65Y27    rf_transceiver_1/controller/ADDH_reg[4]/C
+Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X65Y27    rf_transceiver_1/controller/ADDH_reg[5]/C
+Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X65Y27    rf_transceiver_1/controller/ADDH_reg[6]/C
+Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X66Y28    rf_transceiver_1/controller/ADDH_reg[7]/C
+Min Period        n/a     FDRE/C   n/a            1.000         8.000       7.000      SLICE_X65Y28    rf_transceiver_1/controller/ADDL_reg[0]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/controller/buffer_mcu/buffer_reg[20][0]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/controller/buffer_mcu/buffer_reg[20][1]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/controller/buffer_mcu/buffer_reg[20][2]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/controller/buffer_mcu/buffer_reg[20][3]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/controller/buffer_mcu/buffer_reg[20][4]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/controller/buffer_mcu/buffer_reg[20][5]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/controller/buffer_mcu/buffer_reg[20][6]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X45Y67    rf_transceiver_3/controller/buffer_mcu/buffer_reg[20][7]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X46Y67    rf_transceiver_3/controller/buffer_mcu/buffer_reg[29][1]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X44Y67    rf_transceiver_3/controller/buffer_mcu/buffer_reg[29][4]/C
+High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X66Y28    rf_transceiver_1/controller/ADDH_reg[0]/C
+High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X63Y28    rf_transceiver_1/controller/ADDH_reg[1]/C
+High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X66Y28    rf_transceiver_1/controller/ADDH_reg[2]/C
+High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X65Y27    rf_transceiver_1/controller/ADDH_reg[3]/C
+High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X65Y27    rf_transceiver_1/controller/ADDH_reg[4]/C
+High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X65Y27    rf_transceiver_1/controller/ADDH_reg[5]/C
+High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X65Y27    rf_transceiver_1/controller/ADDH_reg[6]/C
+High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X66Y28    rf_transceiver_1/controller/ADDH_reg[7]/C
+High Pulse Width  Fast    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X65Y28    rf_transceiver_1/controller/ADDL_reg[0]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         4.000       3.500      SLICE_X89Y21    rf_transceiver_1/controller/buffer_mcu/buffer_reg[2][1]/C
 
 
 

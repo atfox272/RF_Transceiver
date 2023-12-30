@@ -40,7 +40,7 @@ module sync_fifo
     output                          almost_empty,
     output                          almost_full,
     
-    input       [ADDR_WIDTH - 1:0]  counter_threshold,
+    input       [ADDR_WIDTH:0]      counter_threshold,
     output                          counter_threshold_flag,
     
     input                           rst_n

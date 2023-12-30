@@ -1,4 +1,0 @@
-Running: xsim.dir/RF_transceiver_tb_behav/xsimk.exe -simmode gui -wdb RF_transceiver_tb_behav.wdb -simrunnum 0 -socket 53760
-Design successfully loaded
-Design Loading Memory Usage: 7020 KB (Peak: 7020 KB)
-Design Loading CPU Usage: 0 ms

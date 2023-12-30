@@ -54,6 +54,7 @@ module controller
     output TX_use_node,
     input  TX_flag_node,
     input  TX_complete_node,
+    input  TX_available_node,
     
     input rst_n
     );
@@ -537,14 +538,20 @@ module controller
                                 end
                             end
                             else begin
-                                if(rd_buffer_mcu) begin   // Falling edge -> send (send detect) data 
+                                if(TX_available_node) begin
+                                    if(rd_buffer_mcu) begin   // Falling edge -> send (send detect) data 
+                                        TX_use_node_reg_n = 0;
+                                        rd_buffer_mcu_n = 0;
+                                    end
+                                    else begin                  // Rising edge -> sample data
+                                        data_to_uart_node_reg_n = data_from_buffer_mcu;
+                                        TX_use_node_reg_n = 1;
+                                        rd_buffer_mcu_n = 1;
+                                    end
+                                end
+                                else begin
                                     TX_use_node_reg_n = 0;
                                     rd_buffer_mcu_n = 0;
-                                end
-                                else begin                  // Rising edge -> sample data
-                                    data_to_uart_node_reg_n = data_from_buffer_mcu;
-                                    TX_use_node_reg_n = 1;
-                                    rd_buffer_mcu_n = 1;
                                 end
                             end
                         end
