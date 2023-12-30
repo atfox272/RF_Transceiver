@@ -39,18 +39,31 @@ module real_time
     
     assign limit_flag = limit_flag_reg;
     
+    logic[MAX_COUNTER_WIDTH - 1:0]  counter_n;
+    logic                           limit_flag_reg_n;
+    
+    always_comb begin
+        counter_n = counter;
+        limit_flag_reg_n = limit_flag_reg;
+        
+        if(counter_enable) begin
+            limit_flag_reg_n = (counter == limit_counter) ? 1'b1 : limit_flag_reg;   // Greater than => Set high
+            counter_n = counter + 1;
+        end
+        else begin
+            limit_flag_reg_n = 1'b0;
+            counter_n = 0;
+        end
+    end
+    
     always @(posedge clk) begin
         if(!rst_n) begin
             counter <= 0;
             limit_flag_reg <= 0;
         end
-        else if(counter_enable) begin
-            limit_flag_reg <= (counter == limit_counter) ? 1'b1 : limit_flag_reg;   // Greater than => Set high
-            counter <= counter + 1;
-        end
         else begin
-            limit_flag_reg <= 1'b0;
-            counter <= 0;
+            counter <= counter_n;
+            limit_flag_reg <= limit_flag_reg_n;
         end
     end
     

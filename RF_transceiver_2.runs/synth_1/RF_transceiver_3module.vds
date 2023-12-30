@@ -2,15 +2,15 @@
 # Vivado v2020.2 (64-bit)
 # SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
 # IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
-# Start of session at: Mon Nov 20 01:29:40 2023
-# Process ID: 24768
+# Start of session at: Sat Dec 30 16:19:17 2023
+# Process ID: 37088
 # Current directory: L:/Projects/RF_transceiver_2/RF_transceiver_2.runs/synth_1
 # Command line: vivado.exe -log RF_transceiver_3module.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source RF_transceiver_3module.tcl
 # Log file: L:/Projects/RF_transceiver_2/RF_transceiver_2.runs/synth_1/RF_transceiver_3module.vds
 # Journal file: L:/Projects/RF_transceiver_2/RF_transceiver_2.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
 source RF_transceiver_3module.tcl -notrace
-create_project: Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 1161.559 ; gain = 0.000
+WARNING: [Common 17-1361] You have specified a new message control rule that is equivalent to an existing rule with attributes ' -id {17-179}  -suppress '. The existing rule will be replaced.
 Command: synth_design -top RF_transceiver_3module -part xc7z020clg400-1
 Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
@@ -18,9 +18,10 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020
 INFO: [Device 21-403] Loading part xc7z020clg400-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 5452
+WARNING: [Common 17-1361] You have specified a new message control rule that is equivalent to an existing rule with attributes ' -id {17-179}  -suppress '. The existing rule will be replaced.
+INFO: [Synth 8-7075] Helper process launched with PID 8164
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:12 . Memory (MB): peak = 1203.418 ; gain = 41.859
+Starting RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:05 . Memory (MB): peak = 1203.359 ; gain = 53.719
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'RF_transceiver_3module' [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/RF_transceiver_3module.sv:23]
 INFO: [Synth 8-6157] synthesizing module 'RF_transceiver' [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/RF_transceiver.v:2]
@@ -78,8 +79,8 @@ INFO: [Synth 8-6157] synthesizing module 'TX_controller' [L:/Projects/peripheral
 	Parameter STOP_STATE bound to: 4 - type: integer 
 	Parameter START_BIT bound to: 1'b0 
 	Parameter STOP_BIT bound to: 1'b1 
-INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v:145]
-INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v:170]
+INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v:148]
+INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v:187]
 INFO: [Synth 8-6155] done synthesizing module 'TX_controller' (1#1) [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/TX_controller.v:8]
 INFO: [Synth 8-6157] synthesizing module 'RX_controller' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/RX_controller.v:2]
 	Parameter DATA_WIDTH bound to: 8 - type: integer 
@@ -112,8 +113,6 @@ INFO: [Synth 8-6157] synthesizing module 'RX_controller' [L:/Projects/peripheral
 	Parameter START_BIT bound to: 1'b0 
 	Parameter STOP_BIT bound to: 1'b1 
 INFO: [Synth 8-6155] done synthesizing module 'RX_controller' (2#1) [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/RX_controller.v:2]
-WARNING: [Synth 8-7071] port 'debug' of module 'RX_controller' is unconnected for instance 'rx_controller' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:131]
-WARNING: [Synth 8-7023] instance 'rx_controller' of module 'RX_controller' has 12 connections declared, but only 11 given [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:131]
 INFO: [Synth 8-6157] synthesizing module 'baudrate_generator' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/baudrate_generator.sv:15]
 	Parameter INTERNAL_CLOCK bound to: 125000000 - type: integer 
 	Parameter GENERATE_BD_4TX bound to: 1'b1 
@@ -180,14 +179,11 @@ INFO: [Synth 8-6157] synthesizing module 'baudrate_generator__parameterized0' [L
 	Parameter COUNTER_BD57600 bound to: 2170 - type: integer 
 	Parameter COUNTER_BD115200 bound to: 1085 - type: integer 
 INFO: [Synth 8-6155] done synthesizing module 'baudrate_generator__parameterized0' (3#1) [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/baudrate_generator.sv:15]
-INFO: [Synth 8-6157] synthesizing module 'sync_fifo' [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'sync_fifo' [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv:22]
 	Parameter DATA_WIDTH bound to: 8 - type: integer 
 	Parameter FIFO_DEPTH bound to: 32 - type: integer 
 	Parameter ADDR_WIDTH bound to: 5 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'sync_fifo' (4#1) [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv:23]
-WARNING: [Synth 8-7071] port 'counter_threshold' of module 'sync_fifo' is unconnected for instance 'fifo_tx' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:188]
-WARNING: [Synth 8-7071] port 'counter_threshold_flag' of module 'sync_fifo' is unconnected for instance 'fifo_tx' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:188]
-WARNING: [Synth 8-7023] instance 'fifo_tx' of module 'sync_fifo' has 12 connections declared, but only 10 given [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:188]
+INFO: [Synth 8-6155] done synthesizing module 'sync_fifo' (4#1) [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv:22]
 INFO: [Synth 8-6155] done synthesizing module 'uart_peripheral' (5#1) [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:2]
 INFO: [Synth 8-6157] synthesizing module 'uart_peripheral__parameterized0' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:2]
 	Parameter INTERNAL_CLOCK bound to: 125000000 - type: integer 
@@ -206,17 +202,7 @@ INFO: [Synth 8-6157] synthesizing module 'uart_peripheral__parameterized0' [L:/P
 	Parameter DATA_OPTION_MSB bound to: 1 - type: integer 
 	Parameter DATA_OPTION_LSB bound to: 0 - type: integer 
 	Parameter DATA_OPTION_W bound to: 2 - type: integer 
-WARNING: [Synth 8-7071] port 'counter_threshold' of module 'sync_fifo' is unconnected for instance 'fifo_rx' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:208]
-WARNING: [Synth 8-7071] port 'counter_threshold_flag' of module 'sync_fifo' is unconnected for instance 'fifo_rx' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:208]
-WARNING: [Synth 8-7023] instance 'fifo_rx' of module 'sync_fifo' has 12 connections declared, but only 10 given [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:208]
-WARNING: [Synth 8-7071] port 'debug' of module 'RX_controller' is unconnected for instance 'rx_controller' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:131]
-WARNING: [Synth 8-7023] instance 'rx_controller' of module 'RX_controller' has 12 connections declared, but only 11 given [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:131]
-WARNING: [Synth 8-7071] port 'counter_threshold' of module 'sync_fifo' is unconnected for instance 'fifo_tx' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:188]
-WARNING: [Synth 8-7071] port 'counter_threshold_flag' of module 'sync_fifo' is unconnected for instance 'fifo_tx' [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:188]
-WARNING: [Synth 8-7023] instance 'fifo_tx' of module 'sync_fifo' has 12 connections declared, but only 10 given [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:188]
 INFO: [Synth 8-6155] done synthesizing module 'uart_peripheral__parameterized0' (5#1) [L:/Projects/peripheral_uart/peripheral_uart.srcs/sources_1/new/uart_peripheral.sv:2]
-WARNING: [Synth 8-7071] port 'TX_available' of module 'uart_peripheral' is unconnected for instance 'uart_node' [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/RF_transceiver.v:104]
-WARNING: [Synth 8-7023] instance 'uart_node' of module 'uart_peripheral' has 15 connections declared, but only 14 given [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/RF_transceiver.v:104]
 INFO: [Synth 8-6157] synthesizing module 'controller' [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:2]
 	Parameter DATA_WIDTH bound to: 8 - type: integer 
 	Parameter BUFFER_WIRELESS_TRANS bound to: 64 - type: integer 
@@ -256,37 +242,37 @@ INFO: [Synth 8-6157] synthesizing module 'controller' [L:/Projects/RF_transceive
 	Parameter REAL_TIME_RESET_ENCODE bound to: 0 - type: integer 
 	Parameter REAL_TIME_MODE_SWITCH_ENCODE bound to: 1 - type: integer 
 	Parameter REAL_TIME_3_TRANSACTION_ENCODE bound to: 2 - type: integer 
-INFO: [Synth 8-6157] synthesizing module 'sync_fifo__parameterized0' [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'sync_fifo__parameterized0' [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv:22]
 	Parameter DATA_WIDTH bound to: 8 - type: integer 
 	Parameter FIFO_DEPTH bound to: 64 - type: integer 
 	Parameter ADDR_WIDTH bound to: 6 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'sync_fifo__parameterized0' (5#1) [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'sync_fifo__parameterized0' (5#1) [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/imports/new/sync_fifo.sv:22]
 INFO: [Synth 8-6157] synthesizing module 'real_time' [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/real_time.v:23]
 	Parameter MAX_COUNTER bound to: 20833333 - type: integer 
 	Parameter MAX_COUNTER_WIDTH bound to: 25 - type: integer 
 INFO: [Synth 8-6155] done synthesizing module 'real_time' (6#1) [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/real_time.v:23]
-INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:220]
-INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:344]
-INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:380]
-INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:434]
-INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:247]
-INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:467]
+INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:249]
+INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:373]
+INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:409]
+INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:463]
+INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:276]
+INFO: [Synth 8-155] case statement is not full and has no default [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:496]
 INFO: [Synth 8-6155] done synthesizing module 'controller' (7#1) [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/controller.v:2]
 INFO: [Synth 8-6155] done synthesizing module 'RF_transceiver' (8#1) [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/RF_transceiver.v:2]
 INFO: [Synth 8-6155] done synthesizing module 'RF_transceiver_3module' (9#1) [L:/Projects/RF_transceiver_2/RF_transceiver_2.srcs/sources_1/new/RF_transceiver_3module.sv:23]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:15 . Memory (MB): peak = 1268.773 ; gain = 107.215
+Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:06 . Memory (MB): peak = 1284.758 ; gain = 135.117
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:17 . Memory (MB): peak = 1286.695 ; gain = 125.137
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:07 . Memory (MB): peak = 1302.684 ; gain = 153.043
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:17 . Memory (MB): peak = 1286.695 ; gain = 125.137
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:07 . Memory (MB): peak = 1302.684 ; gain = 153.043
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.086 . Memory (MB): peak = 1286.695 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.069 . Memory (MB): peak = 1302.684 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -297,26 +283,26 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/RF_transceiver_3module_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1385.238 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1407.316 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.051 . Memory (MB): peak = 1385.238 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.037 . Memory (MB): peak = 1407.316 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:08 ; elapsed = 00:00:34 . Memory (MB): peak = 1385.238 ; gain = 223.680
+Finished Constraint Validation : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1407.316 ; gain = 257.676
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z020clg400-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:08 ; elapsed = 00:00:34 . Memory (MB): peak = 1385.238 ; gain = 223.680
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1407.316 ; gain = 257.676
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:34 . Memory (MB): peak = 1385.238 ; gain = 223.680
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1407.316 ; gain = 257.676
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'tx_state_reg' in module 'TX_controller'
 INFO: [Synth 8-802] inferred FSM for state register 'transaction_state_reg' in module 'TX_controller'
@@ -367,11 +353,13 @@ INFO: [Synth 8-3354] encoded FSM with state register 'mode_3_state_reg' using en
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
-              IDLE_STATE |                              001 |                              000
-           WORKING_STATE |                              010 |                              010
-             RESET_STATE |                              100 |                              001
+              IDLE_STATE |                              000 |                              000
+       READY_WTRAN_STATE |                              001 |                              001
+    WIRELESS_TRANS_STATE |                              010 |                              011
+       READY_WRECV_STATE |                              011 |                              010
+     WIRELESS_RECV_STATE |                              100 |                              100
 ---------------------------------------------------------------------------------------------------
-INFO: [Synth 8-3354] encoded FSM with state register 'mode_switch_state_reg' using encoding 'one-hot' in module 'controller'
+INFO: [Synth 8-3354] encoded FSM with state register 'mode_0_state_reg' using encoding 'sequential' in module 'controller'
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
@@ -384,15 +372,13 @@ INFO: [Synth 8-3354] encoded FSM with state register 'cur_mode_reg' using encodi
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
-              IDLE_STATE |                              000 |                              000
-       READY_WTRAN_STATE |                              001 |                              001
-    WIRELESS_TRANS_STATE |                              010 |                              011
-       READY_WRECV_STATE |                              011 |                              010
-     WIRELESS_RECV_STATE |                              100 |                              100
+              IDLE_STATE |                              001 |                              000
+           WORKING_STATE |                              010 |                              010
+             RESET_STATE |                              100 |                              001
 ---------------------------------------------------------------------------------------------------
-INFO: [Synth 8-3354] encoded FSM with state register 'mode_0_state_reg' using encoding 'sequential' in module 'controller'
+INFO: [Synth 8-3354] encoded FSM with state register 'mode_switch_state_reg' using encoding 'one-hot' in module 'controller'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:37 . Memory (MB): peak = 1385.238 ; gain = 223.680
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:15 . Memory (MB): peak = 1407.316 ; gain = 257.676
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -400,9 +386,9 @@ Start RTL Component Statistics
 Detailed RTL Component Info : 
 +---Adders : 
 	   2 Input   15 Bit       Adders := 12    
-	   2 Input    7 Bit       Adders := 6     
+	   2 Input    7 Bit       Adders := 9     
 	   3 Input    7 Bit       Adders := 3     
-	   2 Input    6 Bit       Adders := 21    
+	   2 Input    6 Bit       Adders := 30    
 	   3 Input    6 Bit       Adders := 9     
 	   2 Input    5 Bit       Adders := 9     
 	   2 Input    3 Bit       Adders := 18    
@@ -412,14 +398,11 @@ Detailed RTL Component Info :
 	                8 Bit    Wide XORs := 12    
 +---Registers : 
 	               15 Bit    Registers := 12    
-	                8 Bit    Registers := 36    
+	                8 Bit    Registers := 516   
 	                7 Bit    Registers := 6     
 	                6 Bit    Registers := 18    
-	                3 Bit    Registers := 27    
+	                3 Bit    Registers := 21    
 	                1 Bit    Registers := 87    
-+---RAMs : 
-	              512 Bit	(64 X 8 bit)          RAMs := 3     
-	              256 Bit	(32 X 8 bit)          RAMs := 9     
 +---Muxes : 
 	   2 Input   25 Bit        Muxes := 3     
 	   4 Input   25 Bit        Muxes := 3     
@@ -434,12 +417,12 @@ Detailed RTL Component Info :
 	   6 Input    3 Bit        Muxes := 9     
 	   5 Input    3 Bit        Muxes := 9     
 	   4 Input    3 Bit        Muxes := 9     
-	   7 Input    3 Bit        Muxes := 15    
+	   7 Input    3 Bit        Muxes := 9     
 	   4 Input    2 Bit        Muxes := 9     
 	   2 Input    2 Bit        Muxes := 9     
 	   3 Input    2 Bit        Muxes := 3     
 	   8 Input    2 Bit        Muxes := 3     
-	   2 Input    1 Bit        Muxes := 138   
+	   2 Input    1 Bit        Muxes := 639   
 	   5 Input    1 Bit        Muxes := 45    
 	   6 Input    1 Bit        Muxes := 66    
 	   3 Input    1 Bit        Muxes := 27    
@@ -461,76 +444,25 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:53 . Memory (MB): peak = 1385.238 ; gain = 223.680
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start ROM, RAM, DSP, Shift Register and Retiming Reporting
----------------------------------------------------------------------------------
-
-Distributed RAM: Preliminary Mapping	Report (see note below)
-+--------------------------------------+------------+-----------+----------------------+--------------------------+
-|Module Name                           | RTL Object | Inference | Size (Depth x Width) | Primitives               | 
-+--------------------------------------+------------+-----------+----------------------+--------------------------+
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|RF_transceiver:/controller/buffer_mcu | buffer_reg | Implied   | 64 x 8               | RAM64X1D x 2	RAM64M x 2	 | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|RF_transceiver:/controller/buffer_mcu | buffer_reg | Implied   | 64 x 8               | RAM64X1D x 2	RAM64M x 2	 | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|RF_transceiver:/controller/buffer_mcu | buffer_reg | Implied   | 64 x 8               | RAM64X1D x 2	RAM64M x 2	 | 
-+--------------------------------------+------------+-----------+----------------------+--------------------------+
-
-Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
----------------------------------------------------------------------------------
-Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:26 . Memory (MB): peak = 1407.316 ; gain = 257.676
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:16 ; elapsed = 00:01:10 . Memory (MB): peak = 1385.238 ; gain = 223.680
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:32 . Memory (MB): peak = 1407.316 ; gain = 257.676
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:16 ; elapsed = 00:01:11 . Memory (MB): peak = 1385.238 ; gain = 223.680
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start ROM, RAM, DSP, Shift Register and Retiming Reporting
----------------------------------------------------------------------------------
-
-Distributed RAM: Final Mapping	Report
-+--------------------------------------+------------+-----------+----------------------+--------------------------+
-|Module Name                           | RTL Object | Inference | Size (Depth x Width) | Primitives               | 
-+--------------------------------------+------------+-----------+----------------------+--------------------------+
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|RF_transceiver:/controller/buffer_mcu | buffer_reg | Implied   | 64 x 8               | RAM64X1D x 2	RAM64M x 2	 | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|RF_transceiver:/controller/buffer_mcu | buffer_reg | Implied   | 64 x 8               | RAM64X1D x 2	RAM64M x 2	 | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|sync_fifo:                            | buffer_reg | Implied   | 32 x 8               | RAM32M x 2	              | 
-|RF_transceiver:/controller/buffer_mcu | buffer_reg | Implied   | 64 x 8               | RAM64X1D x 2	RAM64M x 2	 | 
-+--------------------------------------+------------+-----------+----------------------+--------------------------+
-
----------------------------------------------------------------------------------
-Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+Finished Timing Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:38 . Memory (MB): peak = 1519.066 ; gain = 369.426
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:16 ; elapsed = 00:01:13 . Memory (MB): peak = 1401.148 ; gain = 239.590
+Finished Technology Mapping : Time (s): cpu = 00:00:15 ; elapsed = 00:00:41 . Memory (MB): peak = 1520.137 ; gain = 370.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -547,83 +479,38 @@ Start Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[4] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[3] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[2] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[1] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[0] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[4] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[3] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[2] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[1] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[0] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[4] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[3] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[2] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[1] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[0] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[4] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[3] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[2] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[1] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[0] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[4] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[3] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[2] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[1] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[0] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[4] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[3] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[2] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[1] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[0] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[4] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[3] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[2] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[1] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_mcu/fifo_tx:counter_threshold[0] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[4] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[3] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[2] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[1] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_rx:counter_threshold[0] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[4] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[3] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[2] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[1] to constant 0
-WARNING: [Synth 8-3295] tying undriven pin uart_node/fifo_tx:counter_threshold[0] to constant 0
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:18 ; elapsed = 00:01:22 . Memory (MB): peak = 1409.215 ; gain = 247.656
+Finished IO Insertion : Time (s): cpu = 00:00:16 ; elapsed = 00:00:44 . Memory (MB): peak = 1520.137 ; gain = 370.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:18 ; elapsed = 00:01:22 . Memory (MB): peak = 1409.215 ; gain = 247.656
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:16 ; elapsed = 00:00:44 . Memory (MB): peak = 1520.137 ; gain = 370.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:18 ; elapsed = 00:01:22 . Memory (MB): peak = 1409.215 ; gain = 247.656
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:17 ; elapsed = 00:00:45 . Memory (MB): peak = 1520.137 ; gain = 370.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:18 ; elapsed = 00:01:22 . Memory (MB): peak = 1409.215 ; gain = 247.656
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:17 ; elapsed = 00:00:45 . Memory (MB): peak = 1520.137 ; gain = 370.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:01:22 . Memory (MB): peak = 1409.215 ; gain = 247.656
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:17 ; elapsed = 00:00:45 . Memory (MB): peak = 1520.137 ; gain = 370.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:18 ; elapsed = 00:01:22 . Memory (MB): peak = 1409.215 ; gain = 247.656
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:17 ; elapsed = 00:00:45 . Memory (MB): peak = 1520.137 ; gain = 370.496
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -636,48 +523,44 @@ Report BlackBoxes:
 +-+--------------+----------+
 
 Report Cell Usage: 
-+------+---------+------+
-|      |Cell     |Count |
-+------+---------+------+
-|1     |BUFG     |     1|
-|2     |CARRY4   |   102|
-|3     |LUT1     |   348|
-|4     |LUT2     |   228|
-|5     |LUT3     |   138|
-|6     |LUT4     |   279|
-|7     |LUT5     |   162|
-|8     |LUT6     |   606|
-|9     |RAM32M   |    18|
-|10    |RAM64M   |     6|
-|11    |RAM64X1D |     6|
-|12    |FDRE     |   870|
-|13    |FDSE     |     9|
-|14    |IBUF     |    14|
-|15    |OBUF     |     9|
-+------+---------+------+
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     1|
+|2     |CARRY4 |    84|
+|3     |LUT1   |   204|
+|4     |LUT2   |   174|
+|5     |LUT3   |   180|
+|6     |LUT4   |   629|
+|7     |LUT5   |   268|
+|8     |LUT6   |  1648|
+|9     |MUXF7  |   466|
+|10    |MUXF8  |    90|
+|11    |FDRE   |  4710|
+|12    |FDSE   |     9|
+|13    |IBUF   |    14|
+|14    |OBUF   |     9|
++------+-------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:18 ; elapsed = 00:01:22 . Memory (MB): peak = 1409.215 ; gain = 247.656
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:17 ; elapsed = 00:00:45 . Memory (MB): peak = 1520.137 ; gain = 370.496
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 45 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:12 ; elapsed = 00:01:16 . Memory (MB): peak = 1409.215 ; gain = 149.113
-Synthesis Optimization Complete : Time (s): cpu = 00:00:18 ; elapsed = 00:01:22 . Memory (MB): peak = 1409.215 ; gain = 247.656
+Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:13 ; elapsed = 00:00:43 . Memory (MB): peak = 1520.137 ; gain = 265.863
+Synthesis Optimization Complete : Time (s): cpu = 00:00:17 ; elapsed = 00:00:46 . Memory (MB): peak = 1520.137 ; gain = 370.496
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.067 . Memory (MB): peak = 1417.254 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 132 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.078 . Memory (MB): peak = 1531.992 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 640 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 1421.285 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1531.992 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 30 instances were transformed.
-  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 18 instances
-  RAM64M => RAM64M (RAMD64E(x4)): 6 instances
-  RAM64X1D => RAM64X1D (RAMD64E(x2)): 6 instances
+No Unisim elements were transformed.
 
 INFO: [Common 17-83] Releasing license: Synthesis
-61 Infos, 60 Warnings, 0 Critical Warnings and 0 Errors encountered.
+61 Infos, 2 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:22 ; elapsed = 00:01:42 . Memory (MB): peak = 1421.285 ; gain = 259.727
+synth_design: Time (s): cpu = 00:00:20 ; elapsed = 00:01:01 . Memory (MB): peak = 1531.992 ; gain = 382.352
 INFO: [Common 17-1381] The checkpoint 'L:/Projects/RF_transceiver_2/RF_transceiver_2.runs/synth_1/RF_transceiver_3module.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file RF_transceiver_3module_utilization_synth.rpt -pb RF_transceiver_3module_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Mon Nov 20 01:31:33 2023...
+INFO: [Common 17-206] Exiting Vivado at Sat Dec 30 16:20:31 2023...

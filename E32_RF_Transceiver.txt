@@ -1,0 +1,125 @@
+E32: RF Transceiver
+
+# Sơ đồ chân
+
+<image: >
+
+- Dựa trên PinOut của Arty-z7
+
+# Tổng quan:
+## Giới thiệu
+- Xây dựng module nhằm mô phỏng hành vi của E32 và đưa dữ liệu không dây qua 1 bộ uart khác để truy xuất dữ liệu không dây thông qua bộ uart đó.
+- Module RF transceiver này sẽ thay thế RFIC truyền nhận không dây của E32 thành module UART (có ký hiệu RX_node và TX_node) (gọi là UART_node).
+
+## Sơ đồ khối:
+<image: BlockDiagram.png>
+
+## Interface:
+- AUX: Xác định trạng thái của E32 (Idle/Working)
+- M0: Điều chỉnh mode của E32 
+- M1: Điều chỉnh mode của E32
+- RX_mcu: Chân giao tiếp với Controller
+- TX_mcu: Chân giao tiếp với Controller
+- RX_node: Chân giao tiếp với node khác
+- TX_node: Chân giao tiếp với node khác
+
+# Hành vi được mô phỏng:
+## Các hành vi được mô phỏng:
+
+* Hành vi của MODE3 (SLEEP MODE):
+- Hành vi self-check khi khởi động
+- Hành vi cấu hình thông số khi có lệnh CONFIG (C0/C2 + <5 bytes>)
+- Hành vi đọc thông số cấu hình hiện tại khi có lệnh READ (C1 + C1 + C1)
+- Hành vi đọc thông số của phiên bản E32 hiện tại (C3 + C3 + C3)
+
+
+* Hành vi của MODE0 (NORMAL MODE)
+- Các hành vi khi gửi dữ liệu không dây
+- Các hành vi khi nhận dữ liệu không dây
+- Các thông số về buffer của việc gửi nhận
+
+* Hành vi SWITCHING MODE:
+- Hành vi ngăn chặn việc chuyển mode khi chưa hoàn thanh xong tác vụ hiện tại
+- Hành vi tự động self-check khi chuyển mode thành công
+
+* Ngoài ra, các hành vi của MODE1 và MODE2 sẽ không được hiện thực ở đây vì việc cải thiện Power Consumption nằm ngoài khả năng mô phỏng của board hiện tại 
+
+# Mô tả chi tiết hành vi:
+## Hành vi chung:
+- Khi nhận 1 gói dữ liệu bất kỳ từ controller (kể cả trong mode0 hay mode3) thì chân AUX cũng sẽ xuống mức thấp ngay sau khi gói dữ liệu được gửi hoàn toàn.
+
+## Hành vi self-check khi khởi động:
+- Ở đây khi khởi động (lưu ý: không phải khi khởi động board Arty-z7 mà là khi button RESET được nhấn) thì chân AUX sẽ ở mức LOW một khoảng thời gian là 6ms
+- Và sau đó mode của module sẽ tùy theo mode của người dùng thiết lập trên chân M1 và M0
+
+## Hành vi cấu hình thông số khi nhận có lệnh CONFIG
+
+- Định dạng lệnh: C0/C2 + ADDH + ADDL + SPED + CHAN + OPTION
+- Baudrate: 9600
+
+- Sau khi hoàn thành việc cấu hình thì module E32 sẽ tự động gửi lại thông tin vừa được cấu hình sau đúng 5ms
+- Tiếp theo, chân AUX sẽ lên mức HIGH sau khi hoàn thành việc phản hồi dữ liệu cuối cùng
+<image: COMMAND_config.png>
+
+## Hành vi đọc thông số cấu hình hiện tại khi có lệnh READ 
+- Định dạng lệnh: C1 C1 C1
+- Baudrate: 9600
+
+- Sau khi hoàn thành việc nhận lệnh thì sau 5ms module E32 sẽ phản hồi lại thông tin thống số cấu hình hiện tại theo định dạng HEAD + ADDH + ADDL + SPED + CHAN + OPTION, và sau đó chân AUX sẽ lên mức HIGH
+<image: COMMAND_readConfig.png>
+
+## Hành vi đọc thông số của phiên bản E32 hiện tại
+- Định dạng lệnh: C3 C3 C3
+- Baudrate: 9600
+
+- Sau khi hoàn thành việc nhận lệnh thì sau 5ms module E32 sẽ phản hồi lại thông tin thông số về phiên bản E32 hiện tại (C3 32 27 02)
+
+## Các hành vi khi gửi dữ liệu không dây:
+- Mode: 0 
+- Baudrate: 115200
+
+- Sau khi nhận được gói dữ liệu đầu tiên thì chân AUX sẽ xuống mức thấp, và thực hiện lưu dữ liệu vào buffer (buffer 512 bytes).
+- Việc gửi dữ liệu không dây qua UART_node sẽ được bắt đầu khi thỏa 1 trong 2 điều khiện sau:
++ Module không nhân được bất kỳ dữ liệu nào trong thời gian 3 frame (~5ms)
++ Module nhận dc đủ 58 bytes chứa trong buffer
+- Tiếp theo là đến quá trình gửi dữ liệu không dây, module UART_node sẽ tiến hành đọc dữ liệu trong buffer và gửi thông quá chân TX_node với tốc độ baudrate là 115200.
+- Sau khi lấy dữ liệu cuối cùng ra khỏi buffer và bắt đầu gửi, thì chân AUX sẽ lên mức HIGH
+
+- Ví dụ về trường hợp Controller gửi hơn 58bytes vào E32
+<image: MODE0_wirelessSend_gt58.png>
+
+## Các hành vi nhận dữ liệu không dây:
+- Mode: 0
+- Baudrate: 115200
+
+- Việc nhận dữ liệu sẽ không dây sẽ thông qua chân RX_node của UART_node
+- Sau khi nhận gói dữ liệu đầu tiên, chân AUX sẽ xuống mức LOW và sau 2.5ms thì Module sẽ tiến hành gửi gói dữ liệu không dây đó cho Controller qua chân TX_mcu
+- Sau khi gửi gói dữ liệu cuối cùng thì chân AUX sẽ lên mức HIGH ngay lập tực
+<image: MODE0_wirelessReceive.png>
+
+
+# Các thông số giao tiếp mặc định
+- UART_mcu:
+	+ MODE0: 115200 (8N1)
+	+ MODE3: 9600 (8N1)
+- UART_node: 115200 (8N1)
+
+# Các thông khác
+## Tổng số tài nguyên sử dụng của FPGA
+- LUTs: 2507 LUTs
+- FlipFlop: 4593 FFs
+## Critical Path
+- Total Delay: 6.62 ns
+	+ Logic Delay 2.161 ns
+	+ Net Delay 4.459 ns
+	+ Path of: FSM_sequential_mode_3_state_reg
+
+
+# Hướng dẫn sử dụng:
+- Bước 1: Kết nối các chân tương ứng của Arty-z7 với Board Controller (các chân AUX - M1 - M0 - RX_mcu - TX_mcu) và các module đọc thông tin dữ liệu không dây (các chân RX_node - TX_node)
+- Bước 2: Nạp Bitstream lên board Arty-z7 (RF_transceiver_2.runs/impl_1/RF_transceiver_3module.bit) 
+- Bước 3: Sau khi nạp bitstream lên board thì tiến hành reset board thông qua nut nhấn BUTTON[0] trên board Arty-z7
+
+# Lưu ý: 
+- Về sơ đồ nối chân: chú ý các chân RX-TX sẽ lần lượt là chân RX-TX của node (không phải chân RX-TX tương ứng với controller)
+- Button RESET được cấu hình ở BUTTON[0] ở board Arty-z7

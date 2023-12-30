@@ -124,6 +124,9 @@ module RF_transceiver_tb;
     initial begin
         #11;
         
+        
+        #100; 
+        {M1,M0} <= 2;
         #100; 
         {M1,M0} <= 3;
         
@@ -221,6 +224,9 @@ module RF_transceiver_tb;
         
     
     `ifdef CASE_2    
+        #100;
+        {M1,M0} <= 1;
+        #100;
         {M1,M0} <= 0;
         #MODE_SWITCH_DELAY;
         data_in_uart_exmcu <= 8'hAA;    

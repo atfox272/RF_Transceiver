@@ -19,7 +19,6 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-(* DONT_TOUCH = "yes" *)
 module sync_fifo
     #(
     parameter  DATA_WIDTH    = 8,
@@ -47,13 +46,13 @@ module sync_fifo
     input                           rst_n
     );
     reg [DATA_WIDTH - 1:0]  buffer [0:FIFO_DEPTH - 1];
-    (* keep = "true" *)reg [ADDR_WIDTH:0]      wr_addr;
-    (* keep = "true" *)wire[ADDR_WIDTH:0]      wr_addr_inc;
-    (* keep = "true" *)wire[ADDR_WIDTH - 1:0]  wr_addr_map;
-    (* keep = "true" *)reg [ADDR_WIDTH:0]      rd_addr;
-    (* keep = "true" *)wire[ADDR_WIDTH:0]      rd_addr_inc;
-    (* keep = "true" *)wire[ADDR_WIDTH - 1:0]  rd_addr_map;
-    (* keep = "true" *)wire[ADDR_WIDTH:0]      counter;
+    reg [ADDR_WIDTH:0]      wr_addr;
+    wire[ADDR_WIDTH:0]      wr_addr_inc;
+    wire[ADDR_WIDTH - 1:0]  wr_addr_map;
+    reg [ADDR_WIDTH:0]      rd_addr;
+    wire[ADDR_WIDTH:0]      rd_addr_inc;
+    wire[ADDR_WIDTH - 1:0]  rd_addr_map;
+    wire[ADDR_WIDTH:0]      counter;
     
     assign data_out = buffer[rd_addr_map];
     
@@ -70,21 +69,44 @@ module sync_fifo
     assign counter = wr_addr - rd_addr;
     assign counter_threshold_flag = counter == counter_threshold;
     
+    logic[DATA_WIDTH - 1:0]  buffer_n [0:FIFO_DEPTH - 1];
+    logic[ADDR_WIDTH:0]      wr_addr_n;
+    logic[ADDR_WIDTH:0]      wr_addr_inc_n;
+    logic[ADDR_WIDTH - 1:0]  wr_addr_map_n;
+    logic[ADDR_WIDTH:0]      rd_addr_n;
+    logic[ADDR_WIDTH:0]      rd_addr_inc_n;
+    logic[ADDR_WIDTH - 1:0]  rd_addr_map_n;
+    logic[ADDR_WIDTH:0]      counter_n;
+    
+    always_comb begin
+        wr_addr_n = wr_addr;
+        buffer_n = buffer;
+        if(wr_req & !full) begin
+            buffer_n[wr_addr_map] = data_in;
+            wr_addr_n = wr_addr_inc;
+        end
+        
+        rd_addr_n = rd_addr;
+        if(rd_req & !empty) begin
+            rd_addr_n = rd_addr_inc;
+        end
+    end
+    
     always @(posedge clk) begin
         if(!rst_n) begin 
             wr_addr <= 0;        
         end
-        else if(wr_req & !full) begin
-            buffer[wr_addr_map] <= data_in;
-            wr_addr <= wr_addr_inc;
+        else begin
+            buffer <= buffer_n;
+            wr_addr <= wr_addr_n;
         end
     end
     always @(posedge clk) begin
         if(!rst_n) begin
             rd_addr <= 0;
         end
-        else if(rd_req & !empty) begin
-            rd_addr <= rd_addr_inc;
+        else begin
+            rd_addr <= rd_addr_n;
         end
         
     end

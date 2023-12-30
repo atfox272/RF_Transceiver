@@ -70,8 +70,6 @@ module RF_transceiver
         .RX_FLAG_TYPE(0)
         ,.INTERNAL_CLOCK(INTERNAL_CLOCK)
         `ifdef DEBUG
-//        ,.CLOCK_DIVIDER_UNIQUE_1(CLOCK_BD115200)
-//        ,.CLOCK_DIVIDER_UNIQUE_2(CLOCK_BD9600)
         `endif
         )uart_mcu(
         .clk(clk),
@@ -98,8 +96,6 @@ module RF_transceiver
         .RX_FLAG_TYPE(1)
         ,.INTERNAL_CLOCK(INTERNAL_CLOCK)
         `ifdef DEBUG
-//        ,.CLOCK_DIVIDER_UNIQUE_1(CLOCK_BD115200)
-//        ,.CLOCK_DIVIDER_UNIQUE_2(CLOCK_BD9600)
         `endif
         )uart_node(
         .clk(clk),
@@ -115,10 +111,10 @@ module RF_transceiver
         .TX_use(TX_use_node),
         .TX_flag(TX_flag_node),
         .TX_complete(TX_complete_node),
-//        .TX_available(TX_available_node),
+        .TX_available(),
         .rst_n(rst_n)
         );    
-     (* dont_touch = "yes" *)      
+            
      controller
         #(
         `ifdef DEBUG

@@ -54,7 +54,6 @@ module RF_transceiver_3module(
     input   wire        rst
     );
     
-    (* dont_touch = "yes" *)  
     RF_transceiver  
         #(
         )rf_transceiver_1(
@@ -68,7 +67,6 @@ module RF_transceiver_3module(
         .RX_node(RX_node_1),
         .rst(rst)
         );
-    (* dont_touch = "yes" *)  
     RF_transceiver  
         #(
         )rf_transceiver_2(
@@ -82,7 +80,6 @@ module RF_transceiver_3module(
         .RX_node(RX_node_2),
         .rst(rst)
         );
-    (* dont_touch = "yes" *)  
     RF_transceiver  
         #(
         )rf_transceiver_3(

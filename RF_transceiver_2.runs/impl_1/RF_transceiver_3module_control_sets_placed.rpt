@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Mon Nov 20 01:32:57 2023
+| Date         : Sat Dec 30 16:21:45 2023
 | Host         : LAPTOP-UGQ0I2VJ running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file RF_transceiver_3module_control_sets_placed.rpt
 | Design       : RF_transceiver_3module
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |    74 |
-|    Minimum number of control sets                        |    74 |
+| Total control sets                                       |   536 |
+|    Minimum number of control sets                        |   536 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |   105 |
+| Unused register locations in slices containing registers |    73 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |    74 |
-| >= 0 to < 4        |     3 |
+| Total control sets |   536 |
+| >= 0 to < 4        |     0 |
 | >= 4 to < 6        |     0 |
 | >= 6 to < 8        |    24 |
-| >= 8 to < 10       |    27 |
+| >= 8 to < 10       |   507 |
 | >= 10 to < 12      |     0 |
-| >= 12 to < 14      |     3 |
+| >= 12 to < 14      |     0 |
 | >= 14 to < 16      |     0 |
-| >= 16              |    17 |
+| >= 16              |     5 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,95 +58,557 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              21 |           12 |
+| No           | No                    | No                     |              18 |            9 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |             489 |          179 |
-| Yes          | No                    | No                     |              48 |           12 |
+| No           | Yes                   | No                     |             495 |          186 |
+| Yes          | No                    | No                     |            3888 |         1260 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |             321 |          155 |
+| Yes          | Yes                   | No                     |             318 |          121 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+----------------+------------------------------------------------------------------+---------------------------------------------------------------+------------------+----------------+--------------+
-|  Clock Signal  |                           Enable Signal                          |                        Set/Reset Signal                       | Slice Load Count | Bel Load Count | Bels / Slice |
-+----------------+------------------------------------------------------------------+---------------------------------------------------------------+------------------+----------------+--------------+
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/HEAD                                 | rf_transceiver_1/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                1 |              1 |         1.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/HEAD                                 | rf_transceiver_2/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                1 |              1 |         1.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/HEAD                                 | rf_transceiver_3/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                1 |              1 |         1.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/rd_addr_reg0                  | rf_transceiver_1/uart_node/fifo_tx/wr_addr[5]_i_1_n_0         |                2 |              6 |         3.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/wr_addr_reg0                  | rf_transceiver_1/uart_node/fifo_tx/wr_addr[5]_i_1_n_0         |                5 |              6 |         1.20 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_rx/wr_addr_reg0                  | rf_transceiver_1/uart_node/fifo_rx/wr_addr[5]_i_1_n_0         |                5 |              6 |         1.20 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_rx/rd_addr_reg0                  | rf_transceiver_1/uart_node/fifo_rx/wr_addr[5]_i_1_n_0         |                3 |              6 |         2.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_rx/rd_addr_reg0                  | rf_transceiver_2/uart_node/fifo_rx/wr_addr[5]_i_1_n_0         |                3 |              6 |         2.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_rx/wr_addr_reg0                  | rf_transceiver_2/uart_node/fifo_rx/wr_addr[5]_i_1_n_0         |                5 |              6 |         1.20 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/rd_addr_reg0                   | rf_transceiver_3/uart_mcu/fifo_tx/wr_addr[5]_i_1_n_0          |                3 |              6 |         2.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/wr_addr_reg0                  | rf_transceiver_3/uart_node/fifo_tx/wr_addr[5]_i_1_n_0         |                4 |              6 |         1.50 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/rd_addr_reg0                  | rf_transceiver_3/uart_node/fifo_tx/wr_addr[5]_i_1_n_0         |                4 |              6 |         1.50 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/wr_addr_reg0                  | rf_transceiver_2/uart_node/fifo_tx/wr_addr[5]_i_1_n_0         |                5 |              6 |         1.20 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_rx/wr_addr_reg0                  | rf_transceiver_3/uart_node/fifo_rx/wr_addr[5]_i_1_n_0         |                4 |              6 |         1.50 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_rx/rd_addr_reg0                  | rf_transceiver_3/uart_node/fifo_rx/wr_addr[5]_i_1_n_0         |                3 |              6 |         2.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/rd_addr_reg0                  | rf_transceiver_2/uart_node/fifo_tx/wr_addr[5]_i_1_n_0         |                4 |              6 |         1.50 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/wr_addr_reg0                   | rf_transceiver_3/uart_mcu/fifo_tx/wr_addr[5]_i_1_n_0          |                5 |              6 |         1.20 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/rd_addr_reg0                   | rf_transceiver_2/uart_mcu/fifo_tx/wr_addr[5]_i_1_n_0          |                3 |              6 |         2.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/wr_addr_reg0                   | rf_transceiver_2/uart_mcu/fifo_tx/wr_addr[5]_i_1_n_0          |                4 |              6 |         1.50 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/wr_addr_reg0                   | rf_transceiver_1/uart_mcu/fifo_tx/wr_addr[5]_i_1_n_0          |                4 |              6 |         1.50 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/rd_addr_reg0                   | rf_transceiver_1/uart_mcu/fifo_tx/wr_addr[5]_i_1_n_0          |                3 |              6 |         2.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/rd_addr_reg0              | rf_transceiver_2/controller/buffer_mcu/wr_addr[6]_i_1_n_0     |                3 |              7 |         2.33 |
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/rd_addr_reg0              | rf_transceiver_1/controller/buffer_mcu/wr_addr[6]_i_1_n_0     |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/wr_addr_reg0              | rf_transceiver_1/controller/buffer_mcu/wr_addr[6]_i_1_n_0     |                5 |              7 |         1.40 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/rd_addr_reg0              | rf_transceiver_3/controller/buffer_mcu/wr_addr[6]_i_1_n_0     |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/wr_addr_reg0              | rf_transceiver_2/controller/buffer_mcu/wr_addr[6]_i_1_n_0     |                6 |              7 |         1.17 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/wr_addr_reg0              | rf_transceiver_3/controller/buffer_mcu/wr_addr[6]_i_1_n_0     |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/CHAN                                 | rf_transceiver_2/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/ADDH                                 | rf_transceiver_2/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/ADDL                                 | rf_transceiver_2/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/SPED                                 | rf_transceiver_2/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/OPTION                               | rf_transceiver_2/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/data_to_uart_mcu_reg                 | rf_transceiver_2/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                4 |              8 |         2.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/tx_controller/tx_buffer[7]_i_1_n_0     |                                                               |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/ADDH                                 | rf_transceiver_3/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/ADDL                                 | rf_transceiver_3/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/CHAN                                 | rf_transceiver_3/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/tx_controller/tx_buffer[7]_i_1__0_n_0 |                                                               |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/OPTION                               | rf_transceiver_3/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/data_to_uart_node_reg[7]_i_1_n_0     | rf_transceiver_3/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/data_to_uart_mcu_reg                 | rf_transceiver_3/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                5 |              8 |         1.60 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/tx_controller/tx_buffer[7]_i_1_n_0     |                                                               |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/SPED                                 | rf_transceiver_3/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/tx_controller/tx_buffer[7]_i_1__0_n_0 |                                                               |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/ADDH                                 | rf_transceiver_1/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                4 |              8 |         2.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/CHAN                                 | rf_transceiver_1/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/ADDL                                 | rf_transceiver_1/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/SPED                                 | rf_transceiver_1/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                4 |              8 |         2.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/OPTION                               | rf_transceiver_1/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/data_to_uart_mcu_reg                 | rf_transceiver_1/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/data_to_uart_node_reg[7]_i_1_n_0     | rf_transceiver_1/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/tx_controller/tx_buffer[7]_i_1_n_0     |                                                               |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/tx_controller/tx_buffer[7]_i_1__0_n_0 |                                                               |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/data_to_uart_node_reg[7]_i_1_n_0     | rf_transceiver_2/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |                4 |              8 |         2.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/p_1_in__0                 |                                                               |                3 |             12 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/p_1_in__0                 |                                                               |                3 |             12 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/p_1_in__0                 |                                                               |                3 |             12 |         4.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/p_1_in__0                     |                                                               |                2 |             16 |         8.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/p_1_in__0                      |                                                               |                2 |             16 |         8.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/p_1_in__0                     |                                                               |                2 |             16 |         8.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/p_1_in__0                      |                                                               |                2 |             16 |         8.00 |
-|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_rx/p_1_in__0                     |                                                               |                2 |             16 |         8.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/p_1_in__0                     |                                                               |                2 |             16 |         8.00 |
-|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_rx/p_1_in__0                     |                                                               |                2 |             16 |         8.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/p_1_in__0                      |                                                               |                2 |             16 |         8.00 |
-|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_rx/p_1_in__0                     |                                                               |                2 |             16 |         8.00 |
-|  clk_IBUF_BUFG |                                                                  |                                                               |               12 |             21 |         1.75 |
-|  clk_IBUF_BUFG |                                                                  | rf_transceiver_3/controller/waiting_module/counter[0]_i_1_n_0 |                7 |             25 |         3.57 |
-|  clk_IBUF_BUFG |                                                                  | rf_transceiver_2/controller/waiting_module/counter[0]_i_1_n_0 |                7 |             25 |         3.57 |
-|  clk_IBUF_BUFG |                                                                  | rf_transceiver_1/controller/waiting_module/counter[0]_i_1_n_0 |                7 |             25 |         3.57 |
-|  clk_IBUF_BUFG |                                                                  | rf_transceiver_3/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |               15 |             26 |         1.73 |
-|  clk_IBUF_BUFG |                                                                  | rf_transceiver_2/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |               14 |             26 |         1.86 |
-|  clk_IBUF_BUFG |                                                                  | rf_transceiver_1/controller/data_to_uart_mcu_reg[7]_i_1_n_0   |               14 |             26 |         1.86 |
-|  clk_IBUF_BUFG |                                                                  | rst_IBUF                                                      |              115 |            336 |         2.92 |
-+----------------+------------------------------------------------------------------+---------------------------------------------------------------+------------------+----------------+--------------+
++----------------+---------------------------------------------------------------------------+------------------------------------------------------------------+------------------+----------------+--------------+
+|  Clock Signal  |                               Enable Signal                               |                         Set/Reset Signal                         | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------+---------------------------------------------------------------------------+------------------------------------------------------------------+------------------+----------------+--------------+
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/tx_controller/E[0]                             | rst_IBUF                                                         |                2 |              6 |         3.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/wr_addr0__0                             | rst_IBUF                                                         |                2 |              6 |         3.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/rd_addr0__0                             | rst_IBUF                                                         |                1 |              6 |         6.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/E[0]                                          | rst_IBUF                                                         |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/wr_addr0__0              | rst_IBUF                                                         |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/E[0]                                          | rst_IBUF                                                         |                2 |              6 |         3.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/wr_addr0__0                            | rst_IBUF                                                         |                2 |              6 |         3.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/rd_addr0__0                             | rst_IBUF                                                         |                1 |              6 |         6.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/wr_addr0__0              | rst_IBUF                                                         |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/tx_controller/E[0]                             | rst_IBUF                                                         |                1 |              6 |         6.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/wr_addr0__0                            | rst_IBUF                                                         |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/rx_controller/wr_addr0__0                      | rst_IBUF                                                         |                2 |              6 |         3.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/wr_addr0__0                             | rst_IBUF                                                         |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/wr_addr0__0                            | rst_IBUF                                                         |                2 |              6 |         3.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/E[0]                                          | rst_IBUF                                                         |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/tx_controller/E[0]                             | rst_IBUF                                                         |                1 |              6 |         6.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/rd_addr0__0                             | rst_IBUF                                                         |                1 |              6 |         6.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/wr_addr0__0                             | rst_IBUF                                                         |                2 |              6 |         3.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/rd_addr0__0                        | rst_IBUF                                                         |                3 |              7 |         2.33 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/rd_addr0__0                        | rst_IBUF                                                         |                3 |              7 |         2.33 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/rx_controller/wr_addr0__0                       | rst_IBUF                                                         |                4 |              7 |         1.75 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/wr_addr0__0                        | rst_IBUF                                                         |                3 |              7 |         2.33 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/wr_addr0__0                        | rst_IBUF                                                         |                3 |              7 |         2.33 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/rd_addr0__0                        | rst_IBUF                                                         |                3 |              7 |         2.33 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[23][7]_i_1__10_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[25][7]_i_1__10_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[27][7]_i_1__10_n_0              |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[26][7]_i_1__10_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[31][7]_i_1__10_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[4][7]_i_1__10_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[5][7]_i_1__10_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[10][7]_i_1__10_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[17][7]_i_1__10_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[1][7]_i_1__10_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[18][7]_i_1__10_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[16][7]_i_1__10_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[21][7]_i_1__10_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[14][7]_i_1__10_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[29][7]_i_1__10_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[7][7]_i_1__10_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[8][7]_i_1__10_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[11][7]_i_1__10_n_0              |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[6][7]_i_1__10_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[9][7]_i_1__10_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[24][7]_i_1__10_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer                                 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[30][7]_i_1__10_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[3][7]_i_1__10_n_0               |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[28][7]_i_1__10_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/tx_controller/tx_buffer                        |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[26][7]_i_1__9_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[28][7]_i_1__9_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[2][7]_i_1__9_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[25][7]_i_1__9_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[31][7]_i_1__9_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[13][7]_i_1__9_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[14][7]_i_1__9_n_0 |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[30][7]_i_1__9_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[3][7]_i_1__9_n_0  |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[4][7]_i_1__9_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[5][7]_i_1__9_n_0  |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[7][7]_i_1__9_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[8][7]_i_1__9_n_0  |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[20][7]_i_1__9_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[27][7]_i_1__9_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[11][7]_i_1__9_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[6][7]_i_1__9_n_0  |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[9][7]_i_1__9_n_0  |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[29][7]_i_1__9_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[1][7]_i_1__9_n_0  |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[19][7]_i_1__9_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[16][7]_i_1__9_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[23][7]_i_1__9_n_0 |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[24][7]_i_1__9_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[22][7]_i_1__9_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[27][7]_i_1__7_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[12][7]_i_1__9_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[15][7]_i_1__9_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[17][7]_i_1__9_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[18][7]_i_1__9_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[21][7]_i_1__9_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[12][7]_i_1__1_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[15][7]_i_1__1_n_0 |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[13][7]_i_1__1_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[18][7]_i_1__1_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[19][7]_i_1__1_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[1][7]_i_1__1_n_0  |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[10][7]_i_1__1_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[11][7]_i_1__1_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[16][7]_i_1__1_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[14][7]_i_1__1_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[17][7]_i_1__1_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[7][7]_i_1__1_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[25][7]_i_1__1_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[22][7]_i_1__1_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[9][7]_i_1__1_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[8][7]_i_1__1_n_0  |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[21][7]_i_1__1_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[30][7]_i_1__1_n_0 |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[26][7]_i_1__1_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[3][7]_i_1__1_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[31][7]_i_1__1_n_0 |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[4][7]_i_1__1_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[20][7]_i_1__1_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[24][7]_i_1__1_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[29][7]_i_1__1_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[6][7]_i_1__1_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[2][7]_i_1__1_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[28][7]_i_1__1_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[27][7]_i_1__1_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[5][7]_i_1__1_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[23][7]_i_1__1_n_0 |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[10][7]_i_1__7_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[13][7]_i_1__7_n_0                |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[11][7]_i_1__7_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[16][7]_i_1__7_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[24][7]_i_1__7_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[25][7]_i_1__7_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[28][7]_i_1__7_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[29][7]_i_1__7_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[30][7]_i_1__7_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[3][7]_i_1__7_n_0                 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[4][7]_i_1__7_n_0                 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[21][7]_i_1__7_n_0                |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[2][7]_i_1__7_n_0                 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[15][7]_i_1__7_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[5][7]_i_1__7_n_0                 |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[26][7]_i_1__7_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer                                  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[12][7]_i_1__7_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[14][7]_i_1__7_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[18][7]_i_1__7_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[17][7]_i_1__7_n_0                |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[19][7]_i_1__7_n_0                |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[1][7]_i_1__7_n_0                 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[20][7]_i_1__7_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[22][7]_i_1__7_n_0                |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[23][7]_i_1__7_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[31][7]_i_1__7_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[7][7]_i_1__7_n_0                 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[9][7]_i_1__7_n_0                 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[8][7]_i_1__7_n_0                 |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/buffer[6][7]_i_1__7_n_0                 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_mcu/fifo_tx/E[0]                                    |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[25][7]_i_1__8_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer                             |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[12][7]_i_1__8_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[27][7]_i_1__8_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[32][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[23][7]_i_1__8_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[34][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[35][7]_i_1__1_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[22][7]_i_1__8_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[36][7]_i_1__1_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[28][7]_i_1__8_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[26][7]_i_1__8_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[38][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[39][7]_i_1__1_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[20][7]_i_1__8_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[14][7]_i_1__8_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[37][7]_i_1__1_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[3][7]_i_1__8_n_0            |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[40][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[19][7]_i_1__8_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[13][7]_i_1__8_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[21][7]_i_1__8_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[16][7]_i_1__8_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[18][7]_i_1__8_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[1][7]_i_1__8_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[15][7]_i_1__8_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[24][7]_i_1__8_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[17][7]_i_1__8_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[29][7]_i_1__8_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[2][7]_i_1__8_n_0            |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[30][7]_i_1__8_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[31][7]_i_1__8_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[33][7]_i_1__1_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[10][7]_i_1__8_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[11][7]_i_1__8_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[52][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[50][7]_i_1__1_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[5][7]_i_1__8_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[43][7]_i_1__1_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[6][7]_i_1__8_n_0            |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[7][7]_i_1__8_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[53][7]_i_1__1_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[42][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[44][7]_i_1__1_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[45][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[56][7]_i_1__1_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[57][7]_i_1__1_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[60][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[59][7]_i_1__1_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[61][7]_i_1__1_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[46][7]_i_1__1_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[8][7]_i_1__8_n_0            |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[48][7]_i_1__1_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[41][7]_i_1__1_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[9][7]_i_1__8_n_0            |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[4][7]_i_1__8_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[58][7]_i_1__1_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[55][7]_i_1__1_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[51][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[47][7]_i_1__1_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[54][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[62][7]_i_1__1_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[49][7]_i_1__1_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/buffer[63][7]_i_1__1_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/buffer_mcu/E[0]                               | rst_IBUF                                                         |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[11][7]_i_1__6_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer                                 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[14][7]_i_1__6_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[13][7]_i_1__6_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[12][7]_i_1__6_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[17][7]_i_1__6_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[18][7]_i_1__6_n_0               |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[19][7]_i_1__6_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[15][7]_i_1__6_n_0               |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[10][7]_i_1__6_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[16][7]_i_1__6_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[3][7]_i_1__6_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[27][7]_i_1__6_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[1][7]_i_1__6_n_0                |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[7][7]_i_1__6_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[26][7]_i_1__6_n_0               |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[20][7]_i_1__6_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[22][7]_i_1__6_n_0               |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[31][7]_i_1__6_n_0               |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[8][7]_i_1__6_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[21][7]_i_1__6_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[25][7]_i_1__6_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[4][7]_i_1__6_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[24][7]_i_1__6_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[2][7]_i_1__6_n_0                |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[5][7]_i_1__6_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[28][7]_i_1__6_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[9][7]_i_1__6_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[6][7]_i_1__6_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[23][7]_i_1__6_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[29][7]_i_1__6_n_0               |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/fifo_tx/buffer[30][7]_i_1__6_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/waiting_module/data_counter_reg[2]_0[0]       | rst_IBUF                                                         |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/waiting_module/E[0]                           | rst_IBUF                                                         |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/waiting_module/data_counter_reg[1][0]         | rst_IBUF                                                         |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/waiting_module/data_counter_reg[1]_0[0]       | rst_IBUF                                                         |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/waiting_module/data_counter_reg[1]_1[0]       | rst_IBUF                                                         |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/controller/waiting_module/data_counter_reg[2][0]         | rst_IBUF                                                         |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/tx_controller/tx_buffer                        |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[21][7]_i_1__5_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[2][7]_i_1__5_n_0  |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[19][7]_i_1__5_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[10][7]_i_1__5_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[25][7]_i_1__5_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[4][7]_i_1__5_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[1][7]_i_1__5_n_0  |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[5][7]_i_1__5_n_0  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[17][7]_i_1__5_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[27][7]_i_1__5_n_0 |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[16][7]_i_1__5_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[14][7]_i_1__5_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[30][7]_i_1__5_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[31][7]_i_1__5_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[6][7]_i_1__5_n_0  |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[15][7]_i_1__5_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[12][7]_i_1__5_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[24][7]_i_1__5_n_0 |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[18][7]_i_1__5_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[26][7]_i_1__5_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[22][7]_i_1__5_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[20][7]_i_1__5_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[13][7]_i_1__5_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[23][7]_i_1__5_n_0 |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[11][7]_i_1__5_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[29][7]_i_1__5_n_0 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[28][7]_i_1__5_n_0 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[3][7]_i_1__5_n_0  |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[9][7]_i_1__5_n_0  |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[7][7]_i_1__5_n_0  |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[8][7]_i_1__5_n_0  |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[25][7]_i_1__3_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[26][7]_i_1__3_n_0                |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[23][7]_i_1__3_n_0                |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[29][7]_i_1__3_n_0                |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[31][7]_i_1__3_n_0                |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[3][7]_i_1__3_n_0                 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[5][7]_i_1__3_n_0                 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[20][7]_i_1__3_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[8][7]_i_1__3_n_0                 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[9][7]_i_1__3_n_0                 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[27][7]_i_1__3_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[6][7]_i_1__3_n_0                 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[2][7]_i_1__3_n_0                 |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[15][7]_i_1__3_n_0                |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[16][7]_i_1__3_n_0                |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[12][7]_i_1__3_n_0                |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[24][7]_i_1__3_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[19][7]_i_1__3_n_0                |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[30][7]_i_1__3_n_0                |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[4][7]_i_1__3_n_0                 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[11][7]_i_1__3_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer                                  |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[1][7]_i_1__3_n_0                 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[14][7]_i_1__3_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[17][7]_i_1__3_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[18][7]_i_1__3_n_0                |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[21][7]_i_1__3_n_0                |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[28][7]_i_1__3_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[7][7]_i_1__3_n_0                 |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[10][7]_i_1__3_n_0                |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[13][7]_i_1__3_n_0                |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/buffer[22][7]_i_1__3_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/uart_mcu/fifo_tx/E[0]                                    |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[22][7]_i_1__4_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[27][7]_i_1__4_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[28][7]_i_1__4_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[29][7]_i_1__4_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[12][7]_i_1__4_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[2][7]_i_1__4_n_0            |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[30][7]_i_1__4_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[14][7]_i_1__4_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[31][7]_i_1__4_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[24][7]_i_1__4_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[18][7]_i_1__4_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[1][7]_i_1__4_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[15][7]_i_1__4_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[10][7]_i_1__4_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[21][7]_i_1__4_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[16][7]_i_1__4_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[19][7]_i_1__4_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[23][7]_i_1__4_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[17][7]_i_1__4_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[25][7]_i_1__4_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[26][7]_i_1__4_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer                             |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[11][7]_i_1__4_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[13][7]_i_1__4_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[20][7]_i_1__4_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[58][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[9][7]_i_1__4_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[33][7]_i_1__0_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[45][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[51][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[53][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[5][7]_i_1__4_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[6][7]_i_1__4_n_0            |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[50][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[37][7]_i_1__0_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[41][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[44][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[63][7]_i_1__0_n_0           |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[60][7]_i_1__0_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[8][7]_i_1__4_n_0            |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[62][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[39][7]_i_1__0_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[35][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[47][7]_i_1__0_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[55][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[49][7]_i_1__0_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[3][7]_i_1__4_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[38][7]_i_1__0_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[4][7]_i_1__4_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[52][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[56][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[32][7]_i_1__0_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[42][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[36][7]_i_1__0_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[43][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[57][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[59][7]_i_1__0_n_0           |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[48][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[61][7]_i_1__0_n_0           |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[34][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[46][7]_i_1__0_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[7][7]_i_1__4_n_0            |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[54][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/buffer[40][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/buffer_mcu/E[0]                               | rst_IBUF                                                         |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/FIFO_RX_BLOCK.fifo_rx/buffer[10][7]_i_1__9_n_0 |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[12][7]_i_1__2_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[13][7]_i_1__2_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer                                 |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[7][7]_i_1__2_n_0                |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[11][7]_i_1__2_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[17][7]_i_1__2_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[19][7]_i_1__2_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[22][7]_i_1__2_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[24][7]_i_1__2_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[23][7]_i_1__2_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[16][7]_i_1__2_n_0               |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[25][7]_i_1__2_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[26][7]_i_1__2_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[27][7]_i_1__2_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[31][7]_i_1__2_n_0               |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[4][7]_i_1__2_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[9][7]_i_1__2_n_0                |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[6][7]_i_1__2_n_0                |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[18][7]_i_1__2_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[30][7]_i_1__2_n_0               |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[3][7]_i_1__2_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[20][7]_i_1__2_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[15][7]_i_1__2_n_0               |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[1][7]_i_1__2_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[28][7]_i_1__2_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[29][7]_i_1__2_n_0               |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[2][7]_i_1__2_n_0                |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[5][7]_i_1__2_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[14][7]_i_1__2_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[10][7]_i_1__2_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[21][7]_i_1__2_n_0               |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/fifo_tx/buffer[8][7]_i_1__2_n_0                |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[2][7]_i_1__10_n_0               |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/waiting_module/E[0]                           | rst_IBUF                                                         |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/waiting_module/data_counter_reg[0][0]         | rst_IBUF                                                         |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/waiting_module/data_counter_reg[2][0]         | rst_IBUF                                                         |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/waiting_module/data_counter_reg[0]_0[0]       | rst_IBUF                                                         |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/waiting_module/data_counter_reg[1][0]         | rst_IBUF                                                         |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_2/controller/waiting_module/data_counter_reg[2]_0[0]       | rst_IBUF                                                         |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/E[0]                               | rst_IBUF                                                         |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[13][7]_i_1__10_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[15][7]_i_1__10_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[7][7]_i_1__0_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[54][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[53][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[62][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[6][7]_i_1__0_n_0            |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[63][7]_i_1_n_0              |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[61][7]_i_1_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[55][7]_i_1_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[57][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[49][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[60][7]_i_1_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[9][7]_i_1__0_n_0            |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[52][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[59][7]_i_1_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[58][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[4][7]_i_1__0_n_0            |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[8][7]_i_1__0_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[50][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[5][7]_i_1__0_n_0            |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[51][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[56][7]_i_1_n_0              |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[12][7]_i_1__10_n_0              |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[15][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[10][7]_i_1__0_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[13][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[11][7]_i_1__0_n_0           |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[14][7]_i_1__0_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[16][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[17][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[18][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer                             |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[12][7]_i_1__0_n_0           |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[19][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[1][7]_i_1__0_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[20][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[44][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[30][7]_i_1__0_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[45][7]_i_1_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[24][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[40][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[29][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[43][7]_i_1_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[25][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[21][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[33][7]_i_1_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[35][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[39][7]_i_1_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[26][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[23][7]_i_1__0_n_0           |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[42][7]_i_1_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[46][7]_i_1_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[41][7]_i_1_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[47][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[37][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[48][7]_i_1_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[27][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[28][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[2][7]_i_1__0_n_0            |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[31][7]_i_1__0_n_0           |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[32][7]_i_1_n_0              |                                                                  |                6 |              8 |         1.33 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[34][7]_i_1_n_0              |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[36][7]_i_1_n_0              |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[22][7]_i_1__0_n_0           |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[38][7]_i_1_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/buffer_mcu/buffer[3][7]_i_1__0_n_0            |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/waiting_module/E[0]                           | rst_IBUF                                                         |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/waiting_module/data_counter_reg[1][0]         | rst_IBUF                                                         |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/waiting_module/data_counter_reg[2][0]         | rst_IBUF                                                         |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/waiting_module/data_counter_reg[0][0]         | rst_IBUF                                                         |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/waiting_module/data_counter_reg[0]_0[0]       | rst_IBUF                                                         |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/controller/waiting_module/data_counter_reg[2]_0[0]       | rst_IBUF                                                         |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_node/tx_controller/tx_buffer                        |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[19][7]_i_1__10_n_0              |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[22][7]_i_1_n_0                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[23][7]_i_1_n_0                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[25][7]_i_1_n_0                   |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[26][7]_i_1_n_0                   |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[18][7]_i_1_n_0                   |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[16][7]_i_1_n_0                   |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer                                  |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[27][7]_i_1_n_0                   |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[28][7]_i_1_n_0                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[20][7]_i_1_n_0                   |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[2][7]_i_1_n_0                    |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[30][7]_i_1_n_0                   |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[31][7]_i_1_n_0                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[3][7]_i_1_n_0                    |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[4][7]_i_1_n_0                    |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[29][7]_i_1_n_0                   |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[5][7]_i_1_n_0                    |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[13][7]_i_1_n_0                   |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[14][7]_i_1_n_0                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[21][7]_i_1_n_0                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[24][7]_i_1_n_0                   |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[17][7]_i_1_n_0                   |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[11][7]_i_1_n_0                   |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[15][7]_i_1_n_0                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[10][7]_i_1_n_0                   |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[12][7]_i_1_n_0                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[19][7]_i_1_n_0                   |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[1][7]_i_1_n_0                    |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[6][7]_i_1_n_0                    |                                                                  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[20][7]_i_1__10_n_0              |                                                                  |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[8][7]_i_1_n_0                    |                                                                  |                5 |              8 |         1.60 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[7][7]_i_1_n_0                    |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/buffer[9][7]_i_1_n_0                    |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | rf_transceiver_3/uart_node/fifo_tx/buffer[22][7]_i_1__10_n_0              |                                                                  |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | rf_transceiver_1/uart_mcu/fifo_tx/E[0]                                    |                                                                  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG |                                                                           |                                                                  |                9 |             18 |         2.00 |
+|  clk_IBUF_BUFG |                                                                           | rf_transceiver_3/controller/waiting_module/counter[0]_i_1__1_n_0 |                7 |             25 |         3.57 |
+|  clk_IBUF_BUFG |                                                                           | rf_transceiver_2/controller/waiting_module/counter[0]_i_1__0_n_0 |                7 |             25 |         3.57 |
+|  clk_IBUF_BUFG |                                                                           | rf_transceiver_1/controller/waiting_module/counter[0]_i_1_n_0    |                7 |             25 |         3.57 |
+|  clk_IBUF_BUFG |                                                                           | rst_IBUF                                                         |              165 |            420 |         2.55 |
++----------------+---------------------------------------------------------------------------+------------------------------------------------------------------+------------------+----------------+--------------+
 
 
